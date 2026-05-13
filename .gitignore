@@ -1,0 +1,51 @@
+# macOS
+.DS_Store
+**/.DS_Store
+__MACOSX/
+._*
+
+# Editor swap / backup files
+*.swp
+*.swo
+*.swn
+*~
+*.bak
+*.backup
+
+# Logs
+*.log
+
+# Neovim runtime artefacts
+lazy/
+.lazy/
+plugin/
+swap/
+undo/
+backup/
+spell/*.spl
+spell/*.sug
+
+# Runtime/cache/state directories
+.cache/
+tmp/
+temp/
+
+# Lazy lock backups
+lazy-lock.json.backup
+.lazy-lock.json.bak
+.lazy-lock.json.backup
+
+# Node / JS tooling
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Local environment files
+.env
+.env.*
+*.local
+
+# Test / generated output
+coverage/
+dist/
+build/
