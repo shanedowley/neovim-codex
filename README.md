@@ -2,26 +2,55 @@
 
 AI-Assisted Engineering System (AIES) for Neovim.
 
-Neovim-Codex is designed for engineers who want AI-assisted workflows with:
+Neovim-Codex is designed for users who want confidence working with AI-assisted workflows that are:
 
-- correctness
-- control
-- traceability
-- recoverability
-- reproducibility
+- correct
+- controllable
+- traceable
+- recoverable
+- reproducible
 
-This project emphasizes:
-- observable execution
-- explicit operator approval
-- preview-before-apply workflows
+Most AI coding workflows optimise for speed and automation.
+
+Neovim-Codex instead optimises for:
+
+- transparency
 - operational safety
-- deterministic engineering behavior
+- human review
+- deterministic engineering workflows
+- inspectable behaviour
 
-Neovim-Codex is intentionally designed to behave more like:
-- an engineering system
+The goal is not autonomous coding.
 
-than:
-- a generic AI editor plugin
+The goal is engineering confidence:
+AI-assisted workflows that remain understandable, observable, and trustworthy.
+
+---
+
+<!-- EMBED: d1-safe-refactor.gif -->
+
+---
+
+# Why Neovim-Codex Exists
+
+Neovim-Codex was built around a simple premise:
+
+AI-assisted engineering systems should increase confidence, not reduce it.
+
+The system is intentionally designed to favour:
+
+- preview-before-apply workflows
+- explicit user approval
+- operational observability
+- deterministic execution
+- recoverable failure handling
+- validation before mutation
+
+This project behaves more like an engineering system than a generic AI editor plugin.
+
+The user always remains in control.
+
+No silent apply path exists.
 
 ---
 
@@ -32,6 +61,7 @@ than:
 Generated changes should validate before apply.
 
 Examples:
+
 - clang / clang++ validation
 - constrained refactor flows
 - preflight health checks
@@ -40,12 +70,14 @@ Examples:
 
 ## Control
 
-The operator remains in control.
+The user remains in control.
 
-The system emphasizes:
+The system emphasises:
+
 - diff previews
 - explicit confirmation
 - no silent auto-apply
+- constrained rewrite scopes
 
 ---
 
@@ -54,6 +86,7 @@ The system emphasizes:
 Operational events are logged.
 
 Examples:
+
 - prompt execution
 - latency
 - failures
@@ -62,13 +95,26 @@ Examples:
 
 ---
 
+## Recoverability
+
+Failures are treated as operational events rather than hidden behaviour.
+
+The system captures:
+
+- validation failures
+- recovery state
+- operational diagnostics
+- workflow state transitions
+
+---
+
 # Supported Platforms
 
-| Platform | Status |
-|---|---|
-| macOS | Supported |
-| Linux | Experimental |
-| Windows | Unsupported |
+| Platform | Status       |
+| -------- | ------------ |
+| macOS    | Supported    |
+| Linux    | Experimental |
+| Windows  | Unsupported  |
 
 RC1.0 is primarily developed and tested on macOS Apple Silicon.
 
@@ -88,14 +134,15 @@ RC1.0 is primarily developed and tested on macOS Apple Silicon.
 - Node.js
 - npm
 - Codex CLI
+- authenticated OpenAI/Codex account
 
-Without Codex CLI, AI-assisted workflows will be unavailable.
+Without Codex CLI authentication, AI-assisted workflows will be unavailable.
 
 ---
 
 # Quick Start
 
-## 1. Clone the repository
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
@@ -103,7 +150,7 @@ git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
 
 ---
 
-## 2. Run bootstrap
+## 2. Run Bootstrap Validation
 
 Fast validation:
 
@@ -130,6 +177,24 @@ Health gate integrity test:
 ```bash
 nvim
 ```
+
+---
+
+## 4. Verify Operational Health
+
+Inside Neovim:
+
+```text
+:CodexHealth
+```
+
+Then:
+
+- open a C/C++ source file
+- visually select code
+- press `<leader>cE`
+
+This demonstrates the explainability workflow operating inside the validated runtime environment.
 
 ---
 
@@ -202,7 +267,7 @@ See:
 
 ## D5 — Human-in-the-Loop Engineering
 
-Demonstrates iterative refinement where the engineer reviews, rejects, refines, and explicitly approves generated output.
+Demonstrates iterative refinement where the user reviews, rejects, refines, and explicitly approves generated output.
 
 <!-- EMBED: d5-human-loop.gif -->
 
@@ -212,7 +277,7 @@ See:
 
 ---
 
-# Demo Workflows
+# Core Commands
 
 ## Explain Selected Code
 
@@ -258,90 +323,81 @@ or:
 
 ---
 
-## Open Scratchpad Prompt
+# Architecture & Documentation
 
-```text
-<leader>cs
-```
+## Core Documentation
 
----
+- `ARCHITECTURE.md`
+- `INSTALL.md`
+- `RELEASE_NOTES_RC1_0.md`
+- `RELEASE_CHECKLIST.md`
 
-# Keybindings
+## Operational Documentation
 
-| Keybinding | Action |
-|---|---|
-| `<leader>cE` | Explain selected code |
-| `<leader>ce` | Rewrite selected code |
-| `<leader>cR` | Refactor current function |
-| `<leader>cd` | Reopen diff preview |
-| `<leader>cD` | Reopen diff preview |
-| `<leader>cs` | Open scratchpad prompt |
-| `:CodexHealth` | Run operational diagnostics |
+- `codex/docs/OPERATIONS.md`
+- `codex/docs/RELEASE_SCOPE.md`
+- `codex/docs/REPO_AUDIT.md`
 
 ---
 
-# Bootstrap Modes
+# Current RC1.0 Scope
 
-| Mode | Purpose |
-|---|---|
-| `--check` | Fast validation + healthcheck |
-| `--sync` | Full plugin sync + validation |
-| `--test-health-gate` | Validate preflight health blocking |
+Primary focus:
 
----
+- macOS
+- Neovim
+- C/C++ engineering workflows
+- safe AI-assisted refactoring
+- operational observability
 
-# Example Healthy Bootstrap Output
+Secondary support exists for broader workflows inside the surrounding Neovim environment.
 
-```text
-✅ Config directory is clean
-✅ lazy.nvim already present
-✅ Health gate enforcement: PASS
-```
+Linux support remains experimental.
+
+Windows is currently unsupported.
 
 ---
 
-# Documentation
+# What This Is Not
 
-| Document | Purpose |
-|---|---|
-| `ARCHITECTURE.md` | System architecture and operational model |
-| `CONTRIBUTING.md` | Contribution guidelines |
-| `LICENSE` | License information |
+Neovim-Codex is intentionally not:
 
----
+- an autonomous coding agent
+- a silent background mutator
+- a zero-review apply system
+- an “AI does everything” workflow
 
-# Safety Model
-
-Neovim-Codex intentionally emphasizes:
-- preview-before-apply
-- validation-before-apply
-- explicit confirmation
-- operational visibility
-
-No silent auto-apply workflow exists.
+The architecture intentionally preserves explicit user control.
 
 ---
 
-# Troubleshooting
+# Future Direction
 
-Run:
+Planned future areas include:
 
-```vim
-:CodexHealth
-```
-
-Inspect operational log:
-
-```text
-~/.local/state/nvim/codex.log
-```
+- Linux hardening
+- Windows / WSL support
+- CI validation pipelines
+- OpenRouter abstraction
+- OpenCode integration exploration
+- multi-language expansion
+- telemetry standardisation
+- advanced recovery tooling
+- standalone plugin extraction
 
 ---
 
-# Philosophy
+# Closing Notes
 
-Neovim-Codex is designed around:
-- observable workflows
-- deterministic execution
-- explicit operator control
-- safe AI-assisted engineering
+Neovim-Codex RC1.0 represents a deliberate attempt to build an AI-assisted engineering workflow that remains:
+
+- observable
+- inspectable
+- deterministic
+- safe
+- user-controlled
+
+The goal is not maximum automation.
+
+The goal is engineering confidence.
+
