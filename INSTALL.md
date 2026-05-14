@@ -113,13 +113,13 @@ git clone <your-repo-url> ~/.config/nvim
 Example location:
 
 ```text
-~/bin/bootstrap-nvim-codex-rc1_0.sh
+./scripts/bootstrap-nvim-codex-rc1_0.sh
 ```
 
 Ensure executable permissions:
 
 ```bash
-chmod +x ~/bin/bootstrap-nvim-codex-rc1_0.sh
+chmod +x ./scripts/bootstrap-nvim-codex-rc1_0.sh
 ```
 
 ---
@@ -151,7 +151,7 @@ Runs:
 Example:
 
 ```bash
-~/bin/bootstrap-nvim-codex-rc1_0.sh --check
+./scripts/bootstrap-nvim-codex-rc1_0.sh --check
 ```
 
 Expected healthy output:
@@ -184,7 +184,7 @@ Runs:
 Example:
 
 ```bash
-~/bin/bootstrap-nvim-codex-rc1_0.sh --sync
+./scripts/bootstrap-nvim-codex-rc1_0.sh --sync
 ```
 
 This mode may:
@@ -229,7 +229,7 @@ Tests:
 Example:
 
 ```bash
-~/bin/bootstrap-nvim-codex-rc1_0.sh --test-health-gate
+./scripts/bootstrap-nvim-codex-rc1_0.sh --test-health-gate
 ```
 
 Expected healthy output:
@@ -335,7 +335,7 @@ git pull
 ## 4. Run Bootstrap Sync
 
 ```bash
-~/bin/bootstrap-nvim-codex-rc1_0.sh --sync
+./scripts/bootstrap-nvim-codex-rc1_0.sh --sync
 ```
 
 ---
@@ -365,7 +365,7 @@ cp lazy-lock.json.backup lazy-lock.json
 ## Re-run Sync
 
 ```bash
-~/bin/bootstrap-nvim-codex-rc1_0.sh --sync
+./scripts/bootstrap-nvim-codex-rc1_0.sh --sync
 ```
 
 ---

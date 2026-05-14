@@ -108,19 +108,19 @@ git clone <your-repo-url> ~/.config/nvim
 Fast validation:
 
 ```bash
-~/bin/bootstrap-nvim-codex-rc1_0.sh --check
+./scripts/bootstrap-nvim-codex-rc1_0.sh --check
 ```
 
 Full sync:
 
 ```bash
-~/bin/bootstrap-nvim-codex-rc1_0.sh --sync
+./scripts/bootstrap-nvim-codex-rc1_0.sh --sync
 ```
 
 Health gate integrity test:
 
 ```bash
-~/bin/bootstrap-nvim-codex-rc1_0.sh --test-health-gate
+./scripts/bootstrap-nvim-codex-rc1_0.sh --test-health-gate
 ```
 
 ---
