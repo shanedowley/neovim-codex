@@ -27,7 +27,7 @@ AI-assisted workflows that remain understandable, observable, and trustworthy.
 
 ---
 
-<!-- EMBED: d1-safe-refactor.gif -->
+![D1 Safe Refactor Workflow](docs/assets/demos/d1-safe-refactor.gif)
 
 ---
 
@@ -209,7 +209,7 @@ Demonstrates:
 - clang validation
 - controlled code mutation
 
-<!-- EMBED: d1-safe-refactor.gif -->
+![D1 Safe Refactor Workflow](docs/assets/demos/d1-safe-refactor.gif)
 
 See:
 
@@ -227,7 +227,7 @@ Demonstrates:
 - failure explainability
 - operational recovery workflows
 
-<!-- EMBED: d2-failure-recovery.gif -->
+![D2 Failure Recovery Workflow](docs/assets/demos/d2-failure-recovery.gif)
 
 See:
 
@@ -245,7 +245,7 @@ Demonstrates:
 - structured logging
 - operational observability
 
-<!-- EMBED: d3-operational-diagnostics.gif -->
+![D3 Operational Diagnostics](docs/assets/demos/d3-operational-diagnostics.gif)
 
 See:
 
@@ -257,7 +257,7 @@ See:
 
 Demonstrates safe AI-assisted reasoning about existing C systems without modifying source code.
 
-<!-- EMBED: d4-legacy-explainability.gif -->
+![D4 Legacy Code Explainability](docs/assets/demos/d4-legacy-explainability.gif)
 
 See:
 
@@ -269,7 +269,7 @@ See:
 
 Demonstrates iterative refinement where the user reviews, rejects, refines, and explicitly approves generated output.
 
-<!-- EMBED: d5-human-loop.gif -->
+![D5 Human-in-the-Loop Engineering](docs/assets/demos/d5-human-loop.gif)
 
 See:
 
@@ -400,4 +400,3 @@ Neovim-Codex RC1.0 represents a deliberate attempt to build an AI-assisted engin
 The goal is not maximum automation.
 
 The goal is engineering confidence.
-
