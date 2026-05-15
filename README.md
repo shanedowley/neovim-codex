@@ -1,8 +1,10 @@
-# Neovim-Codex RC1.0
+# Neovim-Codex
 
 AI-Assisted Engineering System (AIES) for Neovim.
 
-Neovim-Codex is designed for users who want confidence working with AI-assisted workflows that are:
+RC1.0 Candidate
+
+Neovim-Codex is designed for engineers who want AI-assisted workflows that remain:
 
 - correct
 - controllable
@@ -10,24 +12,40 @@ Neovim-Codex is designed for users who want confidence working with AI-assisted 
 - recoverable
 - reproducible
 
-Most AI coding workflows optimise for speed and automation.
+Most AI coding tools optimise for speed and automation.
 
 Neovim-Codex instead optimises for:
 
-- transparency
+- engineering confidence
 - operational safety
-- human review
-- deterministic engineering workflows
+- explicit human review
+- deterministic workflows
 - inspectable behaviour
 
 The goal is not autonomous coding.
 
-The goal is engineering confidence:
-AI-assisted workflows that remain understandable, observable, and trustworthy.
+The goal is trustworthy AI-assisted engineering.
+
+Unlike typical AI editor integrations, Neovim-Codex enforces preview-before-apply workflows, validation gates, operational logging, and explicit user approval before mutation.
 
 ---
 
 ![D1 Safe Refactor Workflow](docs/assets/demos/d1-safe-refactor.gif)
+
+---
+
+# Key Features
+
+- Preview-before-apply AI workflows
+- Explicit human approval gates
+- clang / clang++ validation
+- Structured operational telemetry
+- Recoverable failure handling
+- Protected buffer workflows
+- Diff-based review system
+- Explainability workflows for legacy code
+- Safe refactoring flows for C/C++
+- Health diagnostics and runtime validation
 
 ---
 
@@ -36,6 +54,8 @@ AI-assisted workflows that remain understandable, observable, and trustworthy.
 Neovim-Codex was built around a simple premise:
 
 AI-assisted engineering systems should increase confidence, not reduce it.
+
+AI should assist engineering workflows — not bypass them.
 
 The system is intentionally designed to favour:
 
@@ -60,38 +80,40 @@ No silent apply path exists.
 
 Generated changes should validate before apply.
 
-Examples:
+Examples include:
 
 - clang / clang++ validation
 - constrained refactor flows
 - preflight health checks
+- protected mutation workflows
 
 ---
 
 ## Control
 
-The user remains in control.
+The user remains in control of all mutation.
 
 The system emphasises:
 
 - diff previews
 - explicit confirmation
-- no silent auto-apply
 - constrained rewrite scopes
+- no silent auto-apply path
 
 ---
 
 ## Traceability
 
-Operational events are logged.
+Operational events are logged and inspectable.
 
-Examples:
+Examples include:
 
 - prompt execution
-- latency
-- failures
-- validation
+- latency telemetry
+- validation events
 - apply events
+- operational failures
+- workflow state transitions
 
 ---
 
@@ -104,17 +126,40 @@ The system captures:
 - validation failures
 - recovery state
 - operational diagnostics
-- workflow state transitions
+- protected buffers
+- workflow recovery context
+
+---
+
+# Who This Is For
+
+Neovim-Codex is designed for engineers who value:
+
+- explicit control over AI-generated changes
+- reviewable mutation workflows
+- operational observability
+- deterministic engineering systems
+- human-in-the-loop workflows
+- safety over blind automation
+
+This project is particularly suited to:
+
+- systems programmers
+- C/C++ developers
+- infrastructure engineers
+- reliability-focused engineering teams
+- developers working with legacy systems
+- engineers who distrust opaque AI workflows
 
 ---
 
 # Supported Platforms
 
-| Platform | Status       |
-| -------- | ------------ |
-| macOS    | Supported    |
-| Linux    | Experimental |
-| Windows  | Unsupported  |
+| Platform | Status |
+| --- | --- |
+| macOS | Supported |
+| Linux | Experimental |
+| Windows | Unsupported |
 
 RC1.0 is primarily developed and tested on macOS Apple Silicon.
 
@@ -198,7 +243,7 @@ This demonstrates the explainability workflow operating inside the validated run
 
 ---
 
-# Demo Workflows
+# Engineering Workflows
 
 ## D1 — Safe Refactor Workflow
 
@@ -332,6 +377,8 @@ or:
 - `RELEASE_NOTES_RC1_0.md`
 - `RELEASE_CHECKLIST.md`
 
+---
+
 ## Operational Documentation
 
 - `codex/docs/OPERATIONS.md`
@@ -342,13 +389,14 @@ or:
 
 # Current RC1.0 Scope
 
-Primary focus:
+Primary focus areas:
 
 - macOS
 - Neovim
 - C/C++ engineering workflows
 - safe AI-assisted refactoring
 - operational observability
+- deterministic engineering workflows
 
 Secondary support exists for broader workflows inside the surrounding Neovim environment.
 
@@ -366,8 +414,11 @@ Neovim-Codex is intentionally not:
 - a silent background mutator
 - a zero-review apply system
 - an “AI does everything” workflow
+- opaque AI-driven source mutation
 
 The architecture intentionally preserves explicit user control.
+
+Human approval remains part of the workflow.
 
 ---
 
@@ -389,14 +440,16 @@ Planned future areas include:
 
 # Closing Notes
 
-Neovim-Codex RC1.0 represents a deliberate attempt to build an AI-assisted engineering workflow that remains:
+Neovim-Codex RC1.0 represents a deliberate attempt to build AI-assisted engineering workflows that remain:
 
 - observable
-- inspectable
+- reviewable
 - deterministic
 - safe
+- traceable
 - user-controlled
 
 The goal is not maximum automation.
 
-The goal is engineering confidence.
+The goal is engineering confidence:
+AI-assisted workflows that remain understandable, inspectable, and under human control.
