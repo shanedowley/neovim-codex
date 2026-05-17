@@ -4,7 +4,7 @@ AI-Assisted Engineering System (AIES) for Neovim.
 
 RC1.0 Candidate
 
-Neovim-Codex is designed for engineers who want AI-assisted workflows that remain:
+Neovim-Codex is designed for engineers who want AI-assisted workflows that are:
 
 - correct
 - controllable
