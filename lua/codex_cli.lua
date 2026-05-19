@@ -113,7 +113,7 @@ local function split_nonempty_lines(s)
 	return out
 end
 
-local function open_scratch(lines, filetype, title)
+local function open_scratch(lines, _, title)
 	title = title or "Codex Output"
 
 	local bufname = "codex://" .. title
@@ -127,14 +127,18 @@ local function open_scratch(lines, filetype, title)
 		vim.cmd("botright sbuffer " .. bufnr)
 	end
 
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines or {})
+	pcall(vim.treesitter.stop, bufnr)
+
 	vim.bo[bufnr].buftype = "nofile"
 	vim.bo[bufnr].bufhidden = "wipe"
 	vim.bo[bufnr].swapfile = false
+	vim.bo[bufnr].filetype = ""
+	vim.bo[bufnr].syntax = "OFF"
+	vim.wo.conceallevel = 0
 
-	if filetype then
-		vim.bo[bufnr].filetype = filetype
-	end
+	vim.bo[bufnr].modifiable = true
+	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines or {})
+	vim.bo[bufnr].modifiable = false
 
 	return bufnr
 end
@@ -722,17 +726,22 @@ function M.explain_text(text)
 end
 
 function M.explain_selection()
-	local text = select(1, selection.collect_selection())
-	local ft = vim.bo.filetype or ""
-	local default_prompt = prompt.build_explain(ft)
+	local ui = require("codex.ui")
 
-	prompt_user({ prompt = "Codex explain: ", default = default_prompt }, function(user_prompt)
+	-- Immediate UX acknowledgement before selection/prompt work begins.
+	ui.start("Codex explain working…")
+
+	vim.schedule(function()
+		local text = select(1, selection.collect_selection())
+		local ft = vim.bo.filetype or ""
+		local user_prompt = prompt.build_explain(ft)
+
 		remember_and_log_op("explain_selection", user_prompt)
 
 		runner.run_embedded(text, user_prompt, {
 			op = "explain_selection",
 			filetype = ft,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = "Codex explain working…",
 			on_success = function(result)
 				set_state_idle("explain_selection", 0, "Explanation opened")
 				open_scratch(parse.clean_codex_output(result.output), "markdown", "Explain Selection")
