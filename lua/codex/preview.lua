@@ -1,7 +1,7 @@
 -- ~/.config/nvim/lua/codex/preview.lua
 local M = {}
 
-local function open_scratch(lines, filetype, title)
+local function open_scratch(lines, _, title)
 	title = title or "Codex Output"
 
 	local bufname = "codex://" .. title
@@ -15,16 +15,17 @@ local function open_scratch(lines, filetype, title)
 		vim.cmd("botright sbuffer " .. bufnr)
 	end
 
-	vim.bo[bufnr].modifiable = true
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines or {})
+	pcall(vim.treesitter.stop, bufnr)
+
 	vim.bo[bufnr].buftype = "nofile"
 	vim.bo[bufnr].bufhidden = "wipe"
 	vim.bo[bufnr].swapfile = false
+	vim.bo[bufnr].filetype = ""
+	vim.bo[bufnr].syntax = "OFF"
+	vim.wo.conceallevel = 0
 
-	if filetype then
-		vim.bo[bufnr].filetype = filetype
-	end
-
+	vim.bo[bufnr].modifiable = true
+	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines or {})
 	vim.bo[bufnr].modifiable = false
 
 	return bufnr

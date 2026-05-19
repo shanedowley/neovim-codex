@@ -75,11 +75,20 @@ local function block_for_health_failure(opts, reason)
 		})
 	end)
 
-	ui.notify("Codex blocked: healthcheck is not PASS", vim.log.levels.ERROR, { title = "Codex", timeout = 2500 })
+	ui.stop("Codex blocked: healthcheck is not PASS", vim.log.levels.ERROR)
 end
 
 function M.run(opts)
 	opts = opts or {}
+
+	local input = opts.input
+	local op = opts.op or "codex_run"
+	local spinner_message = opts.spinner_message or "Codex working…"
+
+	-- Give immediate visual feedback as soon as a Codex action is invoked.
+	-- Health checks and process startup can take long enough to feel like
+	-- nothing happened, so the UX acknowledgement must happen first.
+	ui.start(spinner_message)
 
 	if opts._force_health_fail_for_test then
 		block_for_health_failure(opts, "healthcheck_not_pass")
@@ -100,17 +109,30 @@ function M.run(opts)
 			reason = "missing_prompt",
 		})
 
-		ui.notify("Codex runner: missing prompt", vim.log.levels.ERROR, { title = "Codex", timeout = 1500 })
+		ui.stop("Codex runner: missing prompt", vim.log.levels.ERROR)
 		return
 	end
 
-	local input = opts.input
-	local spinner_message = opts.spinner_message or "Codex working…"
 	local out_stdout, out_stderr = {}, {}
 	local started_ns = uv.hrtime()
-	local op = opts.op or "codex_run"
+	local first_stdout_seen = false
+	local first_stderr_seen = false
 
-	ui.start(spinner_message)
+	local function elapsed_ms()
+		return hrtime_ms(started_ns)
+	end
+
+	local function log_latency_phase(stage, extra)
+		log_event(
+			"latency",
+			vim.tbl_extend("force", {
+				op = op,
+				stage = stage,
+				elapsed_ms = elapsed_ms(),
+				filetype = opts.filetype,
+			}, extra or {})
+		)
+	end
 
 	log_event("start", {
 		op = op,
@@ -125,18 +147,42 @@ function M.run(opts)
 	local job_id = vim.fn.jobstart(argv, {
 		pty = opts.pty or false,
 		env = opts.env,
-		stdout_buffered = true,
-		stderr_buffered = true,
+		stdout_buffered = false,
+		stderr_buffered = false,
 
 		on_stdout = function(_, data)
 			if data then
 				vim.list_extend(out_stdout, data)
+				if not first_stdout_seen then
+					for _, line in ipairs(data) do
+						if line and line ~= "" then
+							first_stdout_seen = true
+							log_latency_phase("first_stdout", {
+								result = "INFO",
+								bytes = #line,
+							})
+							break
+						end
+					end
+				end
 			end
 		end,
 
 		on_stderr = function(_, data)
 			if data then
 				vim.list_extend(out_stderr, data)
+				if not first_stderr_seen then
+					for _, line in ipairs(data) do
+						if line and line ~= "" then
+							first_stderr_seen = true
+							log_latency_phase("first_stderr", {
+								result = "INFO",
+								bytes = #line,
+							})
+							break
+						end
+					end
+				end
 			end
 		end,
 
