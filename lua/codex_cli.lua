@@ -686,9 +686,9 @@ function M.explain_current_line()
 			op = "explain_current_line",
 			filetype = ft,
 			spinner_message = "Codex [" .. mode.current() .. "] working…",
-			on_success = function(result)
+			stream_output = true,
+			on_success = function(_)
 				set_state_idle("explain_current_line", 0, "Explanation opened")
-				open_scratch(parse.clean_codex_output(result.output), "markdown", "Explain Line")
 			end,
 			on_failure = function(result)
 				set_state_failed("explain_current_line", 0, "Codex execution failed")
@@ -711,9 +711,9 @@ function M.explain_text(text)
 			op = "explain_text",
 			filetype = ft,
 			spinner_message = "Codex [" .. mode.current() .. "] working…",
-			on_success = function(result)
+			stream_output = true,
+			on_success = function(_)
 				set_state_idle("explain_text", 0, "Explanation opened")
-				open_scratch(parse.clean_codex_output(result.output), "markdown", "Explain Selection")
 			end,
 			on_failure = function(result)
 				set_state_failed("explain_text", 0, "Codex execution failed")
@@ -742,12 +742,40 @@ function M.explain_selection()
 			op = "explain_selection",
 			filetype = ft,
 			spinner_message = "Codex explain working…",
-			on_success = function(result)
+			stream_output = true,
+			on_success = function(_)
 				set_state_idle("explain_selection", 0, "Explanation opened")
-				open_scratch(parse.clean_codex_output(result.output), "markdown", "Explain Selection")
 			end,
 			on_failure = function(result)
 				set_state_failed("explain_selection", 0, "Codex execution failed")
+				if #result.stderr > 0 then
+					open_scratch(result.stderr, "text", "Codex STDERR")
+				end
+			end,
+		})
+	end)
+end
+
+function M.explain_selection_fast()
+	local ui = require("codex.ui")
+
+	vim.schedule(function()
+		local text = select(1, selection.collect_selection())
+		local ft = vim.bo.filetype or ""
+		local user_prompt = prompt.build_explain_fast(ft)
+
+		remember_and_log_op("explain_selection_fast", user_prompt)
+
+		runner.run_embedded(text, user_prompt, {
+			op = "explain_selection_fast",
+			filetype = ft,
+			spinner_message = "Codex fast explain working…",
+			stream_output = true,
+			on_success = function(_)
+				set_state_idle("explain_selection_fast", 0, "Fast explanation opened")
+			end,
+			on_failure = function(result)
+				set_state_failed("explain_selection_fast", 0, "Codex execution failed")
 				if #result.stderr > 0 then
 					open_scratch(result.stderr, "text", "Codex STDERR")
 				end

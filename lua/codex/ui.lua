@@ -55,10 +55,20 @@ function M.start(msg)
 		timeout = false,
 	})
 
+	vim.schedule(function()
+		if not spinner.active then
+			return
+		end
+
+		spinner.notif_id = ui_notify.update(spinner.notif_id, spinner_text(), vim.log.levels.INFO, {
+			timeout = false,
+		})
+	end)
+
 	spinner.timer = uv.new_timer()
 	spinner.timer:start(
-		120,
-		120,
+		100,
+		100,
 		vim.schedule_wrap(function()
 			if not spinner.active then
 				return

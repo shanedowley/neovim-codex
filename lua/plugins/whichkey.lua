@@ -181,12 +181,13 @@ return {
 				{ "<leader>cF", desc = "Run on entire file", mode = "n" },
 				{ "<leader>cp", desc = "Patch buffer (diff)", mode = "n" },
 				{ "<leader>cs", desc = "Scratchpad prompt", mode = "n" },
-				{ "<leader>cE", desc = "Explain current line", mode = "n" },
+				{ "<leader>cE", desc = "Rigorous explain current line", mode = "n" },
 				{ "<leader>ca", desc = "Apply inline (current line)", mode = "n" },
 				{ "<leader>cD", desc = "Preview diff (current line)", mode = "n" },
 
 				-- Visual mode Codex actions
-				{ "<leader>cE", desc = "Explain selection", mode = "x" },
+				{ "<leader>ce", desc = "Fast explain selection", mode = "x" },
+				{ "<leader>cE", desc = "Rigorous explain selection", mode = "x" },
 				{ "<leader>cr", desc = "Replace selection", mode = "x" },
 				{ "<leader>co", desc = "Open output scratch", mode = "x" },
 				{ "<leader>ca", desc = "Apply inline", mode = "x" },

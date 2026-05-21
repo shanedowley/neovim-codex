@@ -93,6 +93,25 @@ function M.build_explain(ft)
 	return base .. (profile.explain_suffix or "")
 end
 
+function M.build_explain_fast(ft)
+	ft = ft or ""
+	local lang = M.fence_lang(ft)
+
+	local body = table.concat({
+		"Explain this " .. lang .. " snippet briefly.",
+		"",
+		"Rules:",
+		"- Focus only on what matters in this snippet.",
+		"- Maximum 6 bullets.",
+		"- Mention undefined behavior only if directly relevant.",
+		"- Mention compile-time issues only if directly relevant.",
+		"- Do not rewrite the code.",
+		"- Be concise.",
+	}, "\n")
+
+	return with_header(body)
+end
+
 function M.build_apply(user_instruction, selected_text)
 	local template = store.get("apply")
 	local rendered = substitute(template, {

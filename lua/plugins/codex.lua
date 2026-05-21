@@ -30,6 +30,13 @@ return {
 		dir = vim.fn.stdpath("config"),
 		name = "codex-cli-workflow",
 		lazy = false,
+
+		config = function()
+			pcall(function()
+				require("codex.runner").warm_health_cache()
+			end)
+		end,
+
 		keys = {
 			-- Visual mode actions
 			{
@@ -39,6 +46,14 @@ return {
 				end,
 				mode = "x",
 				desc = "Explain selection",
+			},
+			{
+				"<leader>ce",
+				function()
+					require("codex_cli").explain_selection_fast()
+				end,
+				mode = "x",
+				desc = "Fast explain selection",
 			},
 			{
 				"<leader>cr",

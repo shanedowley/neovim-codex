@@ -23,52 +23,153 @@ local function basename(path)
 end
 
 local function open_scratch(lines, title, filetype)
-	title = title or "Codex Failure"
-	filetype = filetype or "text"
+	title = title or "Codex Recovery"
+	filetype = filetype or "markdown"
 
-	local bufname = "codex://" .. title
+	local bufname = "codex-recovery://last"
 	local bufnr = vim.fn.bufnr(bufname)
 
-	if bufnr == -1 then
-		vim.cmd("botright new")
-		bufnr = vim.api.nvim_get_current_buf()
+	if bufnr == -1 or not vim.api.nvim_buf_is_valid(bufnr) then
+		bufnr = vim.api.nvim_create_buf(false, true)
 		vim.api.nvim_buf_set_name(bufnr, bufname)
-	else
-		vim.cmd("botright sbuffer " .. bufnr)
+
+		vim.bo[bufnr].buftype = "nofile"
+		vim.bo[bufnr].bufhidden = "wipe"
+		vim.bo[bufnr].swapfile = false
+		vim.bo[bufnr].filetype = filetype
+
+		pcall(vim.treesitter.stop, bufnr)
+
+		vim.keymap.set("n", "q", function()
+			if vim.api.nvim_buf_is_valid(bufnr) then
+				vim.api.nvim_buf_delete(bufnr, { force = true })
+			end
+		end, {
+			buffer = bufnr,
+			silent = true,
+			noremap = true,
+			desc = "Close Codex recovery",
+		})
 	end
 
+	local target_win = nil
+
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if vim.api.nvim_win_get_buf(win) == bufnr then
+			if not target_win then
+				target_win = win
+			else
+				pcall(vim.api.nvim_win_close, win, true)
+			end
+		end
+	end
+
+	if target_win then
+		vim.api.nvim_set_current_win(target_win)
+	else
+		vim.cmd("botright split")
+		vim.api.nvim_win_set_buf(0, bufnr)
+	end
+
+	pcall(vim.treesitter.stop, bufnr)
+
+	vim.bo[bufnr].readonly = false
+	vim.bo[bufnr].modifiable = true
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines or {})
-	vim.bo[bufnr].buftype = "nofile"
-	vim.bo[bufnr].bufhidden = "wipe"
-	vim.bo[bufnr].swapfile = false
-	vim.bo[bufnr].filetype = filetype
+	vim.bo[bufnr].modifiable = false
+	vim.bo[bufnr].readonly = true
 
 	return bufnr
 end
 
+local function has_meaningful_lines(lines)
+	if type(lines) ~= "table" or #lines == 0 then
+		return false
+	end
+
+	if #lines == 1 and lines[1] == "No diagnostic output available." then
+		return false
+	end
+
+	for _, line in ipairs(lines) do
+		if tostring(line):match("%S") then
+			return true
+		end
+	end
+
+	return false
+end
+
 local function render_failure_lines(f)
 	local lines = {
-		"Codex Recovery Report",
-		"=====================",
+		"# Codex Recovery Report",
 		"",
-		("Failure kind: %s"):format(tostring(f.kind or "-")),
-		("Stage:        %s"):format(tostring(f.stage or "-")),
-		("Operation:    %s"):format(tostring(f.op or "-")),
-		("Mode:         %s"):format(tostring(f.mode or "-")),
-		("File:         %s"):format(tostring(f.file or "-")),
-		("File name:    %s"):format(tostring(f.file_name or basename(f.file))),
-		("Updated at:   %s"):format(tostring(f.updated_at or "-")),
+		"## Summary",
 		"",
-		"Reason:",
+		"| Field | Value |",
+		"|---|---|",
+		("| Failure kind | " .. tostring(f.kind or "-") .. " |"),
+		("| Stage | " .. tostring(f.stage or "-") .. " |"),
+		("| Operation | " .. tostring(f.op or "-") .. " |"),
+		("| Request ID | " .. tostring(f.request_id or "-") .. " |"),
+		("| Mode | " .. tostring(f.mode or "-") .. " |"),
+		("| File | " .. tostring(f.file or "-") .. " |"),
+		("| File name | " .. tostring(f.file_name or basename(f.file)) .. " |"),
+		("| Filetype | " .. tostring(f.filetype or "-") .. " |"),
+		("| Latency ms | " .. tostring(f.latency_ms or "-") .. " |"),
+		("| Exit code | " .. tostring(f.exit_code or "-") .. " |"),
+		("| Prompt version | " .. tostring(f.prompt_version or "-") .. " |"),
+		("| Updated at | " .. tostring(f.updated_at or "-") .. " |"),
+		"",
+		"## Reason",
+		"",
 		tostring(f.reason or "-"),
 		"",
-		"Captured output:",
 	}
 
-	local payload = f.lines or { "No diagnostic output available." }
-	for _, line in ipairs(payload) do
-		lines[#lines + 1] = line
+	local stderr = f.stderr or {}
+	if has_meaningful_lines(stderr) then
+		lines[#lines + 1] = "## STDERR"
+		lines[#lines + 1] = ""
+		lines[#lines + 1] = "```text"
+		for _, line in ipairs(stderr) do
+			lines[#lines + 1] = line
+		end
+		lines[#lines + 1] = "```"
+		lines[#lines + 1] = ""
 	end
+
+	local stdout = f.stdout or {}
+	if has_meaningful_lines(stdout) then
+		lines[#lines + 1] = "## STDOUT"
+		lines[#lines + 1] = ""
+		lines[#lines + 1] = "```text"
+		for _, line in ipairs(stdout) do
+			lines[#lines + 1] = line
+		end
+		lines[#lines + 1] = "```"
+		lines[#lines + 1] = ""
+	end
+
+	local payload = f.lines or {}
+	if has_meaningful_lines(payload) then
+		lines[#lines + 1] = "## Captured output"
+		lines[#lines + 1] = ""
+		lines[#lines + 1] = "```text"
+
+		for _, line in ipairs(payload) do
+			lines[#lines + 1] = line
+		end
+
+		lines[#lines + 1] = "```"
+		lines[#lines + 1] = ""
+	end
+	lines[#lines + 1] = "## Suggested actions"
+	lines[#lines + 1] = ""
+	lines[#lines + 1] = "- Run `:CodexHealth`."
+	lines[#lines + 1] = "- Check `:CodexLog` for the matching request ID."
+	lines[#lines + 1] = "- Retry the operation if the environment is healthy."
+	lines[#lines + 1] = "- If this is repeatable, inspect stdout/stderr and the captured output above."
 
 	return lines
 end
@@ -125,7 +226,16 @@ function M.capture(opts)
 		mode = opts.mode,
 		file = opts.file,
 		file_name = basename(opts.file),
+		filetype = opts.filetype,
 		reason = opts.reason or "codex_failure",
+
+		request_id = opts.request_id,
+		latency_ms = opts.latency_ms,
+		exit_code = opts.exit_code,
+		prompt_version = opts.prompt_version,
+
+		stdout = normalize_lines_payload(opts.stdout),
+		stderr = normalize_lines_payload(opts.stderr),
 
 		title = opts.title or "Codex Failure",
 		lines = normalize_lines_payload(opts.lines),
@@ -171,7 +281,7 @@ function M.render_last_failure_lines()
 end
 
 function M.show_last_failure()
-	open_scratch(M.render_last_failure_lines(), "Recovery", "text")
+	open_scratch(M.render_last_failure_lines(), "Recovery", "markdown")
 end
 
 function M.show_failure(opts)
@@ -183,7 +293,7 @@ function M.show_failure(opts)
 	local level = failure.is_user_cancelled(captured.kind) and vim.log.levels.INFO or vim.log.levels.ERROR
 
 	vim.notify(reason, level, { title = "Codex" })
-	open_scratch(render_failure_lines(captured), title, "text")
+	open_scratch(render_failure_lines(captured), title, "markdown")
 end
 
 function M.can_explain_with_codex(failure_report)
