@@ -221,7 +221,6 @@ function M.run(opts)
 		)
 
 		local argv = codex_cli.build_exec_argv(prompt_text)
-
 		local job_id = vim.fn.jobstart(argv, {
 			pty = opts.pty or false,
 			env = opts.env,
