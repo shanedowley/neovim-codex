@@ -733,6 +733,11 @@ function M.explain_selection()
 
 	vim.schedule(function()
 		local text = select(1, selection.collect_selection())
+		if not text or vim.trim(text) == "" then
+			ui.stop("No selection captured", vim.log.levels.WARN)
+			vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
+			return
+		end
 		local ft = vim.bo.filetype or ""
 		local user_prompt = prompt.build_explain(ft)
 
@@ -759,8 +764,15 @@ end
 function M.explain_selection_fast()
 	local ui = require("codex.ui")
 
+	ui.start("Codex fast explain working…")
+
 	vim.schedule(function()
 		local text = select(1, selection.collect_selection())
+		if not text or vim.trim(text) == "" then
+			ui.stop("No selection captured", vim.log.levels.WARN)
+			vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
+			return
+		end
 		local ft = vim.bo.filetype or ""
 		local user_prompt = prompt.build_explain_fast(ft)
 
@@ -907,13 +919,19 @@ function M.replace_range(text, start_line, end_line, ft)
 end
 
 function M.replace_selection()
-	local text, start_line, end_line = selection.collect_selection()
-	if not text or vim.trim(text) == "" then
-		vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
-		return
-	end
+	local ui = require("codex.ui")
+	ui.start("Codex replace selection preparing…")
 
-	M.replace_range(text, start_line, end_line, vim.bo.filetype or "text")
+	vim.schedule(function()
+		local text, start_line, end_line = selection.collect_selection()
+		if not text or vim.trim(text) == "" then
+			ui.stop("No selection captured", vim.log.levels.WARN)
+			vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
+			return
+		end
+
+		M.replace_range(text, start_line, end_line, vim.bo.filetype or "text")
+	end)
 end
 
 function M.open_output_scratch()
@@ -1041,67 +1059,73 @@ function M.save_output_to_file_text(text)
 end
 
 function M.apply_inline()
-	local text, start_line, end_line = selection.collect_selection()
-	if not text or vim.trim(text) == "" then
-		vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
-		return
-	end
+	local ui = require("codex.ui")
+	ui.start("Codex apply inline preparing…")
 
-	local ft = vim.bo.filetype or ""
-	local want_lines = selection.lines_count(text)
-	local op_name = "apply_inline"
+	vim.schedule(function()
+		local text, start_line, end_line = selection.collect_selection()
+		if not text or vim.trim(text) == "" then
+			ui.stop("No selection captured", vim.log.levels.WARN)
+			vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
+			return
+		end
 
-	prompt_user({ prompt = "Codex [" .. mode.current() .. "] instruction: " }, function(user_prompt)
-		remember_and_log_op(op_name, user_prompt)
+		local ft = vim.bo.filetype or ""
+		local want_lines = selection.lines_count(text)
+		local op_name = "apply_inline"
 
-		local p = prompt.build_apply(user_prompt, text)
+		prompt_user({ prompt = "Codex [" .. mode.current() .. "] instruction: " }, function(user_prompt)
+			remember_and_log_op(op_name, user_prompt)
 
-		runner.run({
-			op = op_name,
-			filetype = ft,
-			prompt = p,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			local p = prompt.build_apply(user_prompt, text)
 
-			on_success = function(result)
-				local raw = parse.normalize_lines(result.output)
-				local body = parse.parse_apply_body(raw)
-				body = validate_apply_body(raw, body, want_lines, "Apply", op_name)
-				if not body then
-					return
-				end
+			runner.run({
+				op = op_name,
+				filetype = ft,
+				prompt = p,
+				spinner_message = "Codex [" .. mode.current() .. "] working…",
 
-				local ok = clang_validate_or_reject(
-					0,
-					ft,
-					start_line,
-					end_line,
-					body,
-					user_prompt,
-					"Codex Rejected (clang)",
-					op_name
-				)
-				if not ok then
-					return
-				end
+				on_success = function(result)
+					local raw = parse.normalize_lines(result.output)
+					local body = parse.parse_apply_body(raw)
+					body = validate_apply_body(raw, body, want_lines, "Apply", op_name)
+					if not body then
+						return
+					end
 
-				apply_lines_and_log(0, start_line, end_line, body, op_name)
-			end,
+					local ok = clang_validate_or_reject(
+						0,
+						ft,
+						start_line,
+						end_line,
+						body,
+						user_prompt,
+						"Codex Rejected (clang)",
+						op_name
+					)
+					if not ok then
+						return
+					end
 
-			on_failure = function(result)
-				set_state_failed(op_name, 0, "Codex execution failed")
-				local raw = parse.normalize_lines(result.output)
-				recovery.show_failure({
-					kind = "codex_exec_failed",
-					stage = "codex_exec",
-					op = op_name,
-					mode = mode.current(),
-					file = current_file(0),
-					reason = "Codex execution failed",
-					title = "Codex Apply (failed)",
-					lines = raw,
-				})
-			end,
-		})
+					apply_lines_and_log(0, start_line, end_line, body, op_name)
+				end,
+
+				on_failure = function(result)
+					set_state_failed(op_name, 0, "Codex execution failed")
+					local raw = parse.normalize_lines(result.output)
+					recovery.show_failure({
+						kind = "codex_exec_failed",
+						stage = "codex_exec",
+						op = op_name,
+						mode = mode.current(),
+						file = current_file(0),
+						reason = "Codex execution failed",
+						title = "Codex Apply (failed)",
+						lines = raw,
+					})
+				end,
+			})
+		end)
 	end)
 end
 
@@ -1133,29 +1157,35 @@ function M.preview_diff_current_line()
 end
 
 function M.preview_diff()
-	local text, start_line, end_line = selection.collect_selection()
-	local ft = vim.bo.filetype or ""
+	local ui = require("codex.ui")
+	ui.start("Codex preview diff preparing…")
 
-	if not text or vim.trim(text) == "" then
-		vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
-		return
-	end
+	vim.schedule(function()
+		local text, start_line, end_line = selection.collect_selection()
+		local ft = vim.bo.filetype or ""
 
-	safe_preview_flow({
-		op_name = "preview_diff",
-		prompt_label = "instruction (diff)",
-		raw_title_prefix = "Apply",
-		preview_title = "Diff Preview",
-		clang_title = "Codex Rejected (clang)",
-		target_bufnr = vim.api.nvim_get_current_buf(),
-		ft = ft,
-		start_line = start_line,
-		end_line = end_line,
-		want_lines = selection.lines_count(text),
-		original_lines = vim.fn.getline(start_line, end_line),
-		original_text = text,
-		check_refactor = false,
-	})
+		if not text or vim.trim(text) == "" then
+			ui.stop("No selection captured", vim.log.levels.WARN)
+			vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
+			return
+		end
+
+		safe_preview_flow({
+			op_name = "preview_diff",
+			prompt_label = "instruction (diff)",
+			raw_title_prefix = "Apply",
+			preview_title = "Diff Preview",
+			clang_title = "Codex Rejected (clang)",
+			target_bufnr = vim.api.nvim_get_current_buf(),
+			ft = ft,
+			start_line = start_line,
+			end_line = end_line,
+			want_lines = selection.lines_count(text),
+			original_lines = vim.fn.getline(start_line, end_line),
+			original_text = text,
+			check_refactor = false,
+		})
+	end)
 end
 
 function M.run_current_line()
@@ -1337,27 +1367,34 @@ function M.scratchpad_prompt(default_prompt)
 end
 
 function M.safe_preview_confirm_apply_selection()
-	local text, start_line, end_line = selection.collect_selection()
-	if not text or vim.trim(text) == "" then
-		vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
-		return
-	end
+	local ui = require("codex.ui")
+	ui.start("Codex safe preview preparing…")
 
-	safe_preview_flow({
-		op_name = "safe_preview_confirm_apply_selection",
-		prompt_label = "instruction",
-		raw_title_prefix = "Apply",
-		preview_title = "Codex Safe Diff Preview",
-		clang_title = "Codex Rejected (clang)",
-		target_bufnr = vim.api.nvim_get_current_buf(),
-		ft = vim.bo.filetype or "",
-		start_line = start_line,
-		end_line = end_line,
-		want_lines = selection.lines_count(text),
-		original_lines = vim.fn.getline(start_line, end_line),
-		original_text = text,
-		check_refactor = false,
-	})
+	vim.schedule(function()
+		local text, start_line, end_line = selection.collect_selection()
+
+		if not text or vim.trim(text) == "" then
+			ui.stop("No selection captured", vim.log.levels.WARN)
+			vim.notify("No selection captured", vim.log.levels.WARN, { title = "Codex" })
+			return
+		end
+
+		safe_preview_flow({
+			op_name = "safe_preview_confirm_apply_selection",
+			prompt_label = "instruction",
+			raw_title_prefix = "Apply",
+			preview_title = "Codex Safe Diff Preview",
+			clang_title = "Codex Rejected (clang)",
+			target_bufnr = vim.api.nvim_get_current_buf(),
+			ft = vim.bo.filetype or "",
+			start_line = start_line,
+			end_line = end_line,
+			want_lines = selection.lines_count(text),
+			original_lines = vim.fn.getline(start_line, end_line),
+			original_text = text,
+			check_refactor = false,
+		})
+	end)
 end
 
 function M.safe_preview_confirm_apply_current_function()

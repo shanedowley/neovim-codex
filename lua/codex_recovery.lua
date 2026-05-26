@@ -100,6 +100,45 @@ local function has_meaningful_lines(lines)
 	return false
 end
 
+local function suggested_actions_for_failure(f)
+	local kind = failure.normalize(f.kind)
+	local actions = {}
+
+	if kind == failure.kinds.healthcheck_not_pass then
+		actions = {
+			"Run `:CodexHealth`.",
+			"Inspect the failing dependency or model configuration.",
+			"Retry only after healthcheck returns PASS.",
+		}
+	elseif kind == failure.kinds.healthcheck_error then
+		actions = {
+			"Run `:CodexHealth`.",
+			"Inspect Neovim health output for runtime errors.",
+			"Check Codex CLI availability and configuration.",
+		}
+	elseif kind == failure.kinds.user_cancelled then
+		actions = {
+			"No action required.",
+			"The operation was cancelled intentionally.",
+		}
+	elseif kind == failure.kinds.codex_exec_failed then
+		actions = {
+			"Inspect STDERR for runtime failure details.",
+			"Check `:CodexLog` for the matching request ID.",
+			"Retry the operation if the environment is healthy.",
+		}
+	else
+		actions = {
+			"Run `:CodexHealth`.",
+			"Check `:CodexLog` for the matching request ID.",
+			"Retry the operation if the environment is healthy.",
+			"If this is repeatable, inspect stdout/stderr and the captured output above.",
+		}
+	end
+
+	return actions
+end
+
 local function render_failure_lines(f)
 	local lines = {
 		"# Codex Recovery Report",
@@ -166,11 +205,10 @@ local function render_failure_lines(f)
 	end
 	lines[#lines + 1] = "## Suggested actions"
 	lines[#lines + 1] = ""
-	lines[#lines + 1] = "- Run `:CodexHealth`."
-	lines[#lines + 1] = "- Check `:CodexLog` for the matching request ID."
-	lines[#lines + 1] = "- Retry the operation if the environment is healthy."
-	lines[#lines + 1] = "- If this is repeatable, inspect stdout/stderr and the captured output above."
 
+	for _, action in ipairs(suggested_actions_for_failure(f)) do
+		lines[#lines + 1] = "- " .. action
+	end
 	return lines
 end
 
