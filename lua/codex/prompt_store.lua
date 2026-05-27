@@ -5,23 +5,31 @@ local CONFIG_PROMPT_DIR = vim.fn.expand("~/.config/nvim/codex/prompts")
 
 local DEFAULTS = {
 	explain_c = [[
-Explain the following snippet step-by-step (C and C++ where relevant).
+Explain the following C/C++ snippet for a developer who wants to understand it quickly.
+
+Output format:
+## What this does
+- 2–4 bullets explaining the purpose and flow.
+
+## Key details
+- 2–5 bullets explaining important language/runtime details that matter here.
+
+## Risks or gotchas
+- Mention only issues that are directly relevant to this snippet.
+- Separate compile-time issues from runtime undefined behavior.
+- Do not list abstract categories unless they actually apply.
+
+## Better approach
+- Give one practical improvement if useful.
+- Do not rewrite the code unless explicitly asked.
 
 Rules:
-- First, echo the snippet exactly as you received it in a fenced block labeled: ```received ... ```.
-- If the snippet appears incomplete/truncated, say so explicitly before analysis.
-- Be strictly accurate about the C/C++ standard rules. If unsure, say so.
-- Clearly separate: (A) well-defined behavior, (B) unspecified/indeterminate order, (C) implementation-defined behavior, (D) undefined behavior (UB).
-- When discussing arithmetic, be precise about: integer promotions, usual arithmetic conversions, and signed/unsigned mixing.
-- Do NOT claim that 'float promotes to double' in ordinary expressions in C. (That's only guaranteed for default argument promotions, e.g., varargs.)
-- Do NOT say 'snippet is incomplete/truncated'. Treat it as a standalone snippet and state assumptions explicitly (e.g., assume a and b are int unless shown otherwise).
-- Separate compile-time ill-formed/constraint violations from runtime UB. Don't label missing includes as runtime UB; say 'diagnostic required' (C) / 'ill-formed' (C++).
-- For C++, be precise: <cstdio> + std::printf (don't imply printf is always in the global namespace).
-- Only raise format-string UB if you can name the exact mismatch after default argument promotions.
-- For sequencing UB, use the canonical language: 'unsequenced modification and value computation/read of the same scalar' (C++) / 'between sequence points, a side effect and an unsequenced read' (C). Don't paraphrase
-- For pointer arithmetic, state the valid range (same array object or one-past) and what is UB.
-- Keep it concise: maximum 12 bullets. No filler, focused on what applies to THIS snippet.
-- Do NOT rewrite the code unless I ask.
+- Be accurate about C/C++ semantics.
+- If context is missing, state the assumption briefly.
+- Avoid essay openings like "I’m checking the snippet..."
+- Avoid taxonomy dumps such as A/B/C/D unless specifically needed.
+- Maximum 12 bullets total.
+- Keep it scannable.
 ]],
 
 	explain_generic = [[

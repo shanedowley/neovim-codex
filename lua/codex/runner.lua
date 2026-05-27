@@ -153,7 +153,7 @@ function M.run(opts)
 			)
 		else
 			local health_started_ns = uv.hrtime()
-			ok_health, healthy = pcall(health.is_healthy)
+			ok_health, healthy = pcall(health.is_runnable)
 
 			log_event(
 				"latency",
@@ -480,7 +480,7 @@ function M.warm_health_cache()
 		end
 
 		local started_ns = uv.hrtime()
-		local ok_health, healthy = pcall(health.is_healthy)
+		local ok_health, healthy = pcall(health.is_runnable)
 
 		log_event("latency", {
 			op = "health_warmup",

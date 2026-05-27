@@ -422,6 +422,16 @@ local function check_lazy_integrity(results)
 	end
 end
 
+local function has_failures(results)
+	for _, item in ipairs(results or {}) do
+		if item.status == "FAIL" then
+			return true
+		end
+	end
+
+	return false
+end
+
 function M.run_checks()
 	local results = {}
 
@@ -477,25 +487,32 @@ function M.summary_status(results)
 	return overall_status(results)
 end
 
-function M.is_healthy()
+function M.is_runnable()
 	if M._force_fail_for_test then
 		return false
 	end
 
 	if cache_valid() then
-		return overall_status(M._cache) == "PASS"
+		return not has_failures(M._cache)
 	end
 
 	local results = M.run_checks()
-	local status = overall_status(results)
+	local runnable = not has_failures(results)
 
-	if status == "PASS" then
+	-- Cache all runnable states, including DEGRADED/WARN.
+	-- Only FAIL states are execution-blocking.
+	if runnable then
 		set_cache(results)
 	else
 		clear_cache()
 	end
 
-	return status == "PASS"
+	return runnable
+end
+
+-- Backwards-compatible alias.
+function M.is_healthy()
+	return M.is_runnable()
 end
 
 function M.status(force_refresh)
