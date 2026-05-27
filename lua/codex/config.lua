@@ -2,6 +2,10 @@ local M = {}
 
 local config = {
 	model = "gpt-5.4-mini",
+	-- --------------------------------------------------
+	-- Test / Fault Injection
+	-- --------------------------------------------------
+	-- model = "no-model", -- force healthcheck failure
 
 	cli = {
 		executable = "codex",

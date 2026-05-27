@@ -106,4 +106,49 @@ function M.stop(msg, level)
 	spinner.started_at_ns = nil
 end
 
+local operation_labels = {
+	explain_selection = "explain",
+	explain_selection_fast = "fast explain",
+	explain_current_line = "explain",
+	explain_text = "explain",
+
+	replace_selection = "replace selection",
+	replace_range = "replace",
+
+	apply_inline = "apply inline",
+	apply_inline_current_line = "apply inline",
+
+	preview_diff = "preview diff",
+	preview_diff_current_line = "preview diff",
+
+	safe_preview_confirm_apply_selection = "safe preview",
+	safe_preview_confirm_apply_current_function = "safe refactor",
+
+	run_current_line = "rewrite line",
+	run_entire_file = "rewrite file",
+
+	open_output_scratch = "scratch output",
+	save_output_to_file_text = "save output",
+
+	explain_failure = "explain failure",
+}
+
+local phase_labels = {
+	starting = "starting…",
+	running = "working…",
+	validating = "validating…",
+	preview = "preview ready",
+	applied = "changes applied",
+	failed = "failed",
+	blocked = "blocked",
+	idle = "idle",
+}
+
+function M.phase_message(op, phase)
+	local op_label = operation_labels[op] or op or "operation"
+	local phase_label = phase_labels[phase] or phase or "working…"
+
+	return string.format("Codex %s %s", op_label, phase_label)
+end
+
 return M

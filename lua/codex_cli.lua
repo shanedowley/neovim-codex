@@ -511,6 +511,7 @@ end
 -- -------------------------------------------------------------------
 
 local function safe_preview_flow(opts)
+	local ui = require("codex.ui")
 	local target_bufnr = opts.target_bufnr or vim.api.nvim_get_current_buf()
 	local ft = opts.ft or (vim.bo[target_bufnr].filetype or "")
 	local original_lines = opts.original_lines or {}
@@ -531,7 +532,7 @@ local function safe_preview_flow(opts)
 			op = op_name,
 			filetype = ft,
 			prompt = p,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 
 			on_success = function(result)
 				local raw = parse.normalize_lines(result.output)
@@ -685,7 +686,7 @@ function M.explain_current_line()
 		runner.run_embedded(line, user_prompt, {
 			op = "explain_current_line",
 			filetype = ft,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 			stream_output = true,
 			on_success = function(_)
 				set_state_idle("explain_current_line", 0, "Explanation opened")
@@ -710,7 +711,7 @@ function M.explain_text(text)
 		runner.run_embedded(text, user_prompt, {
 			op = "explain_text",
 			filetype = ft,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 			stream_output = true,
 			on_success = function(_)
 				set_state_idle("explain_text", 0, "Explanation opened")
@@ -729,7 +730,7 @@ function M.explain_selection()
 	local ui = require("codex.ui")
 
 	-- Immediate UX acknowledgement before selection/prompt work begins.
-	ui.start("Codex explain working…")
+	ui.start(ui.phase_message("explain_selection", "starting"))
 
 	vim.schedule(function()
 		local text = select(1, selection.collect_selection())
@@ -746,7 +747,7 @@ function M.explain_selection()
 		runner.run_embedded(text, user_prompt, {
 			op = "explain_selection",
 			filetype = ft,
-			spinner_message = "Codex explain working…",
+			spinner_message = ui.phase_message("explain_selection", "running"),
 			stream_output = true,
 			on_success = function(_)
 				set_state_idle("explain_selection", 0, "Explanation opened")
@@ -764,7 +765,7 @@ end
 function M.explain_selection_fast()
 	local ui = require("codex.ui")
 
-	ui.start("Codex fast explain working…")
+	ui.start(ui.phase_message("explain_selection_fast", "starting"))
 
 	vim.schedule(function()
 		local text = select(1, selection.collect_selection())
@@ -781,7 +782,7 @@ function M.explain_selection_fast()
 		runner.run_embedded(text, user_prompt, {
 			op = "explain_selection_fast",
 			filetype = ft,
-			spinner_message = "Codex fast explain working…",
+			spinner_message = ui.phase_message("explain_selection_fast", "running"),
 			stream_output = true,
 			on_success = function(_)
 				set_state_idle("explain_selection_fast", 0, "Fast explanation opened")
@@ -812,7 +813,7 @@ function M.apply_inline_current_line()
 			op = op_name,
 			filetype = ft,
 			prompt = p,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 
 			on_success = function(result)
 				local raw = parse.normalize_lines(result.output)
@@ -867,7 +868,7 @@ function M.replace_range(text, start_line, end_line, ft)
 		runner.run_embedded(text, p, {
 			op = op_name,
 			filetype = ft,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 
 			on_success = function(result)
 				local body = parse.prefer_clean_answer(result.output)
@@ -920,7 +921,7 @@ end
 
 function M.replace_selection()
 	local ui = require("codex.ui")
-	ui.start("Codex replace selection preparing…")
+	ui.start(ui.phase_message("replace_selection", "starting"))
 
 	vim.schedule(function()
 		local text, start_line, end_line = selection.collect_selection()
@@ -951,7 +952,7 @@ function M.open_output_scratch()
 		runner.run_embedded(text, p, {
 			op = op_name,
 			filetype = ft,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 
 			on_success = function(result)
 				local body = parse.prefer_clean_answer(result.output)
@@ -1010,7 +1011,7 @@ function M.save_output_to_file_text(text)
 			runner.run_embedded(text, p, {
 				op = op_name,
 				filetype = ft,
-				spinner_message = "Codex [" .. mode.current() .. "] working…",
+				spinner_message = ui.phase_message(op_name, "running"),
 
 				on_success = function(result)
 					local to_write = parse.prefer_clean_answer(result.output)
@@ -1060,7 +1061,7 @@ end
 
 function M.apply_inline()
 	local ui = require("codex.ui")
-	ui.start("Codex apply inline preparing…")
+	ui.start(ui.phase_message("apply_inline", "starting"))
 
 	vim.schedule(function()
 		local text, start_line, end_line = selection.collect_selection()
@@ -1083,7 +1084,7 @@ function M.apply_inline()
 				op = op_name,
 				filetype = ft,
 				prompt = p,
-				spinner_message = "Codex [" .. mode.current() .. "] working…",
+				spinner_message = ui.phase_message(op_name, "running"),
 
 				on_success = function(result)
 					local raw = parse.normalize_lines(result.output)
@@ -1158,7 +1159,7 @@ end
 
 function M.preview_diff()
 	local ui = require("codex.ui")
-	ui.start("Codex preview diff preparing…")
+	ui.start(ui.phase_message("preview_diff", "starting"))
 
 	vim.schedule(function()
 		local text, start_line, end_line = selection.collect_selection()
@@ -1202,7 +1203,7 @@ function M.run_current_line()
 		runner.run_embedded(line, p, {
 			op = op_name,
 			filetype = ft,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 
 			on_success = function(result)
 				local body = parse.prefer_clean_answer(result.output)
@@ -1269,7 +1270,7 @@ function M.run_entire_file()
 		runner.run_embedded(text, p, {
 			op = op_name,
 			filetype = ft,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 
 			on_success = function(result)
 				local body = parse.prefer_clean_answer(result.output)
@@ -1340,7 +1341,7 @@ function M.scratchpad_prompt(default_prompt)
 		runner.run_embedded(buftext, p_text, {
 			op = op_name,
 			filetype = ft,
-			spinner_message = "Codex [" .. mode.current() .. "] working…",
+			spinner_message = ui.phase_message(op_name, "running"),
 
 			on_success = function(result)
 				set_state_idle(op_name, 0, "Scratchpad output opened")
@@ -1368,7 +1369,7 @@ end
 
 function M.safe_preview_confirm_apply_selection()
 	local ui = require("codex.ui")
-	ui.start("Codex safe preview preparing…")
+	ui.start(ui.phase_message("safe_preview_confirm_apply_selection", "starting"))
 
 	vim.schedule(function()
 		local text, start_line, end_line = selection.collect_selection()
