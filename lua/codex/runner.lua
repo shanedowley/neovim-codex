@@ -380,6 +380,7 @@ function M.run(opts)
 							with_request(opts, {
 								op = op,
 								stage = "codex_exec",
+								reason = "codex_exec_failed",
 								code = code,
 								latency_ms = latency_ms,
 								stdout_lines = #stdout,

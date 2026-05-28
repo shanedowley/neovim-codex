@@ -22,12 +22,21 @@ local function serialize(data)
 		"stage",
 		"result",
 		"elapsed_ms",
+		"latency_ms",
 		"filetype",
+		"embedded",
+		"mode",
+		"file",
+		"range",
+		"check",
+		"classification",
 		"prompt_len",
 		"input_len",
 		"bytes",
 		"lines",
 		"code",
+		"stdout_lines",
+		"stderr_lines",
 		"reason",
 		"message",
 	}
@@ -44,7 +53,7 @@ local function serialize(data)
 
 		seen[key] = true
 
-		value = tostring(value):gsub("\n", "\\n")
+		value = tostring(value):gsub("\n", "\\n"):gsub(" | ", " / ")
 
 		table.insert(parts, string.format("%s=%s", key, value))
 	end
