@@ -10,8 +10,6 @@ local output = require("codex.output")
 local health_cache = {
 	ok = false,
 	checked_at = nil,
-	running = false,
-	result = nil,
 }
 
 local request_counter = 0
@@ -472,48 +470,29 @@ function M.run(opts)
 end
 
 function M.warm_health_cache()
-	if health_cache.ok or health_cache.running then
+	if health_cache.ok then
 		return
 	end
 
-	health_cache.running = true
-
 	vim.defer_fn(function()
-		local started_ns = uv.hrtime()
+		if health_cache.ok then
+			return
+		end
 
-		log_event("health_warmup_start", {
+		local started_ns = uv.hrtime()
+		local ok_health, healthy = pcall(health.is_runnable)
+
+		log_event("latency", {
 			op = "health_warmup",
-			stage = "healthcheck_async",
+			stage = "healthcheck",
+			elapsed_ms = hrtime_ms(started_ns),
+			result = (ok_health and healthy) and "PASS" or "FAIL",
 		})
 
-		local cmd = {
-			"nvim",
-			"--headless",
-			"+lua local ok = require('codex.health').is_runnable(); vim.cmd(ok and 'cquit 0' or 'cquit 1')",
-		}
-
-		vim.system(cmd, { text = true }, function(result)
-			vim.schedule(function()
-				local ok = result.code == 0
-
-				health_cache.running = false
-				health_cache.result = ok
-
-				log_event("latency", {
-					op = "health_warmup",
-					stage = "healthcheck_async",
-					elapsed_ms = hrtime_ms(started_ns),
-					result = ok and "PASS" or "FAIL",
-				})
-
-				if ok then
-					health_cache.ok = true
-					health_cache.checked_at = os.time()
-				else
-					health_cache.ok = false
-				end
-			end)
-		end)
+		if ok_health and healthy then
+			health_cache.ok = true
+			health_cache.checked_at = os.time()
+		end
 	end, 1500)
 end
 
