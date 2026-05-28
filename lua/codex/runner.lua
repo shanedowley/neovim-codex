@@ -58,6 +58,33 @@ local function normalize_lines(lines)
 	return out
 end
 
+local function classify_stderr(lines)
+	local text = table.concat(lines or {}, "\n")
+
+	if text == "" then
+		return "empty"
+	end
+
+	if text:match("Reading prompt") or text:match("OpenAI") or text:match("tokens used") or text:match("codex") then
+		return "runtime_noise"
+	end
+
+	if
+		text:match("[Ee]rror")
+		or text:match("[Ff]ailed")
+		or text:match("[Ww]arning")
+		or text:match("Traceback")
+		or text:match("stack traceback")
+		or text:match("No such file or directory")
+		or text:match("command not found")
+		or text:match("not found")
+	then
+		return "diagnostic"
+	end
+
+	return "unknown"
+end
+
 local function fence_lang(filetype)
 	local ok, prompt = pcall(require, "codex_prompt")
 	if ok and type(prompt) == "table" and type(prompt.fence_lang) == "function" then
@@ -316,10 +343,13 @@ function M.run(opts)
 					)
 				end
 
+				local classification = classify_stderr(lines)
+
 				log_event(
 					"stderr_chunk",
 					with_request(opts, {
 						op = op,
+						classification = classification,
 						lines = #lines,
 						bytes = #table.concat(lines, "\n"),
 						elapsed_ms = elapsed,
