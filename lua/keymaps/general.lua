@@ -11,3 +11,7 @@ map("n", "<leader>wh", "<C-w>h", vim.tbl_extend("force", opts, { desc = "Window 
 map("n", "<leader>wj", "<C-w>j", vim.tbl_extend("force", opts, { desc = "Window down" }))
 map("n", "<leader>wk", "<C-w>k", vim.tbl_extend("force", opts, { desc = "Window up" }))
 map("n", "<leader>wl", "<C-w>l", vim.tbl_extend("force", opts, { desc = "Window right" }))
+
+-- Visual mode indent/outdent and keep selection active
+map("x", ">", ">gv", vim.tbl_extend("force", opts, { desc = "Indent and reselect" }))
+map("x", "<", "<gv", vim.tbl_extend("force", opts, { desc = "Outdent and reselect" }))
