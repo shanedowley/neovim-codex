@@ -432,6 +432,27 @@ local function has_failures(results)
 	return false
 end
 
+function M.run_runtime_gate()
+	local results = {}
+
+	-- Required executable.
+	check_executable(results, "codex", true)
+
+	-- Cheap version check.
+	check_codex_version(results)
+
+	-- Required runtime modules only.
+	check_module(results, "codex.cli", true)
+	check_module(results, "codex.config", true)
+	check_module(results, "codex_log", true)
+	check_module(results, "codex_prompt", true)
+
+	-- Ensure logging path is available.
+	check_log_path(results)
+
+	return results
+end
+
 function M.run_checks()
 	local results = {}
 
@@ -496,7 +517,7 @@ function M.is_runnable()
 		return not has_failures(M._cache)
 	end
 
-	local results = M.run_checks()
+	local results = M.run_runtime_gate()
 	local runnable = not has_failures(results)
 
 	-- Cache all runnable states, including DEGRADED/WARN.
