@@ -31,12 +31,6 @@ return {
 		name = "codex-cli-workflow",
 		lazy = false,
 
-		config = function()
-			pcall(function()
-				require("codex.runner").warm_health_cache()
-			end)
-		end,
-
 		keys = {
 			-- Visual mode actions
 			{

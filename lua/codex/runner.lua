@@ -6,6 +6,7 @@ local uv = vim.uv or vim.loop
 local ui = require("codex.ui")
 local health = require("codex.health")
 local output = require("codex.output")
+local persistent_health_cache = require("codex.health_cache")
 
 local health_cache = {
 	ok = false,
@@ -140,7 +141,6 @@ function M.run(opts)
 	local stream_output = opts.stream_output == true
 	local stream_bufnr = nil
 
-	-- Immediate UX acknowledgement.
 	ui.start(spinner_message)
 
 	if stream_output then
@@ -152,10 +152,18 @@ function M.run(opts)
 		end)
 	end
 
-	-- Yield once so Neovim can render the notification/output buffer before
-	-- synchronous preflight checks and job startup begin.
-	vim.schedule(function()
+	-- Show healthcheck state before the synchronous preflight can block UI.
+	if not health_cache.ok then
+		local health_state = require("codex.health_state")
+		health_state.set("running", "🩺 Codex Healthcheck Running")
+		vim.cmd("redrawstatus")
+		vim.cmd("redraw")
+	end
+
+	-- Give Neovim a small real render window before synchronous preflight.
+	vim.defer_fn(function()
 		if opts._force_health_fail_for_test then
+			persistent_health_cache.write({ status = "FAIL" })
 			block_for_health_failure(opts, "healthcheck_not_pass")
 			if stream_output and stream_bufnr then
 				output.fail(stream_bufnr, { "Codex blocked: healthcheck is not PASS." })
@@ -178,6 +186,15 @@ function M.run(opts)
 					result = "PASS",
 				})
 			)
+
+			pcall(function()
+				require("codex.state").set("running", {
+					op = op,
+					mode = require("codex_mode").current(),
+					file = vim.api.nvim_buf_get_name(0),
+					message = "Running Codex request",
+				})
+			end)
 		else
 			local health_started_ns = uv.hrtime()
 			ok_health, healthy = pcall(health.is_runnable)
@@ -192,9 +209,25 @@ function M.run(opts)
 				})
 			)
 
+			local health_state = require("codex.health_state")
+
 			if ok_health and healthy then
 				health_cache.ok = true
 				health_cache.checked_at = os.time()
+				persistent_health_cache.write({ status = "PASS" })
+				health_state.set("ready", "✓ Codex Ready")
+
+				pcall(function()
+					require("codex.state").set("running", {
+						op = op,
+						mode = require("codex_mode").current(),
+						file = vim.api.nvim_buf_get_name(0),
+						message = "Running Codex request",
+					})
+				end)
+			else
+				persistent_health_cache.write({ status = "FAIL" })
+				health_state.set("blocked", "✖ Codex Blocked")
 			end
 		end
 
@@ -497,34 +530,14 @@ function M.run(opts)
 		end
 
 		vim.fn.chanclose(job_id, "stdin")
-	end)
+	end, 50)
 end
 
 function M.warm_health_cache()
-	if health_cache.ok then
-		return
-	end
-
-	vim.defer_fn(function()
-		if health_cache.ok then
-			return
-		end
-
-		local started_ns = uv.hrtime()
-		local ok_health, healthy = pcall(health.is_runnable)
-
-		log_event("latency", {
-			op = "health_warmup",
-			stage = "healthcheck",
-			elapsed_ms = hrtime_ms(started_ns),
-			result = (ok_health and healthy) and "PASS" or "FAIL",
-		})
-
-		if ok_health and healthy then
-			health_cache.ok = true
-			health_cache.checked_at = os.time()
-		end
-	end, 1500)
+	-- Deprecated in R1.1.
+	-- Kept as a no-op compatibility shim.
+	-- Startup must never perform a real healthcheck.
+	return false
 end
 
 function M.run_embedded(input, instruction, opts)
@@ -552,3 +565,4 @@ function M.run_embedded(input, instruction, opts)
 end
 
 return M
+

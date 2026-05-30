@@ -6,7 +6,6 @@ local state = require("codex.state")
 local mode = require("codex_mode")
 
 local state_labels = {
-	idle = "Idle",
 	running = "Running",
 	preview = "Preview",
 	validating = "Validating",
@@ -15,7 +14,6 @@ local state_labels = {
 }
 
 local state_icons = {
-	idle = "○",
 	running = "⚙",
 	preview = "👁",
 	validating = "🧪",
@@ -24,12 +22,16 @@ local state_icons = {
 }
 
 local state_hex = {
-	idle = "#7aa2f7",
-	running = "#7aa2f7",
+	unknown = "#565f89",
+	running = "#bb9af7",
 	preview = "#bb9af7",
 	validating = "#e0af68",
 	applied = "#9ece6a",
 	failed = "#f7768e",
+
+	health_running = "#e0af68",
+	health_ready = "#9ece6a",
+	health_blocked = "#f7768e",
 }
 
 local mode_labels = {
@@ -51,7 +53,7 @@ end
 
 local function current_state()
 	local s = current_state_obj()
-	return s.status or "idle"
+	return s.status or "unknown"
 end
 
 local function current_mode()
@@ -109,7 +111,7 @@ end
 
 function M.icon()
 	local s = current_state()
-	return state_icons[s] or "○"
+	return state_icons[s] or "?"
 end
 
 function M.state_label()
@@ -119,7 +121,38 @@ end
 
 function M.color()
 	local s = current_state()
-	return state_hex[s] or "#7aa2f7"
+
+	-- Active operational states always take colour precedence.
+	if active_states[s] then
+		return state_hex[s] or state_hex.unknown
+	end
+
+	-- Runtime health/session state takes precedence over passive cache.
+	local ok_state, health_state = pcall(require, "codex.health_state")
+	if ok_state and health_state then
+		local hs = health_state.get() or {}
+
+		if hs.status == "running" then
+			return state_hex.health_running
+		elseif hs.status == "ready" then
+			return state_hex.health_ready
+		elseif hs.status == "blocked" then
+			return state_hex.health_blocked
+		end
+	end
+
+	-- Passive cache may warn if last known health was blocked.
+	-- Cached PASS must not claim this session is ready.
+	local ok_cache, health_cache = pcall(require, "codex.health_cache")
+	if ok_cache and health_cache then
+		local cached = health_cache.read()
+
+		if cached.status == "FAIL" then
+			return state_hex.health_blocked
+		end
+	end
+
+	return state_hex.unknown
 end
 
 function M.short_message()
@@ -134,18 +167,42 @@ end
 
 function M.status()
 	local s = current_state()
-	local icon = M.icon()
-	local label = M.state_label()
 
+	-- Active operational states always take precedence.
 	if active_states[s] then
+		local icon = M.icon()
+		local label = M.state_label()
 		local msg = M.short_message()
+
 		if msg and msg ~= "" then
 			return string.format("%s Codex %s · %s — %s", icon, label, current_mode(), msg)
 		end
+
 		return string.format("%s Codex %s · %s", icon, label, current_mode())
 	end
 
-	return string.format("%s Codex %s", icon, label)
+	-- Runtime health/session state takes precedence over passive cache.
+	local ok_state, health_state = pcall(require, "codex.health_state")
+	if ok_state and health_state then
+		local hs = health_state.get() or {}
+
+		if hs.status == "running" or hs.status == "ready" or hs.status == "blocked" then
+			return hs.message
+		end
+	end
+
+	-- Passive cache may warn if last known health was blocked.
+	-- Cached PASS must not claim this session is ready.
+	local ok_cache, health_cache = pcall(require, "codex.health_cache")
+	if ok_cache and health_cache then
+		local cached = health_cache.read()
+
+		if cached.status == "FAIL" then
+			return "✖ Codex Blocked"
+		end
+	end
+
+	return "? Codex Unknown"
 end
 
 return M

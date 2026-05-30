@@ -178,7 +178,10 @@ local function remember_and_log_op(op_name, user_prompt)
 		timestamp = os.time(),
 	})
 
-	set_state_running(op_name, 0, "Running Codex request")
+	-- Do not set operational Running here.
+	-- Story 8: runtime healthcheck must be visible before Codex execution.
+	-- Runner owns the transition to Running after health passes.
+	-- set_state_running(op_name, 0, "Running Codex request")
 
 	codex_log.write("prompt", {
 		mode = current_mode,
