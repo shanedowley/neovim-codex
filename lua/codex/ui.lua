@@ -141,7 +141,7 @@ local phase_labels = {
 	applied = "changes applied",
 	failed = "failed",
 	blocked = "blocked",
-	idle = "idle",
+	unknown = "unknown",
 }
 
 function M.phase_message(op, phase)
