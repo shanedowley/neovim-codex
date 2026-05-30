@@ -69,8 +69,8 @@ local function set_state_failed(op_name, bufnr, message)
 	})
 end
 
-local function set_state_idle(op_name, bufnr, message)
-	state.set("idle", {
+local function set_state_unknown(op_name, bufnr, message)
+	state.set("unknown", {
 		op = op_name,
 		mode = mode.current(),
 		file = current_file(bufnr),
@@ -582,7 +582,7 @@ local function safe_preview_flow(opts)
 				end
 
 				if #diff_lines == 0 then
-					set_state_idle(op_name, target_bufnr, "No changes produced")
+					set_state_unknown(op_name, target_bufnr, "No changes produced")
 					vim.notify("No changes produced", vim.log.levels.INFO, { title = "Codex" })
 					return
 				end
@@ -636,7 +636,7 @@ local function safe_preview_flow(opts)
 							result = "ABORT",
 						})
 
-						set_state_idle(op_name, target_bufnr, "Preview closed without applying changes")
+						set_state_unknown(op_name, target_bufnr, "Preview closed without applying changes")
 					end,
 				})
 			end,
@@ -692,7 +692,7 @@ function M.explain_current_line()
 			spinner_message = ui.phase_message(op_name, "running"),
 			stream_output = true,
 			on_success = function(_)
-				set_state_idle("explain_current_line", 0, "Explanation opened")
+				set_state_unknown("explain_current_line", 0, "Explanation opened")
 			end,
 			on_failure = function(result)
 				set_state_failed("explain_current_line", 0, "Codex execution failed")
@@ -717,7 +717,7 @@ function M.explain_text(text)
 			spinner_message = ui.phase_message(op_name, "running"),
 			stream_output = true,
 			on_success = function(_)
-				set_state_idle("explain_text", 0, "Explanation opened")
+				set_state_unknown("explain_text", 0, "Explanation opened")
 			end,
 			on_failure = function(result)
 				set_state_failed("explain_text", 0, "Codex execution failed")
@@ -753,7 +753,7 @@ function M.explain_selection()
 			spinner_message = ui.phase_message("explain_selection", "running"),
 			stream_output = true,
 			on_success = function(_)
-				set_state_idle("explain_selection", 0, "Explanation opened")
+				set_state_unknown("explain_selection", 0, "Explanation opened")
 			end,
 			on_failure = function(result)
 				set_state_failed("explain_selection", 0, "Codex execution failed")
@@ -788,7 +788,7 @@ function M.explain_selection_fast()
 			spinner_message = ui.phase_message("explain_selection_fast", "running"),
 			stream_output = true,
 			on_success = function(_)
-				set_state_idle("explain_selection_fast", 0, "Fast explanation opened")
+				set_state_unknown("explain_selection_fast", 0, "Fast explanation opened")
 			end,
 			on_failure = function(result)
 				set_state_failed("explain_selection_fast", 0, "Codex execution failed")
@@ -960,7 +960,7 @@ function M.open_output_scratch()
 			on_success = function(result)
 				local body = parse.prefer_clean_answer(result.output)
 				body = selection.collapse_if_doubled(body, nil)
-				set_state_idle(op_name, 0, "Output opened in scratch buffer")
+				set_state_unknown(op_name, 0, "Output opened in scratch buffer")
 				open_scratch(body, nil, "Codex Output")
 			end,
 
@@ -1003,7 +1003,7 @@ function M.save_output_to_file_text(text)
 					reason = "filename_prompt_cancelled",
 				})
 
-				set_state_idle(op_name, 0, "Save output cancelled")
+				set_state_unknown(op_name, 0, "Save output cancelled")
 				vim.notify("Save output cancelled", vim.log.levels.INFO, { title = "Codex" })
 				return
 			end
@@ -1038,7 +1038,7 @@ function M.save_output_to_file_text(text)
 					vim.cmd("edit " .. vim.fn.fnameescape(filename))
 					vim.api.nvim_buf_set_lines(0, 0, -1, false, to_write)
 					vim.cmd("write")
-					set_state_idle(op_name, 0, "Codex output written to file")
+					set_state_unknown(op_name, 0, "Codex output written to file")
 					vim.notify("Codex output written to " .. filename, vim.log.levels.INFO, { title = "Codex" })
 				end,
 
@@ -1325,7 +1325,7 @@ end
 function M.patch_buffer()
 	local filename = vim.fn.expand("%:p")
 	prompt_user({ prompt = "Codex patch: " }, function(p_text)
-		set_state_idle("patch_buffer", 0, "Opened Codex diff terminal")
+		set_state_unknown("patch_buffer", 0, "Opened Codex diff terminal")
 		local cmd = string.format("codex --diff %q %q", p_text, filename)
 		vim.cmd("botright split | term " .. cmd)
 	end)
@@ -1347,7 +1347,7 @@ function M.scratchpad_prompt(default_prompt)
 			spinner_message = ui.phase_message(op_name, "running"),
 
 			on_success = function(result)
-				set_state_idle(op_name, 0, "Scratchpad output opened")
+				set_state_unknown(op_name, 0, "Scratchpad output opened")
 				open_scratch(parse.clean_codex_output(result.output), "markdown")
 			end,
 
@@ -1551,7 +1551,7 @@ function M.explain_failure()
 				lines = { tostring(lines) }
 			end
 
-			set_state_idle("explain_failure", 0, "Failure explanation opened")
+			set_state_unknown("explain_failure", 0, "Failure explanation opened")
 
 			open_scratch(lines, "markdown", "Explain Failure")
 		end,

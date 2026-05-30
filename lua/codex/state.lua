@@ -1,7 +1,7 @@
 local M = {}
 
 local state = {
-	status = "idle",
+	status = "unknown",
 	op = nil,
 	mode = nil,
 	file = nil,
@@ -13,7 +13,7 @@ local history = {}
 local max_history = 20
 
 local allowed = {
-	idle = true,
+	unknown = true,
 	running = true,
 	preview = true,
 	validating = true,
@@ -22,7 +22,7 @@ local allowed = {
 }
 
 local status_icons = {
-	idle = "○",
+	unknown = "?",
 	running = "⚙",
 	preview = "👁",
 	validating = "🧪",
@@ -102,7 +102,7 @@ end
 
 function M.reset()
 	state = {
-		status = "idle",
+		status = "unknown",
 		op = nil,
 		mode = nil,
 		file = nil,

@@ -432,7 +432,15 @@ Operational state transitions are explicit.
 
 Examples:
 
-- idle
+Health states:
+
+- unknown
+- healthcheck running
+- ready
+- blocked
+
+Operational states:
+
 - running
 - preview
 - validating
