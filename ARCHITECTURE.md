@@ -29,7 +29,7 @@ than:
 The project prioritizes:
 
 - observable execution
-- explicit operator control
+- explicit user control
 - deterministic workflows
 - operational safety
 - recoverable failure modes
@@ -39,7 +39,7 @@ The architecture assumes:
 - AI systems can fail
 - environments can degrade
 - generated code must be inspectable
-- operators should remain in control
+- human users remain in control
 
 ---
 
@@ -48,7 +48,7 @@ The architecture assumes:
 High-level execution flow:
 
 ```text
-Operator Action
+User Action
     ↓
 Prompt Construction
     ↓
@@ -79,9 +79,9 @@ No silent apply path exists.
 
 # System Layers
 
-## 1. Operator Layer
+## 1. User Layer
 
-The operator initiates workflows via:
+The user initiates workflows via:
 
 - keybindings
 - visual selections
@@ -196,6 +196,49 @@ Interfaces:
 
 ---
 
+# Stale-While-Revalidate Architecture
+
+Release 1.1 introduces a Stale-While-Revalidate health model.
+
+Historically, startup health validation occurred before the system was considered ready for use.
+
+While operationally safe, this introduced startup latency and reduced perceived responsiveness.
+
+Release 1.1 separates startup responsiveness from runtime validation.
+
+Startup now uses the most recently known health state while deferring real validation until a Codex workflow is executed.
+
+The resulting flow is:
+
+```text
+Neovim Startup
+    ↓
+Read Cached Health State
+    ↓
+Display Health Status
+    ↓
+Immediate User Interaction
+    ↓
+Codex Workflow Invoked
+    ↓
+Real Health Validation
+    ↓
+Allow or Block Execution
+```
+
+This architecture preserves execution safety while removing health validation from the startup path.
+
+Key properties:
+
+- startup remains immediately usable
+- no blocking startup healthcheck occurs
+- execution validation remains mandatory
+- degraded systems remain blocked at point-of-use
+
+The health model therefore improves responsiveness without weakening correctness guarantees.
+
+---
+
 # Codex CLI Integration
 
 Neovim-Codex delegates model execution to Codex CLI.
@@ -230,7 +273,7 @@ Generated changes are previewed before apply.
 Primary responsibilities:
 
 - unified diff rendering
-- operator inspection
+- user inspection
 - explicit confirmation workflow
 
 Primary module:
@@ -278,7 +321,7 @@ Apply operations occur only after:
 
 - preview
 - validation
-- explicit operator confirmation
+- explicit user confirmation
 
 The system intentionally avoids:
 
@@ -312,7 +355,7 @@ Logs are intended to support:
 - observability
 - debugging
 - replayability
-- operational trust
+- operational transparency
 
 Default log location:
 
@@ -320,9 +363,7 @@ Default log location:
 ~/.local/state/nvim/codex.log
 ```
 
----
-
-# Recovery System
+---# Recovery System
 
 Failures are treated as operational events.
 
@@ -330,7 +371,7 @@ Primary responsibilities:
 
 - capture failure state
 - preserve diagnostics
-- support inspection/recovery
+- support inspection and recovery
 
 Primary module:
 
@@ -422,15 +463,13 @@ The architecture assumes:
 
 - generated code can be incorrect
 - AI systems require supervision
-- operator control must remain primary
+- user control must remain primary
 
 ---
 
 # State Model
 
 Operational state transitions are explicit.
-
-Examples:
 
 Health states:
 
@@ -446,6 +485,8 @@ Operational states:
 - validating
 - applied
 - failed
+
+Operational states always take precedence over health states.
 
 This improves:
 
@@ -490,6 +531,7 @@ Primary focus:
 - C/C++
 - safe AI-assisted refactoring workflows
 - operational observability
+- workflow visibility
 
 Secondary support:
 
@@ -524,7 +566,7 @@ The operational support boundary primarily applies to:
 
 Supporting Neovim UX components may evolve independently from the core AIES subsystem.
 
---
+---
 
 # Architectural Non-Goals
 
@@ -537,7 +579,7 @@ Neovim-Codex is NOT attempting to become:
 
 The system intentionally preserves:
 
-- operator review
+- user review
 - operational visibility
 - explicit control
 
@@ -578,6 +620,7 @@ The architecture prioritizes:
 The system is intentionally engineered around:
 
 - observable workflows
+- operational transparency
 - explicit approval
 - deterministic operational behavior
 - safe AI-assisted engineering

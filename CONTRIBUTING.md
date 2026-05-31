@@ -47,7 +47,7 @@ Contributions are welcome in areas including:
 - platform portability
 - Neovim UX improvements
 - test coverage
-- bootstrap/reproducibility improvements
+- bootstrap and reproducibility improvements
 
 Small, focused, reviewable pull requests are strongly preferred.
 
@@ -115,6 +115,7 @@ Significant behavioural or architectural changes should include documentation up
 Relevant documentation may include:
 
 - `README.md`
+- `RELEASE_NOTES_R1_1.md`
 - `RELEASE_SCOPE.md`
 - `ARCHITECTURE.md`
 - `OPERATIONS.md`
@@ -142,9 +143,9 @@ The project intentionally values disciplined engineering workflows over maximal 
 
 # Development Status
 
-Neovim-Codex is currently in Release 1.1 Candidate stage.
+Neovim-Codex is currently preparing for the Release 1.1 milestone.
 
-Architectural hardening and operational refinement are still ongoing.
+Architectural hardening, documentation refinement, and operational improvements are ongoing.
 
 Contributors should expect:
 
@@ -166,7 +167,7 @@ The goal is to explore how AI-assisted engineering systems can remain:
 - understandable
 - inspectable
 - recoverable
-- operationally trustworthy
+- operationally transparent
 - human-directed
 
 over a broadening range of supported languages and platforms.

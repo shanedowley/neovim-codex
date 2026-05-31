@@ -23,11 +23,11 @@ The installation model prioritizes:
 
 # Supported Platforms
 
-| Platform | Status       |
-| -------- | ------------ |
-| macOS    | Supported    |
-| Linux    | Experimental |
-| Windows  | Unsupported  |
+| Platform | Status |
+| -------- | ------ |
+| macOS | Supported |
+| Linux | Experimental |
+| Windows | Unsupported |
 
 Release 1.1 is primarily developed and tested on:
 
@@ -43,27 +43,34 @@ Linux support is currently experimental.
 
 ## Required Dependencies
 
-| Dependency   | Purpose                          |
-| ------------ | -------------------------------- |
-| Neovim 0.10+ | Editor runtime                   |
-| git          | Plugin and repository management |
-| clang        | Validation pipeline              |
-| diff         | Diff generation and preview      |
+| Dependency | Purpose |
+| ---------- | ------- |
+| Neovim 0.11+ | Editor runtime |
+| git | Plugin and repository management |
+| clang | Validation pipeline |
+| diff | Diff generation and preview |
 
 ---
 
-## Optional Dependencies
+## AI Workflow Dependency
 
-| Dependency | Purpose                    |
-| ---------- | -------------------------- |
-| Node.js    | JavaScript tooling         |
-| npm        | JS debug adapter ecosystem |
-| Codex CLI  | AI-assisted workflows      |
+| Dependency | Purpose |
+| ---------- | ------- |
+| Codex CLI | AI-assisted workflows |
 
 Without Codex CLI:
 
 - Neovim remains operational
 - AI-assisted workflows will be unavailable
+
+---
+
+## Optional Dependencies
+
+| Dependency | Purpose |
+| ---------- | ------- |
+| Node.js | JavaScript tooling |
+| npm | JS debug adapter ecosystem |
 
 ---
 
@@ -242,7 +249,7 @@ This test intentionally validates:
 
 - blocked execution
 - preflight failure handling
-- logging behavior
+- logging behaviour
 
 No Codex execution should occur during this test.
 
@@ -255,6 +262,16 @@ Launch Neovim:
 ```bash
 nvim
 ```
+
+Expected initial status:
+
+```text
+? Codex Unknown
+```
+
+This is normal.
+
+Release 1.1 uses a Stale-While-Revalidate health model and does not perform a startup healthcheck.
 
 Recommended first command:
 
@@ -273,7 +290,9 @@ This validates:
 
 # First Demo Workflow
 
-Open a source file:
+Open a C or C++ source file.
+
+Example:
 
 ```bash
 nvim hello.c
@@ -513,7 +532,7 @@ Neovim-Codex intentionally emphasizes:
 
 The system is intentionally designed around:
 
-- operational trust
+- operational transparency
 - controlled mutation
 - safe AI-assisted engineering
 
@@ -523,9 +542,10 @@ No silent auto-apply workflow exists.
 
 # Related Documentation
 
-| Document          | Purpose                                   |
-| ----------------- | ----------------------------------------- |
-| `README.md`       | Project overview and quick start          |
+| Document | Purpose |
+| -------- | ------- |
+| `README.md` | Project overview and quick start |
 | `ARCHITECTURE.md` | System architecture and operational model |
-| `CONTRIBUTING.md` | Contribution guidelines                   |
-| `LICENSE`         | License information                       |
+| `CONTRIBUTING.md` | Contribution guidelines |
+| `RELEASE_NOTES_R1_1.md` | Release 1.1 changes and upgrade information |
+| `LICENSE` | License information |

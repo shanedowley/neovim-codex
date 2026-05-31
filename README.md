@@ -4,6 +4,8 @@ AI-Assisted Engineering System (AIES) for Neovim.
 
 Release 1.1
 
+Current stable release.
+
 Neovim-Codex is designed for people who want AI-assisted workflows that remain:
 
 - correct
