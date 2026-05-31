@@ -1,6 +1,6 @@
 # ARCHITECTURE.md
 
-# Neovim-Codex RC1.0 — System Architecture
+# Neovim-Codex Release 1.1 — System Architecture
 
 Neovim-Codex is an AI-Assisted Engineering System (AIES) for Neovim.
 
@@ -381,7 +381,7 @@ are treated as operational hygiene violations.
 Primary script:
 
 ```text
-bootstrap-nvim-codex-rc1_0.sh
+bootstrap-nvim-codex-r1_1.sh
 ```
 
 Responsibilities:
@@ -482,7 +482,7 @@ lua/codex/treesitter.lua
 
 ---
 
-# Current RC1.0 Scope
+# Current Release 1.1 Scope
 
 Primary focus:
 
@@ -504,7 +504,7 @@ Windows is currently unsupported.
 
 # Repository Boundary
 
-Neovim-Codex RC1.0 ships as a curated engineering environment.
+Neovim-Codex Release 1.1 ships as a curated engineering environment.
 
 The repository contains:
 
@@ -561,7 +561,7 @@ Future architectural areas include:
 
 # Summary
 
-Neovim-Codex RC1.0 is designed as:
+Neovim-Codex Release 1.1 is designed as:
 
 ```text
 AI-Assisted Engineering System

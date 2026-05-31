@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Demonstrates the human-directed engineering workflow philosophy of Neovim-Codex RC1.0.
+Demonstrates the human-directed engineering workflow philosophy of Neovim-Codex Release 1.1.
 
 This demo focuses on:
 

@@ -1,6 +1,6 @@
 # RELEASE_SCOPE.md
 
-## Neovim-Codex RC1.0 — Release Scope
+## Neovim-Codex Release 1.1 — Release Scope
 
 ---
 
@@ -25,9 +25,9 @@ The user remains in control of all meaningful code changes.
 
 ---
 
-# 2. RC1.0 Definition
+# 2. Release 1.1 Definition
 
-RC1.0 represents the first operationally credible public release candidate of the system.
+Release 1.1 represents the first operationally credible public release candidate of the system.
 
 The release target is:
 
@@ -39,14 +39,14 @@ The release target is:
 - recoverable failure handling
 - explicit workflow state visibility
 
-RC1.0 is considered:
+Release 1.1 is considered:
 
 - operationally usable
 - architecturally coherent
 - safety-oriented
 - internally dogfooded
 
-RC1.0 is not:
+Release 1.1 is not:
 
 - feature complete
 - fully cross-platform
@@ -57,7 +57,7 @@ RC1.0 is not:
 
 # 3. Intended Audience
 
-Neovim-Codex RC1.0 is intended for:
+Neovim-Codex Release 1.1 is intended for:
 
 - engineers who prefer explicit control over AI workflows
 - developers comfortable with terminal and Neovim environments
@@ -65,7 +65,7 @@ Neovim-Codex RC1.0 is intended for:
 - engineers working primarily in C/C++ and Lua workflows
 - users who prefer inspectable workflows over autonomous coding systems
 
-RC1.0 is likely not suitable for:
+Release 1.1 is likely not suitable for:
 
 - beginners unfamiliar with Neovim
 - users seeking fully automated coding agents
@@ -102,7 +102,7 @@ Expected target environment:
 
 Linux support is planned and partially architected through POSIX-oriented design choices.
 
-However it is not yet considered fully validated for RC1.0.
+However it is not yet considered fully validated for Release 1.1.
 
 Differences between distributions, package layouts, shell environments, and toolchain paths may require manual adjustment.
 
@@ -112,7 +112,7 @@ Differences between distributions, package layouts, shell environments, and tool
 
 ### Windows
 
-Native Windows support is out of scope for RC1.0.
+Native Windows support is out of scope for Release 1.1.
 
 WSL support may be explored in future releases.
 
@@ -124,7 +124,7 @@ WSL support may be explored in future releases.
 
 ### C / C++
 
-Primary engineering target for RC1.0.
+Primary engineering target for Release 1.1.
 
 Supported capabilities include:
 
@@ -158,7 +158,7 @@ Most workflows operate correctly for Lua-based editing.
 
 ### General text workflows
 
-These workflows may function successfully but are not considered fully validated engineering targets for RC1.0.
+These workflows may function successfully but are not considered fully validated engineering targets for Release 1.1.
 
 Validation guarantees may be reduced outside C/C++ workflows.
 
@@ -166,7 +166,7 @@ Validation guarantees may be reduced outside C/C++ workflows.
 
 # 6. Supported Workflows
 
-RC1.0 officially supports:
+Release 1.1 officially supports:
 
 - inline rewrite workflows
 - selection rewrite workflows
@@ -188,7 +188,7 @@ RC1.0 officially supports:
 
 Neovim-Codex is designed around explicit safety constraints.
 
-RC1.0 guarantees:
+Release 1.1 guarantees:
 
 ## Human-reviewed changes
 
@@ -233,7 +233,7 @@ The system does not autonomously change repositories, create commits, push chang
 
 # 8. Explicit Non-Goals
 
-The following are intentionally out of scope for RC1.0:
+The following are intentionally out of scope for Release 1.1:
 
 - autonomous coding agents
 - silent code changes
@@ -252,7 +252,7 @@ The following are intentionally out of scope for RC1.0:
 
 # 9. Deferred Features
 
-The following areas are intentionally deferred beyond RC1.0:
+The following areas are intentionally deferred beyond Release 1.1:
 
 - Windows support
 - broader Linux validation
@@ -282,6 +282,7 @@ Current known limitations include:
 - documentation still expanding
 - no formal semantic versioning process yet
 - no automated CI pipeline yet
+- vim.tbl_flatten deprecation warning present on Neovim 0.12.x (technical debt)
 
 ---
 

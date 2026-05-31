@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Demonstrates the operational observability and diagnostics capabilities of Neovim-Codex RC1.0.
+Demonstrates the operational observability and diagnostics capabilities of Neovim-Codex Release 1.1.
 
 This demo focuses on:
 
