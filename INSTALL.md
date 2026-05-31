@@ -1,6 +1,6 @@
 # INSTALL.md
 
-# Neovim-Codex RC1.0 — Installation & Operations Guide
+# Neovim-Codex Release 1.1 — Installation & Operations Guide
 
 This document describes:
 
@@ -29,7 +29,7 @@ The installation model prioritizes:
 | Linux    | Experimental |
 | Windows  | Unsupported  |
 
-RC1.0 is primarily developed and tested on:
+Release 1.1 is primarily developed and tested on:
 
 - macOS
 - Apple Silicon
@@ -113,13 +113,13 @@ git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
 Example location:
 
 ```text
-./scripts/bootstrap-nvim-codex-rc1_0.sh
+./scripts/bootstrap-nvim-codex-r1_1.sh
 ```
 
 Ensure executable permissions:
 
 ```bash
-chmod +x ./scripts/bootstrap-nvim-codex-rc1_0.sh
+chmod +x ./scripts/bootstrap-nvim-codex-r1_1.sh
 ```
 
 ---
@@ -151,7 +151,7 @@ Runs:
 Example:
 
 ```bash
-./scripts/bootstrap-nvim-codex-rc1_0.sh --check
+./scripts/bootstrap-nvim-codex-r1_1.sh --check
 ```
 
 Expected healthy output:
@@ -184,7 +184,7 @@ Runs:
 Example:
 
 ```bash
-./scripts/bootstrap-nvim-codex-rc1_0.sh --sync
+./scripts/bootstrap-nvim-codex-r1_1.sh --sync
 ```
 
 This mode may:
@@ -229,7 +229,7 @@ Tests:
 Example:
 
 ```bash
-./scripts/bootstrap-nvim-codex-rc1_0.sh --test-health-gate
+./scripts/bootstrap-nvim-codex-r1_1.sh --test-health-gate
 ```
 
 Expected healthy output:
@@ -335,7 +335,7 @@ git pull
 ## 4. Run Bootstrap Sync
 
 ```bash
-./scripts/bootstrap-nvim-codex-rc1_0.sh --sync
+./scripts/bootstrap-nvim-codex-r1_1.sh --sync
 ```
 
 ---
@@ -365,7 +365,7 @@ cp lazy-lock.json.backup lazy-lock.json
 ## Re-run Sync
 
 ```bash
-./scripts/bootstrap-nvim-codex-rc1_0.sh --sync
+./scripts/bootstrap-nvim-codex-r1_1.sh --sync
 ```
 
 ---

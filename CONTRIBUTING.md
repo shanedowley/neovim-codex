@@ -127,7 +127,7 @@ Operational clarity is considered part of the implementation quality.
 
 # What Not To Submit
 
-The following types of changes are unlikely to align with RC1.0 goals:
+The following types of changes are unlikely to align with Release 1.1 goals:
 
 - opaque AI automation
 - silent auto-apply workflows
@@ -142,7 +142,7 @@ The project intentionally values disciplined engineering workflows over maximal 
 
 # Development Status
 
-Neovim-Codex is currently in RC1.0 Candidate stage.
+Neovim-Codex is currently in Release 1.1 Candidate stage.
 
 Architectural hardening and operational refinement are still ongoing.
 

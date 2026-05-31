@@ -14,7 +14,7 @@ NVIM_DATA_DIR="$XDG_DATA_HOME/nvim"
 NVIM_STATE_DIR="$XDG_STATE_HOME/nvim"
 NVIM_CACHE_DIR="$XDG_CACHE_HOME/nvim"
 
-echo "=== Neovim-Codex RC1.0 Bootstrap ==="
+echo "=== Neovim-Codex Release 1.1 Bootstrap ==="
 echo "AI-Assisted Engineering System Environment Check"
 echo
 
@@ -43,13 +43,13 @@ ok() {
 usage() {
   cat <<'EOF'
 Usage:
-  ./scripts/bootstrap-nvim-codex-rc1_0.sh --check
+  ./scripts/bootstrap-nvim-codex-r1_1.sh --check
       Fast validation + healthcheck report
 
-  ./scripts/bootstrap-nvim-codex-rc1_0.sh --sync
+  ./scripts/bootstrap-nvim-codex-r1_1.sh --sync
       Full plugin sync + validation + healthcheck report
 
-  ./scripts/bootstrap-nvim-codex-rc1_0.sh --test-health-gate
+  ./scripts/bootstrap-nvim-codex-r1_1.sh --test-health-gate
       Verify runner blocks when health is not PASS
 EOF
 }
@@ -134,7 +134,7 @@ case "$OS" in
     ;;
   Linux)
     ok "Linux detected"
-    warn "Linux support is currently experimental for RC1.0"
+    warn "Linux support is currently experimental for Release 1.1"
     ;;
   *)
     fail "Unsupported OS: $OS"
@@ -284,4 +284,4 @@ echo "  2. Run :CodexHealth"
 echo "  3. Open a source file"
 echo "  4. Try <leader>cE on a line of code"
 echo
-echo "Neovim-Codex RC1.0 bootstrap finished."
+echo "Neovim-Codex Release 1.1 bootstrap finished."
