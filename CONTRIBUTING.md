@@ -119,7 +119,7 @@ Relevant documentation may include:
 - `RELEASE_SCOPE.md`
 - `ARCHITECTURE.md`
 - `OPERATIONS.md`
-- `COMMANDS_DRAFT.md`
+- `COMMANDS.md`
 - `REPO_AUDIT.md`
 
 Operational clarity is considered part of the implementation quality.

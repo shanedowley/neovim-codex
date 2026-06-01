@@ -1463,7 +1463,7 @@ function M.toggle_context()
 end
 
 function M.show_commands()
-	local path = vim.fn.stdpath("config") .. "/codex/docs/COMMANDS_DRAFT.md"
+	local path = vim.fn.stdpath("config") .. "/codex/docs/COMMANDS.md"
 
 	if vim.fn.filereadable(path) ~= 1 then
 		vim.notify("Codex commands draft not found: " .. path, vim.log.levels.WARN, { title = "Codex" })
