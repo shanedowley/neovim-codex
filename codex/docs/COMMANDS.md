@@ -1,4 +1,4 @@
-# Neovim-Codex Commands Draft
+# Neovim-Codex Commands
 
 ## Core Workflow
 
