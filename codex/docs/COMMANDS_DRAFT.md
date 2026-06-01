@@ -47,8 +47,6 @@
 
 ### Notification placement examples
 
-```vim
 :CodexNotifyPlacement top_right
 :CodexNotifyPlacement top_center
 :CodexNotifyPlacement bottom_left
-```
