@@ -1,12 +1,12 @@
 # REPO_AUDIT.md
 
-## Repository Audit — RC1.0
+## Repository Audit — Release 1.1
 
 ---
 
 # Purpose
 
-This document captures repository hygiene observations, architectural boundary decisions, and operational audit checks performed during preparation for the Neovim-Codex RC1.0 public release candidate.
+This document captures repository hygiene observations, architectural boundary decisions, and operational audit checks performed during preparation for the Neovim-Codex Release 1.1 public release.
 
 The goal is to ensure the repository is:
 
@@ -49,9 +49,9 @@ Supporting Neovim environment:
 
 # Repository Strategy Decision
 
-## RC1.0 Decision
+## Release 1.1 Repository Decision
 
-RC1.0 will ship as:
+Release 1.1 ships as:
 
 > a full dotfiles-style Neovim engineering environment centred around the Neovim-Codex AI-Assisted Engineering System.
 
@@ -86,7 +86,7 @@ The following areas are considered supporting IDE infrastructure rather than cor
 - `lua/theme_cycle.lua`
 - `lua/diag/`
 
-These remain intentionally included in RC1.0 as part of the complete engineering environment.
+These remain intentionally included in Release 1.1 as part of the complete engineering environment.
 
 ---
 
@@ -173,7 +173,7 @@ for runtime hygiene enforcement.
 
 # Current Assessment
 
-RC1.0 repository state is currently considered:
+Release 1.1 repository state is currently considered:
 
 - operationally clean
 - structurally coherent
@@ -191,4 +191,4 @@ Additional OSS hardening work remains planned around:
 - release automation
 - semantic versioning
 
-However current repository hygiene is considered suitable for RC1.0 public candidate preparation.
+However current repository hygiene is considered suitable for Release 1.1 public release.
