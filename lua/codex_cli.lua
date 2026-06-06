@@ -681,27 +681,26 @@ end
 function M.explain_current_line()
 	local line = vim.fn.getline(".")
 	local ft = vim.bo.filetype or ""
-	local default_prompt = prompt.build_explain(ft)
+	local user_prompt = prompt.build_explain(ft)
+	local op_name = "explain_current_line"
 
-	prompt_user({ prompt = "Codex explain: ", default = default_prompt }, function(user_prompt)
-		remember_and_log_op("explain_current_line", user_prompt)
+	remember_and_log_op(op_name, user_prompt)
 
-		runner.run_embedded(line, user_prompt, {
-			op = "explain_current_line",
-			filetype = ft,
-			spinner_message = ui.phase_message(op_name, "running"),
-			stream_output = true,
-			on_success = function(_)
-				set_state_unknown("explain_current_line", 0, "Explanation opened")
-			end,
-			on_failure = function(result)
-				set_state_failed("explain_current_line", 0, "Codex execution failed")
-				if #result.stderr > 0 then
-					open_scratch(result.stderr, "text", "Codex STDERR")
-				end
-			end,
-		})
-	end)
+	runner.run_embedded(line, user_prompt, {
+		op = op_name,
+		filetype = ft,
+		spinner_message = "Codex explaining current line…",
+		stream_output = true,
+		on_success = function(_)
+			set_state_unknown(op_name, 0, "Explanation opened")
+		end,
+		on_failure = function(result)
+			set_state_failed(op_name, 0, "Codex execution failed")
+			if #result.stderr > 0 then
+				open_scratch(result.stderr, "text", "Codex STDERR")
+			end
+		end,
+	})
 end
 
 function M.explain_text(text)
