@@ -137,9 +137,6 @@ function M.build_and_debug_current_c_cpp()
 		cwd = dir,
 		stopOnEntry = false,
 		args = {},
-		initCommands = {
-			"breakpoint set --name main",
-		},
 	})
 
 	vim.notify(
