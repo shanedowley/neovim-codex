@@ -211,9 +211,9 @@ return {
 						return gtest_link
 					end
 
-					local hello = cwd .. "/hello"
-					if vim.fn.filereadable(hello) == 1 then
-						return hello
+					local debug_maybe = cwd .. "/" .. vim.fn.expand("%:t:r") .. "_debug"
+					if vim.fn.filereadable(debug_maybe) == 1 then
+						return debug_maybe
 					end
 
 					local maybe = cwd .. "/" .. vim.fn.expand("%:t:r")
