@@ -1581,6 +1581,11 @@ function M.show_recovery()
 	require("codex_recovery").show_last_failure()
 end
 
+function M.clear_recovery()
+	require("codex_recovery").clear_last_failure()
+	vim.notify("Codex recovery cleared", vim.log.levels.INFO, { title = "Codex" })
+end
+
 function M.show_prompt_version()
 	require("codex.prompt_version").show()
 end
@@ -1632,6 +1637,11 @@ end, {})
 pcall(vim.api.nvim_del_user_command, "CodexRecovery")
 vim.api.nvim_create_user_command("CodexRecovery", function()
 	require("codex_cli").show_recovery()
+end, {})
+
+pcall(vim.api.nvim_del_user_command, "CodexRecoveryClear")
+vim.api.nvim_create_user_command("CodexRecoveryClear", function()
+	require("codex_cli").clear_recovery()
 end, {})
 
 pcall(vim.api.nvim_del_user_command, "CodexPromptVersion")

@@ -301,6 +301,11 @@ end
 
 function M.clear_last_failure()
 	last_failure = nil
+
+	local path = failure_store_path()
+	if vim.fn.filereadable(path) == 1 then
+		pcall(vim.fn.delete, path)
+	end
 end
 
 function M.render_last_failure_lines()
