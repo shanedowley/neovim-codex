@@ -1,4 +1,5 @@
 local M = {}
+local LOG_SCHEMA_VERSION = "r1.2-v1"
 
 local session_id = tostring(os.time()) .. "-" .. tostring(math.random(1000, 9999))
 
@@ -17,6 +18,7 @@ local function serialize(data)
 
 	local preferred_order = {
 		"session_id",
+		"log_schema",
 		"request_id",
 		"op",
 		"stage",
@@ -88,6 +90,7 @@ end
 function M.write(event, data)
 	data = data or {}
 	data.session_id = session_id
+	data.log_schema = LOG_SCHEMA_VERSION
 
 	local line = string.format("[%s] event=%s", timestamp(), event)
 
