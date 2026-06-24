@@ -18,6 +18,7 @@ local allowed = {
 	preview = true,
 	validating = true,
 	applied = true,
+	complete = true,
 	failed = true,
 }
 
@@ -27,6 +28,7 @@ local status_icons = {
 	preview = "👁",
 	validating = "🧪",
 	applied = "✅",
+	complete = "✓",
 	failed = "✖",
 }
 
@@ -154,15 +156,8 @@ function M.render_history_lines()
 		return lines
 	end
 
-	lines[#lines + 1] = string.format(
-		"%-10s %-14s %-34s %-10s %-16s %s",
-		"Time",
-		"Status",
-		"Operation",
-		"Mode",
-		"File",
-		"Message"
-	)
+	lines[#lines + 1] =
+		string.format("%-10s %-14s %-34s %-10s %-16s %s", "Time", "Status", "Operation", "Mode", "File", "Message")
 	lines[#lines + 1] = string.rep("-", 120)
 
 	for i = #items, 1, -1 do
@@ -200,6 +195,28 @@ local function open_report_buffer(lines, bufname, filetype)
 	vim.bo[bufnr].bufhidden = "wipe"
 	vim.bo[bufnr].swapfile = false
 	vim.bo[bufnr].filetype = filetype
+
+	vim.keymap.set("n", "q", function()
+		if vim.api.nvim_buf_is_valid(bufnr) then
+			vim.api.nvim_buf_delete(bufnr, { force = true })
+		end
+	end, {
+		buffer = bufnr,
+		silent = true,
+		noremap = true,
+		desc = "Close Codex state",
+	})
+
+	vim.keymap.set("n", "<Esc>", function()
+		if vim.api.nvim_buf_is_valid(bufnr) then
+			vim.api.nvim_buf_delete(bufnr, { force = true })
+		end
+	end, {
+		buffer = bufnr,
+		silent = true,
+		noremap = true,
+		desc = "Close Codex state",
+	})
 
 	return bufnr
 end
