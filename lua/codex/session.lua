@@ -15,6 +15,14 @@ local function format_timestamp(ts)
 	return os.date("%Y-%m-%d %H:%M:%S", n)
 end
 
+local function append_multiline(lines, text)
+	text = tostring(text or "-")
+
+	for _, line in ipairs(vim.split(text, "\n", { plain = true })) do
+		lines[#lines + 1] = line
+	end
+end
+
 local function open_report_buffer(lines)
 	local bufname = "codex://last-op"
 	local bufnr = vim.fn.bufnr(bufname)
@@ -32,6 +40,28 @@ local function open_report_buffer(lines)
 	vim.bo[bufnr].bufhidden = "wipe"
 	vim.bo[bufnr].swapfile = false
 	vim.bo[bufnr].filetype = "markdown"
+
+	vim.keymap.set("n", "q", function()
+		if vim.api.nvim_buf_is_valid(bufnr) then
+			vim.api.nvim_buf_delete(bufnr, { force = true })
+		end
+	end, {
+		buffer = bufnr,
+		silent = true,
+		noremap = true,
+		desc = "Close Codex last operation",
+	})
+
+	vim.keymap.set("n", "<Esc>", function()
+		if vim.api.nvim_buf_is_valid(bufnr) then
+			vim.api.nvim_buf_delete(bufnr, { force = true })
+		end
+	end, {
+		buffer = bufnr,
+		silent = true,
+		noremap = true,
+		desc = "Close Codex last operation",
+	})
 
 	return bufnr
 end
@@ -52,7 +82,7 @@ function M.render_last_op_lines()
 		}
 	end
 
-	return {
+	local lines = {
 		"Codex Last Operation",
 		"====================",
 		"",
@@ -63,8 +93,11 @@ function M.render_last_op_lines()
 		"Timestamp:      " .. format_timestamp(last.timestamp),
 		"",
 		"Prompt:",
-		tostring(last.prompt or "-"),
 	}
+
+	append_multiline(lines, last.prompt or "-")
+
+	return lines
 end
 
 function M.show_last_op()

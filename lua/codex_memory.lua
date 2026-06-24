@@ -65,6 +65,12 @@ end
 function M.clear_last_op()
 	last_op = nil
 	last_op_source = nil
+
+	local path = store_path()
+	if vim.fn.filereadable(path) == 1 then
+		pcall(vim.fn.delete, path)
+	end
 end
 
 return M
+

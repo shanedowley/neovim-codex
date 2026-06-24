@@ -1602,6 +1602,11 @@ function M.repeat_last_op()
 	require("codex.session").repeat_last_op()
 end
 
+function M.clear_last_op()
+	require("codex_memory").clear_last_op()
+	vim.notify("Codex last operation cleared", vim.log.levels.INFO, { title = "Codex" })
+end
+
 pcall(vim.api.nvim_del_user_command, "CodexHealth")
 vim.api.nvim_create_user_command("CodexHealth", function()
 	require("codex_cli").health_check()
@@ -1661,6 +1666,11 @@ end, {})
 pcall(vim.api.nvim_del_user_command, "CodexLastOp")
 vim.api.nvim_create_user_command("CodexLastOp", function()
 	require("codex_cli").show_last_op()
+end, {})
+
+pcall(vim.api.nvim_del_user_command, "CodexLastOpClear")
+vim.api.nvim_create_user_command("CodexLastOpClear", function()
+	require("codex_cli").clear_last_op()
 end, {})
 
 pcall(vim.api.nvim_del_user_command, "CodexRepeat")
