@@ -1,4 +1,7 @@
 local M = {}
+
+local window = require("codex.window")
+
 local LOG_SCHEMA_VERSION = "r1.2-v1"
 
 local session_id = tostring(os.time()) .. "-" .. tostring(math.random(1000, 9999))
@@ -180,55 +183,12 @@ function M.open_log()
 		lines = { "Codex log is empty for this Neovim session." }
 	end
 
-	local bufnr = vim.fn.bufnr(bufname)
-
-	if bufnr == -1 or not vim.api.nvim_buf_is_valid(bufnr) then
-		bufnr = vim.api.nvim_create_buf(false, true)
-		vim.api.nvim_buf_set_name(bufnr, bufname)
-
-		vim.bo[bufnr].buftype = "nofile"
-		vim.bo[bufnr].bufhidden = "wipe"
-		vim.bo[bufnr].swapfile = false
-		vim.bo[bufnr].filetype = "text"
-
-		vim.cmd("botright split")
-		vim.api.nvim_win_set_buf(0, bufnr)
-
-		vim.keymap.set("n", "q", function()
-			if vim.api.nvim_buf_is_valid(bufnr) then
-				vim.api.nvim_buf_delete(bufnr, { force = true })
-			end
-		end, {
-			buffer = bufnr,
-			silent = true,
-			noremap = true,
-			desc = "Close Codex log",
-		})
-	end
-
-	local target_win = nil
-
-	for _, win in ipairs(vim.api.nvim_list_wins()) do
-		if vim.api.nvim_win_get_buf(win) == bufnr then
-			if not target_win then
-				target_win = win
-			else
-				pcall(vim.api.nvim_win_close, win, true)
-			end
-		end
-	end
-
-	if target_win then
-		vim.api.nvim_set_current_win(target_win)
-	else
-		vim.cmd("botright sbuffer " .. bufnr)
-	end
-
-	vim.bo[bufnr].readonly = false
-	vim.bo[bufnr].modifiable = true
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-	vim.bo[bufnr].modifiable = false
-	vim.bo[bufnr].readonly = true
+	local bufnr = window.open({
+		name = bufname,
+		lines = lines,
+		filetype = "text",
+		close_desc = "Close Codex log",
+	})
 
 	vim.cmd("normal! G")
 end

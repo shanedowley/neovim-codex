@@ -2,6 +2,7 @@ local M = {}
 
 local prompt = require("codex_prompt")
 local store = require("codex.prompt_store")
+local window = require("codex.window")
 
 local PROMPT_NAMES = {
 	"raw_rewrite",
@@ -94,24 +95,12 @@ function M.render_lines()
 end
 
 local function open_report_buffer(lines)
-	local bufname = "codex://prompt-version"
-	local bufnr = vim.fn.bufnr(bufname)
-
-	if bufnr == -1 then
-		vim.cmd("botright new")
-		bufnr = vim.api.nvim_get_current_buf()
-		vim.api.nvim_buf_set_name(bufnr, bufname)
-	else
-		vim.cmd("botright sbuffer " .. bufnr)
-	end
-
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-	vim.bo[bufnr].buftype = "nofile"
-	vim.bo[bufnr].bufhidden = "wipe"
-	vim.bo[bufnr].swapfile = false
-	vim.bo[bufnr].filetype = "markdown"
-
-	return bufnr
+	return window.open({
+		name = "codex://prompt-version",
+		lines = lines,
+		filetype = "markdown",
+		close_desc = "Close Codex prompt version",
+	})
 end
 
 function M.show()
@@ -119,4 +108,3 @@ function M.show()
 end
 
 return M
-

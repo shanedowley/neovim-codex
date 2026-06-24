@@ -2,6 +2,8 @@
 
 local M = {}
 
+local window = require("codex.window")
+
 local function extract_first_function_name(text)
 	for _, l in ipairs(vim.split(text or "", "\n", { plain = true })) do
 		local line = vim.trim(l or "")
@@ -200,37 +202,11 @@ function M.render_lines()
 end
 
 function M.show()
-	local bufname = "codex://guardrails"
-	local bufnr = vim.fn.bufnr(bufname)
-
-	if bufnr == -1 then
-		vim.cmd("botright new")
-		bufnr = vim.api.nvim_get_current_buf()
-		vim.api.nvim_buf_set_name(bufnr, bufname)
-	else
-		vim.cmd("botright sbuffer " .. bufnr)
-	end
-
-	pcall(vim.treesitter.stop, bufnr)
-
-	vim.bo[bufnr].buftype = "nofile"
-	vim.bo[bufnr].bufhidden = "wipe"
-	vim.bo[bufnr].swapfile = false
-	vim.bo[bufnr].filetype = "markdown"
-
-	vim.bo[bufnr].modifiable = true
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, M.render_lines())
-	vim.bo[bufnr].modifiable = false
-
-	vim.keymap.set("n", "q", function()
-		if vim.api.nvim_buf_is_valid(bufnr) then
-			vim.api.nvim_buf_delete(bufnr, { force = true })
-		end
-	end, {
-		buffer = bufnr,
-		silent = true,
-		noremap = true,
-		desc = "Close Codex guardrails",
+	return window.open({
+		name = "codex://guardrails",
+		lines = M.render_lines(),
+		filetype = "markdown",
+		close_desc = "Close Codex guardrails",
 	})
 end
 

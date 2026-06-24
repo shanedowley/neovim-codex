@@ -1,5 +1,7 @@
 local M = {}
 
+local window = require("codex.window")
+
 local state = {
 	status = "unknown",
 	op = nil,
@@ -177,48 +179,12 @@ function M.render_history_lines()
 end
 
 local function open_report_buffer(lines, bufname, filetype)
-	bufname = bufname or "codex://state"
-	filetype = filetype or "markdown"
-
-	local bufnr = vim.fn.bufnr(bufname)
-
-	if bufnr == -1 then
-		vim.cmd("botright new")
-		bufnr = vim.api.nvim_get_current_buf()
-		vim.api.nvim_buf_set_name(bufnr, bufname)
-	else
-		vim.cmd("botright sbuffer " .. bufnr)
-	end
-
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-	vim.bo[bufnr].buftype = "nofile"
-	vim.bo[bufnr].bufhidden = "wipe"
-	vim.bo[bufnr].swapfile = false
-	vim.bo[bufnr].filetype = filetype
-
-	vim.keymap.set("n", "q", function()
-		if vim.api.nvim_buf_is_valid(bufnr) then
-			vim.api.nvim_buf_delete(bufnr, { force = true })
-		end
-	end, {
-		buffer = bufnr,
-		silent = true,
-		noremap = true,
-		desc = "Close Codex state",
+	return window.open({
+		name = bufname or "codex://state",
+		lines = lines,
+		filetype = filetype or "markdown",
+		close_desc = "Close Codex state",
 	})
-
-	vim.keymap.set("n", "<Esc>", function()
-		if vim.api.nvim_buf_is_valid(bufnr) then
-			vim.api.nvim_buf_delete(bufnr, { force = true })
-		end
-	end, {
-		buffer = bufnr,
-		silent = true,
-		noremap = true,
-		desc = "Close Codex state",
-	})
-
-	return bufnr
 end
 
 function M.show()

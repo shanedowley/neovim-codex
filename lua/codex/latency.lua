@@ -1,5 +1,7 @@
 local M = {}
 
+local window = require("codex.window")
+
 local function log_path()
 	return vim.fn.expand(vim.fn.stdpath("state") .. "/codex.log")
 end
@@ -256,24 +258,12 @@ function M.render_lines()
 end
 
 local function open_report_buffer(lines)
-	local bufname = "codex://latency"
-	local bufnr = vim.fn.bufnr(bufname)
-
-	if bufnr == -1 then
-		vim.cmd("botright new")
-		bufnr = vim.api.nvim_get_current_buf()
-		vim.api.nvim_buf_set_name(bufnr, bufname)
-	else
-		vim.cmd("botright sbuffer " .. bufnr)
-	end
-
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-	vim.bo[bufnr].buftype = "nofile"
-	vim.bo[bufnr].bufhidden = "wipe"
-	vim.bo[bufnr].swapfile = false
-	vim.bo[bufnr].filetype = "markdown"
-
-	return bufnr
+	return window.open({
+		name = "codex://latency",
+		lines = lines,
+		filetype = "markdown",
+		close_desc = "Close Codex latency",
+	})
 end
 
 function M.show()
@@ -281,4 +271,3 @@ function M.show()
 end
 
 return M
-

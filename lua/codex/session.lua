@@ -1,6 +1,7 @@
 local M = {}
 
 local memory = require("codex_memory")
+local window = require("codex.window")
 
 local function format_timestamp(ts)
 	if not ts then
@@ -24,46 +25,12 @@ local function append_multiline(lines, text)
 end
 
 local function open_report_buffer(lines)
-	local bufname = "codex://last-op"
-	local bufnr = vim.fn.bufnr(bufname)
-
-	if bufnr == -1 then
-		vim.cmd("botright new")
-		bufnr = vim.api.nvim_get_current_buf()
-		vim.api.nvim_buf_set_name(bufnr, bufname)
-	else
-		vim.cmd("botright sbuffer " .. bufnr)
-	end
-
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-	vim.bo[bufnr].buftype = "nofile"
-	vim.bo[bufnr].bufhidden = "wipe"
-	vim.bo[bufnr].swapfile = false
-	vim.bo[bufnr].filetype = "markdown"
-
-	vim.keymap.set("n", "q", function()
-		if vim.api.nvim_buf_is_valid(bufnr) then
-			vim.api.nvim_buf_delete(bufnr, { force = true })
-		end
-	end, {
-		buffer = bufnr,
-		silent = true,
-		noremap = true,
-		desc = "Close Codex last operation",
+	return window.open({
+		name = "codex://last-op",
+		lines = lines,
+		filetype = "markdown",
+		close_desc = "Close Codex last operation",
 	})
-
-	vim.keymap.set("n", "<Esc>", function()
-		if vim.api.nvim_buf_is_valid(bufnr) then
-			vim.api.nvim_buf_delete(bufnr, { force = true })
-		end
-	end, {
-		buffer = bufnr,
-		silent = true,
-		noremap = true,
-		desc = "Close Codex last operation",
-	})
-
-	return bufnr
 end
 
 function M.read_last_op()

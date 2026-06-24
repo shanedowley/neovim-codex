@@ -1,5 +1,7 @@
 local M = {}
 
+local window = require("codex.window")
+
 local failure = require("codex.failure")
 local last_failure = nil
 
@@ -23,63 +25,12 @@ local function basename(path)
 end
 
 local function open_scratch(lines, title, filetype)
-	title = title or "Codex Recovery"
-	filetype = filetype or "markdown"
-
-	local bufname = "codex-recovery://last"
-	local bufnr = vim.fn.bufnr(bufname)
-
-	if bufnr == -1 or not vim.api.nvim_buf_is_valid(bufnr) then
-		bufnr = vim.api.nvim_create_buf(false, true)
-		vim.api.nvim_buf_set_name(bufnr, bufname)
-
-		vim.bo[bufnr].buftype = "nofile"
-		vim.bo[bufnr].bufhidden = "wipe"
-		vim.bo[bufnr].swapfile = false
-		vim.bo[bufnr].filetype = filetype
-
-		pcall(vim.treesitter.stop, bufnr)
-
-		vim.keymap.set("n", "q", function()
-			if vim.api.nvim_buf_is_valid(bufnr) then
-				vim.api.nvim_buf_delete(bufnr, { force = true })
-			end
-		end, {
-			buffer = bufnr,
-			silent = true,
-			noremap = true,
-			desc = "Close Codex recovery",
-		})
-	end
-
-	local target_win = nil
-
-	for _, win in ipairs(vim.api.nvim_list_wins()) do
-		if vim.api.nvim_win_get_buf(win) == bufnr then
-			if not target_win then
-				target_win = win
-			else
-				pcall(vim.api.nvim_win_close, win, true)
-			end
-		end
-	end
-
-	if target_win then
-		vim.api.nvim_set_current_win(target_win)
-	else
-		vim.cmd("botright split")
-		vim.api.nvim_win_set_buf(0, bufnr)
-	end
-
-	pcall(vim.treesitter.stop, bufnr)
-
-	vim.bo[bufnr].readonly = false
-	vim.bo[bufnr].modifiable = true
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines or {})
-	vim.bo[bufnr].modifiable = false
-	vim.bo[bufnr].readonly = true
-
-	return bufnr
+	return window.open({
+		name = "codex-recovery://last",
+		lines = lines,
+		filetype = filetype or "markdown",
+		close_desc = "Close Codex recovery",
+	})
 end
 
 local function has_meaningful_lines(lines)
