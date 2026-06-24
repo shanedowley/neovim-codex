@@ -160,4 +160,78 @@ function M.rejects_preprocessor_injection(lines)
 	return true, out
 end
 
+function M.describe()
+	return {
+		{
+			name = "too_large_rewrite",
+			purpose = "Reject empty or unexpectedly large rewrite output.",
+			scope = "rewrite/apply safety",
+		},
+		{
+			name = "rejects_preprocessor_injection",
+			purpose = "Reject injected #include, #define, or #pragma lines.",
+			scope = "C/C++ safety",
+		},
+		{
+			name = "violates_refactor_single_function",
+			purpose = "Reject refactors that remove the function, add helper functions, or rename the original function.",
+			scope = "single-function refactor safety",
+		},
+	}
+end
+
+function M.render_lines()
+	local lines = {
+		"Codex Guardrails",
+		"================",
+		"",
+		"Active guardrails:",
+		"",
+	}
+
+	for _, guardrail in ipairs(M.describe()) do
+		lines[#lines + 1] = "- " .. guardrail.name
+		lines[#lines + 1] = "  scope:   " .. guardrail.scope
+		lines[#lines + 1] = "  purpose: " .. guardrail.purpose
+		lines[#lines + 1] = ""
+	end
+
+	return lines
+end
+
+function M.show()
+	local bufname = "codex://guardrails"
+	local bufnr = vim.fn.bufnr(bufname)
+
+	if bufnr == -1 then
+		vim.cmd("botright new")
+		bufnr = vim.api.nvim_get_current_buf()
+		vim.api.nvim_buf_set_name(bufnr, bufname)
+	else
+		vim.cmd("botright sbuffer " .. bufnr)
+	end
+
+	pcall(vim.treesitter.stop, bufnr)
+
+	vim.bo[bufnr].buftype = "nofile"
+	vim.bo[bufnr].bufhidden = "wipe"
+	vim.bo[bufnr].swapfile = false
+	vim.bo[bufnr].filetype = "markdown"
+
+	vim.bo[bufnr].modifiable = true
+	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, M.render_lines())
+	vim.bo[bufnr].modifiable = false
+
+	vim.keymap.set("n", "q", function()
+		if vim.api.nvim_buf_is_valid(bufnr) then
+			vim.api.nvim_buf_delete(bufnr, { force = true })
+		end
+	end, {
+		buffer = bufnr,
+		silent = true,
+		noremap = true,
+		desc = "Close Codex guardrails",
+	})
+end
+
 return M

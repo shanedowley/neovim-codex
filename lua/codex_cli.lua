@@ -1565,6 +1565,10 @@ function M.health_check()
 	require("codex.health").show()
 end
 
+function M.show_guardrails()
+	require("codex_guard").show()
+end
+
 function M.show_state()
 	require("codex.state").show()
 end
@@ -1612,6 +1616,11 @@ vim.api.nvim_create_user_command("CodexHealthCheck", function()
 	else
 		vim.notify("Codex health: NOT PASS", vim.log.levels.ERROR, { title = "Codex" })
 	end
+end, {})
+
+pcall(vim.api.nvim_del_user_command, "CodexGuardrails")
+vim.api.nvim_create_user_command("CodexGuardrails", function()
+	require("codex_cli").show_guardrails()
 end, {})
 
 pcall(vim.api.nvim_del_user_command, "CodexState")
