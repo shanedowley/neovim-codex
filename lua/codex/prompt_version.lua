@@ -12,6 +12,16 @@ local PROMPT_NAMES = {
 	"entire_file_rewrite",
 }
 
+local function fingerprint(content)
+	content = tostring(content or "")
+
+	if vim.fn.exists("*sha256") == 1 then
+		return vim.fn.sha256(content)
+	end
+
+	return "unavailable"
+end
+
 local function display_source_label(source)
 	source = tostring(source or "unknown")
 
@@ -45,6 +55,7 @@ function M.read()
 			source = source,
 			source_label = display_source_label(source),
 			length = #(content or ""),
+			fingerprint = fingerprint(content),
 		}
 	end
 
@@ -76,6 +87,7 @@ function M.render_lines()
 		lines[#lines + 1] = "  source: " .. tostring(item.source_label or item.source or "-")
 		lines[#lines + 1] = "  path:   " .. tostring(item.path or "-")
 		lines[#lines + 1] = "  length: " .. tostring(item.length or 0)
+		lines[#lines + 1] = "  sha256: " .. tostring(item.fingerprint or "-")
 	end
 
 	return lines
@@ -107,3 +119,4 @@ function M.show()
 end
 
 return M
+
