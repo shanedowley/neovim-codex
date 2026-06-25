@@ -23,11 +23,11 @@ The installation model prioritizes:
 
 # Supported Platforms
 
-| Platform | Status |
-| -------- | ------ |
-| macOS | Supported |
-| Linux | Experimental |
-| Windows | Unsupported |
+| Platform | Status       |
+| -------- | ------------ |
+| macOS    | Supported    |
+| Linux    | Experimental |
+| Windows  | Unsupported  |
 
 Release 1.1 is primarily developed and tested on:
 
@@ -43,20 +43,21 @@ Linux support is currently experimental.
 
 ## Required Dependencies
 
-| Dependency | Purpose |
-| ---------- | ------- |
-| Neovim 0.11+ | Editor runtime |
-| git | Plugin and repository management |
-| clang | Validation pipeline |
-| diff | Diff generation and preview |
+| Dependency   | Purpose                          |
+| ------------ | -------------------------------- |
+| Neovim 0.11+ | Editor runtime                   |
+| git          | Plugin and repository management |
+| clang        | Validation pipeline              |
+| diff         | Diff generation and preview      |
+| Codex CLI    | AI-assisted model execution      |
 
 ---
 
 ## AI Workflow Dependency
 
-| Dependency | Purpose |
-| ---------- | ------- |
-| Codex CLI | AI-assisted workflows |
+| Dependency | Purpose               |
+| ---------- | --------------------- |
+| Codex CLI  | AI-assisted workflows |
 
 Without Codex CLI:
 
@@ -67,10 +68,10 @@ Without Codex CLI:
 
 ## Optional Dependencies
 
-| Dependency | Purpose |
-| ---------- | ------- |
-| Node.js | JavaScript tooling |
-| npm | JS debug adapter ecosystem |
+| Dependency | Purpose                                |
+| ---------- | -------------------------------------- |
+| Node.js    | JavaScript tooling and debug workflows |
+| npm        | JavaScript package/tooling ecosystem   |
 
 ---
 
@@ -120,13 +121,13 @@ git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
 Example location:
 
 ```text
-./scripts/bootstrap-nvim-codex-r1_1.sh
+./scripts/bootstrap.sh
 ```
 
 Ensure executable permissions:
 
 ```bash
-chmod +x ./scripts/bootstrap-nvim-codex-r1_1.sh
+chmod +x ./scripts/bootstrap.sh
 ```
 
 ---
@@ -158,7 +159,7 @@ Runs:
 Example:
 
 ```bash
-./scripts/bootstrap-nvim-codex-r1_1.sh --check
+./scripts/bootstrap.sh --check
 ```
 
 Expected healthy output:
@@ -191,7 +192,7 @@ Runs:
 Example:
 
 ```bash
-./scripts/bootstrap-nvim-codex-r1_1.sh --sync
+./scripts/bootstrap.sh --sync
 ```
 
 This mode may:
@@ -236,7 +237,7 @@ Tests:
 Example:
 
 ```bash
-./scripts/bootstrap-nvim-codex-r1_1.sh --test-health-gate
+./scripts/bootstrap.sh --test-health-gate
 ```
 
 Expected healthy output:
@@ -354,7 +355,7 @@ git pull
 ## 4. Run Bootstrap Sync
 
 ```bash
-./scripts/bootstrap-nvim-codex-r1_1.sh --sync
+./scripts/bootstrap.sh --sync
 ```
 
 ---
@@ -384,7 +385,7 @@ cp lazy-lock.json.backup lazy-lock.json
 ## Re-run Sync
 
 ```bash
-./scripts/bootstrap-nvim-codex-r1_1.sh --sync
+./scripts/bootstrap.sh --sync
 ```
 
 ---
@@ -542,10 +543,11 @@ No silent auto-apply workflow exists.
 
 # Related Documentation
 
-| Document | Purpose |
-| -------- | ------- |
-| `README.md` | Project overview and quick start |
-| `ARCHITECTURE.md` | System architecture and operational model |
-| `CONTRIBUTING.md` | Contribution guidelines |
+| Document                | Purpose                                     |
+| ----------------------- | ------------------------------------------- |
+| `README.md`             | Project overview and quick start            |
+| `ARCHITECTURE.md`       | System architecture and operational model   |
+| `CONTRIBUTING.md`       | Contribution guidelines                     |
 | `RELEASE_NOTES_R1_1.md` | Release 1.1 changes and upgrade information |
-| `LICENSE` | License information |
+| `LICENSE`               | License information                         |
+

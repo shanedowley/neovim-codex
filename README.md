@@ -299,19 +299,19 @@ git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
 Fast validation:
 
 ```bash
-./scripts/bootstrap-nvim-codex-r1_1.sh --check
+./scripts/bootstrap.sh --check
 ```
 
 Full sync:
 
 ```bash
-./scripts/bootstrap-nvim-codex-r1_1.sh --sync
+./scripts/bootstrap.sh --sync
 ```
 
 Health gate integrity test:
 
 ```bash
-./scripts/bootstrap-nvim-codex-r1_1.sh --test-health-gate
+./scripts/bootstrap.sh --test-health-gate
 ```
 
 ## 3. Launch Neovim

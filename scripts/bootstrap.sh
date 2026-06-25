@@ -14,8 +14,8 @@ NVIM_DATA_DIR="$XDG_DATA_HOME/nvim"
 NVIM_STATE_DIR="$XDG_STATE_HOME/nvim"
 NVIM_CACHE_DIR="$XDG_CACHE_HOME/nvim"
 
-echo "=== Neovim-Codex Release 1.1 Bootstrap ==="
-echo "AI-Assisted Engineering System Environment Check"
+echo "=== Neovim-Codex R1.2 Bootstrap ==="
+echo "Software Engineering Environment Check"
 echo
 
 echo "This script validates:"
@@ -43,13 +43,13 @@ ok() {
 usage() {
   cat <<'EOF'
 Usage:
-  ./scripts/bootstrap-nvim-codex-r1_1.sh --check
+  ./scripts/bootstrap.sh --check
       Fast validation + healthcheck report
 
-  ./scripts/bootstrap-nvim-codex-r1_1.sh --sync
+  ./scripts/bootstrap.sh --sync
       Full plugin sync + validation + healthcheck report
 
-  ./scripts/bootstrap-nvim-codex-r1_1.sh --test-health-gate
+  ./scripts/bootstrap.sh --test-health-gate
       Verify runner blocks when health is not PASS
 EOF
 }
@@ -145,7 +145,7 @@ echo
 echo "[2/8] Checking required dependencies..."
 echo
 
-require_command "nvim" "nvim not found. Install Neovim 0.10+ first."
+require_command "nvim" "nvim not found. Install Neovim 0.11+ first."
 require_command "git" "git not found. Install Git first."
 require_command "clang" "clang not found. On macOS run: xcode-select --install. On Linux install clang via your package manager."
 require_command "diff" "diff not found. Install a POSIX-compatible diff utility."
@@ -284,4 +284,5 @@ echo "  2. Run :CodexHealth"
 echo "  3. Open a source file"
 echo "  4. Try <leader>cE on a line of code"
 echo
-echo "Neovim-Codex Release 1.1 bootstrap finished."
+echo "Neovim-Codex R1.2 bootstrap finished."
+
