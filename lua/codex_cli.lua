@@ -1474,41 +1474,47 @@ function M.show_commands()
 end
 
 function M.show_context()
-	local block = require("codex.context").render_block(0)
+	local context = require("codex.context")
+	local window = require("codex.window")
 
-	local lines
-	if not block or block == "" then
-		lines = {
-			"Codex Project Context",
-			"=====================",
-			"",
-			"Context injection is disabled or no context is available.",
-		}
-	else
-		lines = {
-			"Codex Project Context",
-			"=====================",
-			"",
-		}
+	local info = context.collect(0)
+	local block = context.render_block(0)
+
+	local markers = "none"
+	if info.markers and #info.markers > 0 then
+		markers = table.concat(info.markers, ", ")
+	end
+
+	local status = info.enabled and "Enabled" or "Disabled"
+
+	local lines = {
+		"Codex Project Context",
+		"=====================",
+		"",
+		"Status:        " .. status,
+		"Project root:  " .. tostring(info.project_root or "-"),
+		"Current file:  " .. tostring(info.file or "-"),
+		"Relative file: " .. tostring(info.relative_file or "-"),
+		"Filetype:      " .. tostring(info.filetype or "-"),
+		"Markers:       " .. markers,
+		"",
+		"Injected block",
+		"--------------",
+		"",
+	}
+
+	if block and block ~= "" then
 		vim.list_extend(lines, vim.split(block, "\n", { plain = true }))
-	end
-
-	local bufname = "codex://context"
-	local bufnr = vim.fn.bufnr(bufname)
-
-	if bufnr == -1 then
-		vim.cmd("botright new")
-		bufnr = vim.api.nvim_get_current_buf()
-		vim.api.nvim_buf_set_name(bufnr, bufname)
 	else
-		vim.cmd("botright sbuffer " .. bufnr)
+		lines[#lines + 1] = "Project Context is disabled. No context block will be added to prompts."
 	end
 
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-	vim.bo[bufnr].buftype = "nofile"
-	vim.bo[bufnr].bufhidden = "wipe"
-	vim.bo[bufnr].swapfile = false
-	vim.bo[bufnr].filetype = "markdown"
+	window.open({
+		name = "codex://context",
+		lines = lines,
+		filetype = "markdown",
+		close_desc = "Close Codex project context",
+	})
 end
 
 function M.explain_failure()
