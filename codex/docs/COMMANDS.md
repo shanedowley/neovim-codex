@@ -4,14 +4,22 @@
 
 | Command               | Purpose                                     |
 | --------------------- | ------------------------------------------- |
-| `:CodexRepeat`        | Repeat the last remembered Codex operation. |
-| `:CodexLastOp`        | Show the last remembered Codex operation.   |
 | `:CodexMode`          | Set the current Codex mode.                 |
 | `:CodexModeCycle`     | Cycle through available Codex modes.        |
 | `:CodexModeList`      | List available Codex modes.                 |
 | `:CodexContext`       | Show current project context block.         |
 | `:CodexToggleContext` | Toggle project context injection.           |
 | `:CodexCommands`      | Open the in-Neovim Codex command reference. |
+
+---
+
+## Session Memory
+
+| Command             | Purpose                                     |
+| ------------------- | ------------------------------------------- |
+| `:CodexLastOp`      | Show the last remembered Codex operation.   |
+| `:CodexLastOpClear` | Clear the remembered last Codex operation.  |
+| `:CodexRepeat`      | Repeat the last remembered Codex operation. |
 
 ---
 
@@ -23,6 +31,7 @@
 | `:CodexHealthCheck`   | Show quick PASS/FAIL health status.             |
 | `:CodexState`         | Show current workflow state.                    |
 | `:CodexStateHistory`  | Show recent workflow state transitions.         |
+| `:CodexGuardrails`    | Show active Codex safety guardrails.            |
 | `:CodexLatency`       | Show latency summary and recent latency events. |
 | `:CodexLog`           | Open the Codex operational log.                 |
 | `:CodexPromptVersion` | Show active Codex prompt version information.   |
@@ -34,6 +43,7 @@
 | Command                | Purpose                                                  |
 | ---------------------- | -------------------------------------------------------- |
 | `:CodexRecovery`       | Show the last captured failure report.                   |
+| `:CodexRecoveryClear`  | Clear the last captured failure report.                  |
 | `:CodexExplainFailure` | Ask Codex to explain the last safe, explainable failure. |
 
 ---
