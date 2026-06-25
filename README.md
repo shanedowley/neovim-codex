@@ -1,10 +1,13 @@
-# Neovim-Codex
+# Neovim-Codex R1.2
 
-AI-Assisted Engineering System (AIES) for Neovim.
+## Introduction
 
-Release 1.1
+A Software Engineering Environment for Neovim built around validation, observability, explicit user control and operational safeguards.
+Human-controlled. AI-assisted.
 
 Current stable release.
+
+Release 1.2
 
 Neovim-Codex is designed for people who want AI-assisted workflows that remain:
 
@@ -28,9 +31,65 @@ The goal is not autonomous coding.
 
 The goal is trustworthy AI-assisted engineering.
 
+## Quick Start
+
+Clone the repository into your Neovim configuration directory:
+
+```bash
+git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
+cd ~/.config/nvim
+```
+
+Run the bootstrap validation:
+
+```bash
+./scripts/bootstrap.sh --check
+```
+
+Launch Neovim and verify the installation:
+
+```vim
+:CodexHealth
+```
+
+Open a source file and try your first AI-assisted operation:
+
+```text
+<leader>cE
+```
+
+For complete installation and upgrade instructions, see `INSTALL.md`.
+
 Unlike typical AI editor integrations, Neovim-Codex enforces preview-before-apply workflows, validation gates, operational logging, runtime health validation, and explicit user approval before mutation.
 
 This project is architected as an AI-integrated engineering system rather than a generic AI editor plugin.
+
+---
+
+# Requirements
+
+## Required
+
+- Neovim 0.11+
+- git
+- clang
+- diff
+- Codex CLI
+- authenticated OpenAI account
+
+## Recommended
+
+- Neovim 0.12.x
+- macOS Apple Silicon
+
+## Optional
+
+- Node.js
+- npm
+
+Node.js and npm are only required for JavaScript-related debugging, testing, and development workflows.
+
+Without Codex CLI authentication, AI-assisted workflows are unavailable.
 
 ---
 
@@ -70,9 +129,9 @@ Neovim-Codex is designed for people who value:
 
 ---
 
-## Release 1.1 Highlights
+## Release Highlights
 
-Release 1.1 introduces:
+This release includes:
 
 - startup without blocking healthchecks
 - Stale-While-Revalidate health validation
@@ -164,7 +223,7 @@ Health validation occurs only at point-of-use when a Codex workflow is executed.
 
 # Runtime Health Model
 
-Release 1.1 introduces a Stale-While-Revalidate health model.
+Neovim-Codex uses a Stale-While-Revalidate health model.
 
 What this means:
 
@@ -199,7 +258,7 @@ Revalidate
 Perform a real healthcheck only at point-of-use
 ```
 
-This design was introduced in Release 1.1 to eliminate startup delays while preserving the correctness guarantees of the execution gate.
+This design eliminates startup delays while preserving the correctness guarantees of the execution gate.
 
 ---
 
@@ -251,7 +310,7 @@ Failures are treated as operational events rather than hidden behaviour.
 | Linux    | Experimental |
 | Windows  | Unsupported  |
 
-Release 1.1 is developed and tested primarily on macOS Apple Silicon.
+Neovim-Codex is currently developed and tested primarily on macOS Apple Silicon.
 
 Linux support is an active future direction.
 
@@ -259,34 +318,7 @@ Windows support is planned as part of a future cross-platform strategy.
 
 ---
 
-# Requirements
-
-## Required
-
-- Neovim 0.11+
-- git
-- clang
-- diff
-- Codex CLI
-- authenticated OpenAI account
-
-## Recommended
-
-- Neovim 0.12.x
-- macOS Apple Silicon
-
-## Optional
-
-- Node.js
-- npm
-
-Node.js and npm are only required for JavaScript-related debugging, testing, and development workflows.
-
-Without Codex CLI authentication, AI-assisted workflows are unavailable.
-
----
-
-# Quick Start
+# Installation Walkthrough
 
 ## 1. Clone the Repository
 
@@ -330,7 +362,7 @@ Immediately after launch, the statusline will display:
 
 This is expected.
 
-Release 1.1 uses a Stale-While-Revalidate health model.
+Neovim-Codex uses a Stale-While-Revalidate health model.
 
 No real healthcheck is performed during startup.
 
@@ -564,93 +596,6 @@ Treat failures as inspectable engineering events.
 
 ---
 
-# Current Release 1.1 Scope
-
-Release 1.1 focuses on strengthening Neovim-Codex as an AI-Assisted Engineering System (AIES).
-
-The primary goals of Release 1.1 are:
-
-- improved operational observability
-- improved runtime responsiveness
-- improved workflow visibility
-- improved diagnostics
-- improved recovery behaviour
-- stronger documentation
-- improved user confidence
-
-## Core Areas
-
-Release 1.1 focuses on:
-
-- macOS
-- Neovim
-- C/C++ engineering workflows
-- AI-assisted code explainability
-- safe AI-assisted refactoring
-- runtime health validation
-- workflow state visibility
-- structured operational telemetry
-- latency instrumentation
-- failure recovery workflows
-- human-in-the-loop engineering
-
-## Runtime Health Model
-
-Release 1.1 introduces a Stale-While-Revalidate health model.
-
-Startup never performs a blocking healthcheck.
-
-Neovim remains immediately usable.
-
-Health validation occurs only at point-of-use when a Codex workflow is executed.
-
-This design improves responsiveness while preserving execution safety.
-
-## Workflow Visibility
-
-Release 1.1 introduces visible workflow and health states.
-
-```text
-? Codex Unknown
-🩺 Codex Healthcheck Running
-⚙ Codex Running
-👁 Codex Preview
-🧪 Codex Validating
-✓ Codex Ready
-✖ Codex Blocked
-```
-
-Operational states always take precedence over health states.
-
-This visibility forms part of the observability model of the system.
-
-## Human-in-the-Loop Engineering
-
-Generated output is:
-
-- reviewable
-- inspectable
-- recoverable
-- approval-gated
-
-No silent apply path exists.
-
-Human judgement remains part of the workflow.
-
-## Out of Scope
-
-The following areas remain future work:
-
-- Windows support
-- broader language support
-- multi-provider AI backends
-- OpenRouter integration
-- OpenCode integration
-- cloud-assisted workflows
-- advanced workflow automation
-
----
-
 # Future Direction
 
 ## Platform Expansion
@@ -713,7 +658,7 @@ Neovim-Codex is built in that tradition.
 
 # Closing Notes
 
-Neovim-Codex Release 1.1 represents a deliberate attempt to build AI-assisted engineering workflows that remain:
+Neovim-Codex represents a deliberate attempt to build AI-assisted engineering workflows that remain:
 
 - observable
 - reviewable
@@ -749,4 +694,3 @@ The human remains responsible for the decision.
 The system exists to make that decision safer, clearer, and more informed.
 
 Neovim-Codex is an ongoing exploration of how AI can strengthen engineering practice without weakening human responsibility.
-
