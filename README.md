@@ -1,13 +1,13 @@
-# Neovim-Codex R1.2
+# Neovim-Codex
+
+> Engineering first. AI second.
 
 ## Introduction
 
 A Software Engineering Environment for Neovim built around validation, observability, explicit user control and operational safeguards.
 Human-controlled. AI-assisted.
 
-Current stable release.
-
-Release 1.2
+Current Release: R1.2
 
 Neovim-Codex is designed for people who want AI-assisted workflows that remain:
 
@@ -17,9 +17,9 @@ Neovim-Codex is designed for people who want AI-assisted workflows that remain:
 - recoverable
 - reproducible
 
-Most AI coding tools optimise for speed and automation.
+Many AI coding tools optimise for speed and automation.
 
-Neovim-Codex instead optimises for:
+Neovim-Codex optimises for:
 
 - engineering confidence
 - operational safety
@@ -52,15 +52,13 @@ Launch Neovim and verify the installation:
 :CodexHealth
 ```
 
-Open a source file and try your first AI-assisted operation:
+Open any C or C++ source file, visually select some code, then press:
 
 ```text
 <leader>cE
 ```
 
 For complete installation and upgrade instructions, see `INSTALL.md`.
-
-Unlike typical AI editor integrations, Neovim-Codex enforces preview-before-apply workflows, validation gates, operational logging, runtime health validation, and explicit user approval before mutation.
 
 This project is architected as an AI-integrated engineering system rather than a generic AI editor plugin.
 
@@ -89,7 +87,10 @@ This project is architected as an AI-integrated engineering system rather than a
 
 Node.js and npm are only required for JavaScript-related debugging, testing, and development workflows.
 
-Without Codex CLI authentication, AI-assisted workflows are unavailable.
+### Notes
+
+- Codex CLI must already be authenticated.
+- Node.js is only required for JavaScript workflows.
 
 ---
 
@@ -113,6 +114,42 @@ AI is not the workflow.
 AI is one component within the workflow.
 
 Human judgement remains the final authority.
+
+---
+
+## Typical Engineering Workflow
+
+Neovim-Codex treats AI as one stage within a controlled engineering workflow rather than the workflow itself.
+
+```text
+          Source Code
+               │
+               ▼
+        Select Code
+               │
+               ▼
+       Invoke Codex Workflow
+               │
+               ▼
+      Preview Proposed Changes
+               │
+               ▼
+      Validate Generated Output
+               │
+               ▼
+     Explicit Human Approval
+               │
+               ▼
+          Apply Changes
+```
+
+Every workflow is designed to preserve the three core engineering principles of the system:
+
+- **Correctness** — generated changes are validated before application.
+- **Control** — no source code is modified without explicit user approval.
+- **Traceability** — operational behaviour is observable, logged, and reviewable.
+
+AI contributes to the workflow, but it never replaces engineering judgement.
 
 ---
 
@@ -145,21 +182,28 @@ This release includes:
 
 # Key Features
 
-- Preview-before-apply AI workflows
-- Explicit human approval gates
-- clang / clang++ validation
-- Structured operational telemetry
-- Recoverable failure handling
-- Protected buffer workflows
-- Diff-based review system
-- Explainability workflows for legacy code
-- Safe refactoring workflows for C/C++
-- Runtime health diagnostics
-- Point-of-use health validation
-- Stale-While-Revalidate health cache
-- Workflow state visibility
-- Streaming Codex output
-- Latency instrumentation
+## Safe Engineering
+
+- Preview before apply
+- Validation gates
+- Explicit approval
+
+## Observability
+
+- Telemetry
+- Workflow state
+- Health model
+
+## Recovery
+
+- Failure capture
+- Recovery reports
+
+## Developer Experience
+
+- Streaming AI output
+- Legacy code explainability
+- Interactive engineering workflows
 
 ---
 
@@ -318,12 +362,13 @@ Windows support is planned as part of a future cross-platform strategy.
 
 ---
 
-# Installation Walkthrough
+# First Run Walkthrough
 
 ## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
+cd ~/.config/nvim
 ```
 
 ## 2. Run Bootstrap Validation
@@ -404,6 +449,37 @@ Expected state progression:
 ```
 
 You have now successfully executed your first Neovim-Codex workflow.
+
+---
+
+# Documentation
+
+## Getting Started
+
+- `INSTALL.md` — installation, bootstrap, and first-run setup
+
+## Architecture
+
+- `ARCHITECTURE.md` — architectural principles, workflow model, health model, state model, and operational design
+
+## Operations
+
+- `codex/docs/OPERATIONS.md` — operational procedures, diagnostics, recovery, and maintenance
+
+## Release Documentation
+
+- `RELEASE_NOTES_RC1_0.md` — historical Release Candidate 1.0 notes
+- `codex/docs/RELEASE_SCOPE.md` — release scope and backlog tracking
+
+## Repository Documentation
+
+- `codex/docs/REPO_AUDIT.md` — repository structure, audit findings, and engineering review notes
+
+## In-Editor Help
+
+- `:CodexCommands`
+- `:CodexHealth`
+- `:CodexState`
 
 ---
 
@@ -565,38 +641,7 @@ Treat failures as inspectable engineering events.
 
 ---
 
-# Documentation
-
-## Getting Started
-
-- `INSTALL.md` — installation, bootstrap, and first-run setup
-
-## Architecture
-
-- `ARCHITECTURE.md` — architectural principles, workflow model, health model, state model, and operational design
-
-## Operations
-
-- `codex/docs/OPERATIONS.md` — operational procedures, diagnostics, recovery, and maintenance
-
-## Release Documentation
-
-- `RELEASE_NOTES_RC1_0.md` — historical Release Candidate 1.0 notes
-- `codex/docs/RELEASE_SCOPE.md` — release scope and backlog tracking
-
-## Repository Documentation
-
-- `codex/docs/REPO_AUDIT.md` — repository structure, audit findings, and engineering review notes
-
-## In-Editor Help
-
-- `:CodexCommands`
-- `:CodexHealth`
-- `:CodexState`
-
----
-
-# Future Direction
+# Roadmap
 
 ## Platform Expansion
 
