@@ -4,12 +4,12 @@
 
 ## Introduction
 
-A Software Engineering Environment for Neovim built around validation, observability, explicit user control and operational safeguards.
+Neovim-IDE is a software engineering environment for Neovim built around validation, observability, explicit user control and operational safeguards.
 Human-controlled. AI-assisted.
 
 Current Release: R1.2
 
-Neovim-Codex is designed for people who want AI-assisted workflows that remain:
+Neovim-IDE is designed for people who want AI-assisted workflows that remain:
 
 - correct
 - controllable
@@ -19,7 +19,7 @@ Neovim-Codex is designed for people who want AI-assisted workflows that remain:
 
 Many AI coding tools optimise for speed and automation.
 
-Neovim-Codex optimises for:
+Neovim-IDE optimises for:
 
 - engineering confidence
 - operational safety
@@ -96,7 +96,7 @@ Node.js and npm are only required for JavaScript-related debugging, testing, and
 
 ## What is an AI-Assisted Engineering System?
 
-Neovim-Codex treats AI as one component within a larger engineering workflow.
+Neovim-IDE treats AI as one component within a larger engineering workflow.
 
 The system combines:
 
@@ -109,9 +109,7 @@ The system combines:
 
 The result is an engineering system that uses AI while preserving Correctness, Control, and Traceability.
 
-AI is not the workflow.
-
-AI is one component within the workflow.
+AI is not the workflow. It is one component within the workflow.
 
 Human judgement remains the final authority.
 
@@ -119,7 +117,7 @@ Human judgement remains the final authority.
 
 ## Typical Engineering Workflow
 
-Neovim-Codex treats AI as one stage within a controlled engineering workflow rather than the workflow itself.
+Neovim-IDE treats AI as one stage within a controlled engineering workflow rather than the workflow itself.
 
 ```text
           Source Code
@@ -155,7 +153,7 @@ AI contributes to the workflow, but it never replaces engineering judgement.
 
 ## Who This Is For
 
-Neovim-Codex is designed for people who value:
+Neovim-IDE is designed for people who value:
 
 - explicit control over AI-generated changes
 - reviewable mutation workflows
@@ -207,13 +205,11 @@ This release includes:
 
 ---
 
-# Why Neovim-Codex Exists
+# Why Neovim-IDE Exists
 
-Neovim-Codex was built around a simple premise:
+Neovim-IDE was built around a simple premise:
 
-AI-assisted engineering systems should increase confidence, not reduce it.
-
-AI should assist engineering workflows — not bypass them.
+AI-assisted engineering systems should increase confidence, not reduce it. The AI should assist engineering workflows not bypass them.
 
 The system is intentionally designed to favour:
 
@@ -224,11 +220,9 @@ The system is intentionally designed to favour:
 - recoverable failure handling
 - validation before mutation
 
-The user always remains in control.
+The user always remains in control. No silent apply path exists.
 
-No silent apply path exists.
-
-To support this, Neovim-Codex makes workflow state, health state, and operational behaviour visible to the user.
+To support this, Neovim-IDE makes workflow state, health state, and operational behaviour visible to the user.
 
 ---
 
@@ -257,7 +251,7 @@ Operational states always take precedence over health states.
 
 # Startup Behaviour
 
-Neovim-Codex never performs a blocking healthcheck during startup.
+Neovim-IDE never performs a blocking healthcheck during startup.
 
 Startup remains immediately usable.
 
@@ -267,7 +261,7 @@ Health validation occurs only at point-of-use when a Codex workflow is executed.
 
 # Runtime Health Model
 
-Neovim-Codex uses a Stale-While-Revalidate health model.
+Neovim-IDE uses a Stale-While-Revalidate health model.
 
 What this means:
 
@@ -308,7 +302,7 @@ This design eliminates startup delays while preserving the correctness guarantee
 
 # Runtime Status
 
-Neovim-Codex exposes both health state and workflow state to the user.
+Neovim-IDE exposes both health state and workflow state to the user.
 
 Examples:
 
@@ -334,7 +328,7 @@ Generated changes should validate before apply.
 
 ## Control
 
-The user remains in control of all mutation.
+The user remains in control of all changes.
 
 ## Traceability
 
@@ -354,7 +348,7 @@ Failures are treated as operational events rather than hidden behaviour.
 | Linux    | Experimental |
 | Windows  | Unsupported  |
 
-Neovim-Codex is currently developed and tested primarily on macOS Apple Silicon.
+Neovim-IDE is currently developed and tested on macOS Apple Silicon.
 
 Linux support is an active future direction.
 
@@ -407,7 +401,7 @@ Immediately after launch, the statusline will display:
 
 This is expected.
 
-Neovim-Codex uses a Stale-While-Revalidate health model.
+Neovim-IDE uses a Stale-While-Revalidate health model.
 
 No real healthcheck is performed during startup.
 
@@ -433,7 +427,7 @@ Run:
 <leader>cE
 ```
 
-Neovim-Codex will:
+Neovim-IDE will:
 
 1. validate runtime health
 2. transition through workflow states
@@ -448,7 +442,7 @@ Expected state progression:
 ✓ Codex Ready
 ```
 
-You have now successfully executed your first Neovim-Codex workflow.
+You have now successfully executed your first AI-assisted workflow.
 
 ---
 
@@ -485,7 +479,7 @@ You have now successfully executed your first Neovim-Codex workflow.
 
 # Engineering Workflows
 
-Neovim-Codex is organised around engineering workflows rather than isolated commands.
+Neovim-IDE is organised around engineering workflows rather than isolated commands.
 
 Each workflow is designed to support Correctness, Control, and Traceability throughout the software development lifecycle.
 
@@ -499,7 +493,7 @@ Demonstrates:
 - validation before mutation
 - controlled source-code changes
 
-This workflow demonstrates the core AIES principle that generated changes should be reviewed and validated before they are applied.
+This workflow demonstrates the core AI-assisted engineering principle that generated changes should be reviewed and validated before they are applied.
 
 ![D1 Safe Refactor Workflow](docs/assets/demos/d1-safe-refactor.gif)
 
@@ -542,7 +536,7 @@ Demonstrates:
 - operational observability
 - health cache behaviour
 
-This workflow highlights one of the defining characteristics of Neovim-Codex:
+This workflow highlights one of the defining characteristics of Neovim-IDE:
 
 System behaviour remains visible and inspectable.
 
@@ -588,7 +582,7 @@ Demonstrates:
 - controlled automation
 - human decision-making
 
-Neovim-Codex is intentionally designed around a human-in-the-loop model.
+Neovim-IDE is intentionally designed around a human-in-the-loop model.
 
 AI may generate suggestions, but responsibility for engineering decisions remains with the operator.
 
@@ -683,27 +677,27 @@ Treat failures as inspectable engineering events.
 
 # Acknowledgements
 
-Neovim-Codex exists because of the work of those who built the tools, ideas, and engineering traditions upon which it stands.
+Neovim-IDE exists because of the work of those who built the tools, ideas, and engineering traditions upon which it stands.
 
-With gratitude to:
+With much gratitude to:
 
 - Tim Thompson, creator of Stevie
 - Bram Moolenaar, creator of Vim
 
-The lineage from vi to Stevie, Vim, and Neovim helped establish many of the editing philosophies that continue to influence Neovim-Codex today:
+The lineage from vi to Stevie, Vim, and Neovim helped establish many of the editing philosophies that continue to influence Neovim-IDE today:
 
 - composability
 - inspectability
 - user control
 - engineering craftsmanship
 
-Neovim-Codex is built in that tradition.
+Neovim-IDE is built in that tradition.
 
 ---
 
 # Closing Notes
 
-Neovim-Codex represents a deliberate attempt to build AI-assisted engineering workflows that remain:
+Neovim-IDE represents a deliberate attempt to build AI-assisted engineering workflows that remain:
 
 - observable
 - reviewable
@@ -720,22 +714,14 @@ The system is built around three core principles:
 
 ## Ethos
 
-The goal is not autonomous coding.
+- Neovim-IDE is an ongoing exploration of how AI can strengthen engineering practice without weakening or bypassing human judgement.
 
-The goal is engineering confidence.
+- The goal is not autonomous coding. It is engineering confidence.
 
-Neovim-Codex is architected as an AI-integrated engineering system rather than a generic AI editor plugin.
+- Neovim-IDE is architected as an AI-integrated engineering system rather than a generic AI editor plugin, where the AI assists engineering judgement, not replaces it.
 
-AI should assist engineering judgement, not replace it.
+- Generated output should be reviewable.
 
-Generated output should be reviewable.
+- All system behaviour should be observable and failures should be recoverable.
 
-Failures should be recoverable.
-
-System behaviour should be observable.
-
-The human remains responsible for the decision.
-
-The system exists to make that decision safer, clearer, and more informed.
-
-Neovim-Codex is an ongoing exploration of how AI can strengthen engineering practice without weakening human responsibility.
+- Ultimately the human remains responsible for all engineering decisions. The system exists to make those decisions safer, clearer, and more informed.
