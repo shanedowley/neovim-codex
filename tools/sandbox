@@ -1,0 +1,89 @@
+#!/bin/sh
+
+set -eu
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+REPO_ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
+
+SANDBOX_ROOT=/tmp/neovim-codex-sandbox
+
+CONFIG_DIR="$SANDBOX_ROOT/config"
+DATA_DIR="$SANDBOX_ROOT/data"
+STATE_DIR="$SANDBOX_ROOT/state"
+CACHE_DIR="$SANDBOX_ROOT/cache"
+
+create_sandbox() {
+    echo "Creating sandbox..."
+    echo
+
+    mkdir -p \
+        "$CONFIG_DIR" \
+        "$DATA_DIR" \
+        "$STATE_DIR" \
+        "$CACHE_DIR"
+
+    if [ -d "$CONFIG_DIR/nvim" ]; then
+        echo "Sandbox already contains a repository."
+        return
+    fi
+
+    echo "Cloning repository..."
+
+    if git clone "$REPO_ROOT" "$CONFIG_DIR/nvim"; then
+        echo
+        echo "Repository cloned to:"
+        echo "  $CONFIG_DIR/nvim"
+    else
+        echo
+        echo "ERROR: Failed to clone repository."
+        exit 1
+    fi
+}
+
+print_environment() {
+    echo
+    echo "✓ Sandbox ready."
+    echo
+    echo "Location:"
+    echo "  $SANDBOX_ROOT"
+    echo
+    echo "Repository:"
+    echo "  $REPO_ROOT"
+    echo
+    echo "Enter sandbox environment:"
+    echo "  export XDG_CONFIG_HOME=$CONFIG_DIR"
+    echo "  export XDG_DATA_HOME=$DATA_DIR"
+    echo "  export XDG_STATE_HOME=$STATE_DIR"
+    echo "  export XDG_CACHE_HOME=$CACHE_DIR"
+    echo "  cd $CONFIG_DIR/nvim"
+    echo
+    echo "Launch:"
+    echo "  nvim"
+}
+
+print_help() {
+    cat <<EOF
+Neovim-Codex Sandbox
+
+Usage:
+
+    sandbox up
+
+Repository:
+
+    $REPO_ROOT
+
+EOF
+}
+
+case "${1:-help}" in
+
+    up)
+        create_sandbox
+        print_environment
+        ;;
+
+    help|*)
+        print_help
+        ;;
+esac
