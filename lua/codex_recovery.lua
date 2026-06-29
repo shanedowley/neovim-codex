@@ -275,7 +275,7 @@ function M.render_last_failure_lines()
 end
 
 function M.show_last_failure()
-	open_scratch(M.render_last_failure_lines(), "Recovery", "markdown")
+	open_scratch(M.render_last_failure_lines(), "Recovery", "codex")
 end
 
 function M.show_failure(opts)
@@ -287,7 +287,7 @@ function M.show_failure(opts)
 	local level = failure.is_user_cancelled(captured.kind) and vim.log.levels.INFO or vim.log.levels.ERROR
 
 	vim.notify(reason, level, { title = "Codex" })
-	open_scratch(render_failure_lines(captured), title, "markdown")
+	open_scratch(render_failure_lines(captured), title, "codex")
 end
 
 function M.can_explain_with_codex(failure_report)
