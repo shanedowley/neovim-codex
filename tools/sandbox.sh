@@ -40,6 +40,23 @@ create_sandbox() {
     fi
 }
 
+reset_sandbox() {
+    echo "Resetting sandbox..."
+    echo
+
+    rm -rf \
+        "$DATA_DIR" \
+        "$STATE_DIR" \
+        "$CACHE_DIR"
+
+    mkdir -p \
+        "$DATA_DIR" \
+        "$STATE_DIR" \
+        "$CACHE_DIR"
+
+    echo "✓ Sandbox reset complete."
+}
+
 print_environment() {
     echo
     echo "✓ Sandbox ready."
@@ -67,7 +84,8 @@ Neovim-Codex Sandbox
 
 Usage:
 
-    sandbox up
+    sandbox.sh up
+    sandbox.sh reset
 
 Repository:
 
@@ -80,6 +98,11 @@ case "${1:-help}" in
 
     up)
         create_sandbox
+        print_environment
+        ;;
+
+    reset)
+        reset_sandbox
         print_environment
         ;;
 
