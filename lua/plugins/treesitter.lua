@@ -31,7 +31,12 @@ return {
 		highlight = {
 			enable = true,
 			disable = function(lang, buf)
+				local bt = vim.bo[buf].buftype
 				local ft = vim.bo[buf].filetype
+
+				if bt ~= "" then
+					return true
+				end
 
 				if ft == "NvimTree" then
 					return true
