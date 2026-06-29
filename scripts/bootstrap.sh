@@ -40,6 +40,20 @@ ok() {
   echo "✅ $1"
 }
 
+summary() {
+  echo
+  echo "────────────────────────────────────────────"
+  echo "Neovim-Codex Bootstrap Summary"
+  echo "────────────────────────────────────────────"
+  echo "Mode: $MODE"
+  echo "Config: $NVIM_CONFIG_DIR"
+  echo "Data:   $NVIM_DATA_DIR"
+  echo "State:  $NVIM_STATE_DIR"
+  echo
+  ok "Environment validation completed"
+}
+
+
 usage() {
   cat <<'EOF'
 Usage:
@@ -134,7 +148,7 @@ case "$OS" in
     ;;
   Linux)
     ok "Linux detected"
-    warn "Linux support is currently experimental for Release 1.1"
+    warn "Linux support is currently experimental for R1.2"
     ;;
   *)
     fail "Unsupported OS: $OS"
@@ -277,12 +291,15 @@ case "$MODE" in
     ;;
 esac
 
+summary
+
 echo
 echo "Next steps:"
 echo "  1. Launch Neovim"
 echo "  2. Run :CodexHealth"
-echo "  3. Open a source file"
-echo "  4. Try <leader>cE on a line of code"
+echo "  3. Open a C/C++ source file"
+echo "  4. Visually select some code"
+echo "  5. Press <leader>cE"
 echo
 echo "Neovim-Codex R1.2 bootstrap finished."
 
