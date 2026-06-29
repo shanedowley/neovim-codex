@@ -633,13 +633,31 @@ function M.show()
 	local overall = overall_status(results)
 	local counts = count_statuses(results)
 
+	local health_status
+	local health_message
+	local workflow_status
+
+	if overall == "FAIL" then
+		health_status = "blocked"
+		health_message = "✖ Codex Blocked"
+		workflow_status = "failed"
+	else
+		health_status = "ready"
+		health_message = "✓ Codex Ready"
+		workflow_status = "complete"
+	end
+
 	local ok_state, health_state = pcall(require, "codex.health_state")
 	if ok_state and health_state and type(health_state.set) == "function" then
-		if overall == "FAIL" then
-			health_state.set("blocked", "✖ Codex Blocked")
-		else
-			health_state.set("ready", "✓ Codex Ready")
-		end
+		health_state.set(health_status, health_message)
+	end
+
+	local ok_workflow_state, workflow_state = pcall(require, "codex.state")
+	if ok_workflow_state and workflow_state and type(workflow_state.set) == "function" then
+		workflow_state.set(workflow_status, {
+			op = "healthcheck",
+			message = health_message,
+		})
 	end
 
 	local level = vim.log.levels.INFO
