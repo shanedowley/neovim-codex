@@ -116,7 +116,7 @@ Relevant documentation may include:
 
 - `README.md`
 - `docs/releases/RELEASE_NOTES_R1_1.md`
-- `RELEASE_SCOPE.md`
+- `docs/releases/RELEASE_SCOPE_R1_1.md`
 - `docs/ARCHITECTURE.md`
 - `OPERATIONS.md`
 - `COMMANDS.md`

@@ -1,6 +1,6 @@
-# RELEASE_SCOPE.md, draft v2
+# RELEASE_SCOPE_R1_1.md
 
-## Neovim-Codex RC1.0 — Release Scope
+## Neovim-Codex Release 1.1 — Release Scope
 
 ---
 
@@ -11,13 +11,13 @@ Neovim-Codex is an AI-Assisted Engineering System (AIES) for Neovim.
 The system is designed around:
 
 - correctness
-- explicit operator control
+- explicit user control
 - observability
 - validation
 - recoverability
 - deterministic engineering workflows
 
-The project intentionally prioritises safe, inspectable engineering workflows over autonomous behaviour or automation.
+The project intentionally prioritises safe, inspectable engineering workflows over autonomous behaviour and opaque automation.
 
 Neovim-Codex is not an “AI autopilot”.
 
@@ -25,13 +25,13 @@ The user remains in control of all meaningful code changes.
 
 ---
 
-# 2. RC1.0 Definition
+# 2. Release 1.1 Definition
 
-RC1.0 represents the first operationally credible public release candidate of the system.
+Release 1.1 represents the first operationally credible public release candidate of the system.
 
 The release target is:
 
-- for stable daily engineering usage
+- stable daily engineering usage
 - reproducible installation
 - observable workflow execution
 - safe preview/apply flows
@@ -39,14 +39,14 @@ The release target is:
 - recoverable failure handling
 - explicit workflow state visibility
 
-RC1.0 is considered:
+Release 1.1 is considered:
 
 - operationally usable
 - architecturally coherent
 - safety-oriented
 - internally dogfooded
 
-RC1.0 is not:
+Release 1.1 is not:
 
 - feature complete
 - fully cross-platform
@@ -55,7 +55,26 @@ RC1.0 is not:
 
 ---
 
-# 3. Supported Platforms
+# 3. Intended Audience
+
+Neovim-Codex Release 1.1 is intended for:
+
+- users who prefer explicit control over AI workflows
+- users comfortable with terminal and Neovim environments
+- users who value validation, observability, and recoverability
+- users working primarily in C/C++ workflows
+- users who prefer inspectable workflows over autonomous coding systems
+
+Release 1.1 is likely not suitable for:
+
+- beginners unfamiliar with Neovim
+- users seeking fully automated coding agents
+- users expecting GUI-first workflows
+- users unwilling to operate within explicit review/validation flows
+
+---
+
+# 4. Supported Platforms
 
 ## Officially Supported
 
@@ -83,7 +102,7 @@ Expected target environment:
 
 Linux support is planned and partially architected through POSIX-oriented design choices.
 
-However it is not yet considered fully validated for RC1.0.
+However it is not yet considered fully validated for Release 1.1.
 
 Differences between distributions, package layouts, shell environments, and toolchain paths may require manual adjustment.
 
@@ -93,18 +112,19 @@ Differences between distributions, package layouts, shell environments, and tool
 
 ### Windows
 
-Native Windows support is out of scope for RC1.0.
+Native Windows support is out of scope for Release 1.1.
+
 WSL support may be explored in future releases.
 
 ---
 
-# 4. Supported Languages
+# 5. Supported Languages
 
 ## Primary / Validated
 
 ### C / C++
 
-Primary engineering target for RC1.0.
+Primary engineering target for Release 1.1.
 
 Supported capabilities include:
 
@@ -123,11 +143,12 @@ Supported capabilities include:
 ### Lua
 
 Lua support exists primarily to support Neovim configuration and Neovim-Codex system development.
+
 Most workflows operate correctly for Lua-based editing.
 
 ---
 
-## Not Fully Yet Validated
+## Experimental / Not Fully Validated
 
 ### JavaScript
 
@@ -137,14 +158,15 @@ Most workflows operate correctly for Lua-based editing.
 
 ### General text workflows
 
-These workflows may function successfully but are not considered fully validated engineering targets for RC1.0.
+These workflows may function successfully but are not considered fully validated engineering targets for Release 1.1.
+
 Validation guarantees may be reduced outside C/C++ workflows.
 
 ---
 
-# 5. Supported Workflows
+# 6. Supported Workflows
 
-RC1.0 officially supports:
+Release 1.1 officially supports:
 
 - inline rewrite workflows
 - selection rewrite workflows
@@ -162,11 +184,11 @@ RC1.0 officially supports:
 
 ---
 
-# 6. Safety Guarantees
+# 7. Safety Guarantees
 
 Neovim-Codex is designed around explicit safety constraints.
 
-RC1.0 guarantees:
+Release 1.1 guarantees:
 
 ## Human-reviewed changes
 
@@ -176,7 +198,7 @@ No automatic code application occurs without explicit user confirmation in previ
 
 ## Validation before apply
 
-C/C++ rewrites pass through clang validation before change is committed to the active buffer.
+C/C++ rewrites pass through clang validation before changes are committed to the active buffer.
 
 ---
 
@@ -205,13 +227,13 @@ Failures are inspectable after workflow termination.
 
 ## No hidden background automation
 
-The system does not autonomously change repositories, create commits, push changes, or execute0 hidden workflows.
+The system does not autonomously change repositories, create commits, push changes, or execute hidden workflows.
 
 ---
 
-# 7. Explicit Non-Goals
+# 8. Explicit Non-Goals
 
-The following are intentionally out of scope for RC1.0:
+The following are intentionally out of scope for Release 1.1:
 
 - autonomous coding agents
 - silent code changes
@@ -228,9 +250,9 @@ The following are intentionally out of scope for RC1.0:
 
 ---
 
-# 8. Deferred Features
+# 9. Deferred Features
 
-The following areas are intentionally deferred beyond RC1.0:
+The following areas are intentionally deferred beyond Release 1.1:
 
 - Windows support
 - broader Linux validation
@@ -247,7 +269,7 @@ The following areas are intentionally deferred beyond RC1.0:
 
 ---
 
-# 9. Known Limitations
+# 10. Known Limitations
 
 Current known limitations include:
 
@@ -260,10 +282,11 @@ Current known limitations include:
 - documentation still expanding
 - no formal semantic versioning process yet
 - no automated CI pipeline yet
+- vim.tbl_flatten deprecation warning present on Neovim 0.12.x (technical debt)
 
 ---
 
-# 10. Release Philosophy
+# 11. Release Philosophy
 
 Neovim-Codex is intentionally designed as a disciplined engineering system rather than an autonomous AI coding environment.
 
