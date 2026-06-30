@@ -2,6 +2,10 @@
 
 > Engineering first. AI second.
 
+> **An AI-Assisted Software Engineering Environment for Neovim.**
+>
+> **Human-controlled. AI-assisted.**
+
 ## Ethos
 
 - Neovim-AIDE is an ongoing exploration of how AI can strengthen engineering practice without weakening or bypassing human judgement.
@@ -18,7 +22,7 @@
 
 ## Introduction
 
-Neovim-AIDE is a software engineering environment for Neovim built around validation, observability, explicit user control and operational safeguards.
+Neovim-AIDE is a Software Engineering Environment for Neovim built around validation, observability, explicit user control and operational safeguards.
 Human-controlled. AI-assisted.
 
 Current Release: R1.2
@@ -75,6 +79,24 @@ Open any C or C++ source file, visually select some code, then press:
 For complete installation and upgrade instructions, see `INSTALL.md`.
 
 This project is architected as an AI-integrated engineering system rather than a generic AI editor plugin.
+
+## Documentation
+
+The project documentation is organised by audience.
+
+### Users
+
+Documentation covering installation, configuration and day-to-day use.
+
+### Contributors
+
+Documentation covering engineering workflows, validation practices and project architecture.
+
+Start here:
+
+```text
+docs/README.md
+```
 
 ---
 
@@ -189,6 +211,7 @@ This release includes:
 - streaming Codex output
 - improved diagnostics and recovery workflows
 - expanded documentation and operational guidance
+- isolated sandbox validation workflow
 
 ---
 
@@ -211,7 +234,7 @@ This release includes:
 - Failure capture
 - Recovery reports
 
-## Developer Experience
+## Contributor Experience
 
 - Streaming AI output
 - Legacy code explainability
@@ -234,7 +257,7 @@ The system is intentionally designed to favour:
 - recoverable failure handling
 - validation before mutation
 
-The user always remains in control. No silent apply path exists.
+The engineer always remains in control. No silent apply path exists.
 
 To support this, Neovim-AIDE makes workflow state, health state, and operational behaviour visible to the user.
 
