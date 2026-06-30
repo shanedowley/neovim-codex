@@ -2,13 +2,13 @@
 
 ## Purpose
 
-Software engineering becomes significantly more reliable when development and release validation are treated as separate activities.
+Reliable software engineering depends on separating development from release validation.
 
 The Neovim-AIDE Development Sandbox provides a clean, isolated Neovim environment for installation testing, regression testing, release validation and contributor onboarding.
 
-By validating every release candidate inside an isolated environment, Neovim-AIDE can be tested exactly as a new user would experience it, without relying on a contributor's personal Neovim configuration.
+By validating changes inside an isolated environment, Neovim-AIDE can be tested exactly as a new user would experience it, without relying on a contributor's personal Neovim configuration.
 
-This approach eliminates an entire class of environment-specific issues and establishes a consistent, reproducible validation workflow for both project maintainers and future contributors.
+This approach eliminates an entire class of environment-specific issues and establishes a consistent, reproducible validation workflow for both project maintainers and contributors.
 
 ---
 
@@ -16,13 +16,13 @@ This approach eliminates an entire class of environment-specific issues and esta
 
 ## Sandbox-First Validation
 
-> **All new functionality must be validated in the isolated sandbox before it is considered complete or ready for release.**
+> **All new functionality should be validated in the isolated sandbox before it is considered complete or ready for release.**
 
 A contributor's personal Neovim configuration is a **development environment**.
 
 The sandbox is the **release validation environment**.
 
-Sandbox validation provides every contributor with a consistent, reproducible engineering environment regardless of their personal Neovim configuration.
+Sandbox-first validation provides every contributor with a consistent, reproducible engineering environment regardless of their personal Neovim configuration.
 
 Every release candidate should be validated from a clean sandbox installation before public release.
 
@@ -35,6 +35,8 @@ The sandbox is created under:
 ```text
 /tmp/neovim-codex-sandbox
 ```
+
+> **Note:** If the sandbox location changes in the future, this document should be updated to match the implementation.
 
 The sandbox uses dedicated XDG directories:
 
@@ -62,11 +64,11 @@ No files are read from or written to the contributor's personal Neovim environme
 ~/.cache/nvim
 ```
 
-This guarantees that release validation is completely independent of an existing development setup.
+This guarantees that validation is completely independent of an existing development setup.
 
 ---
 
-# Sandbox Lifecycle Commands
+# Sandbox Lifecycle
 
 The sandbox is intentionally managed through a small set of explicit lifecycle operations.
 
@@ -76,7 +78,7 @@ The sandbox is intentionally managed through a small set of explicit lifecycle o
 tools/sandbox.sh up
 ```
 
-Creates the isolated sandbox directory structure, clones the current repository and prints the environment required to enter the sandbox.
+Creates the isolated sandbox directory structure, clones the current repository and displays the environment required to enter the sandbox.
 
 ---
 
@@ -86,7 +88,7 @@ Creates the isolated sandbox directory structure, clones the current repository 
 tools/sandbox.sh status
 ```
 
-Displays the current sandbox status including:
+Displays the current sandbox status, including:
 
 - sandbox presence
 - source repository
@@ -94,7 +96,7 @@ Displays the current sandbox status including:
 - repository revision
 - XDG directory status
 
-This command is intended to provide a quick health check of the sandbox environment.
+This command provides a quick health check of the sandbox environment.
 
 ---
 
@@ -126,37 +128,51 @@ tools/sandbox.sh down
 
 Removes the sandbox completely.
 
-The next validation cycle should begin with a fresh `sandbox.sh up`.
+The next validation cycle should begin with a fresh `tools/sandbox.sh up`.
 
 ---
 
-# Typical Development Workflow
+# Engineering Workflow
 
-Every change to Neovim-AIDE should follow the same repeatable engineering workflow.
+Every contribution should follow the same repeatable engineering workflow.
 
 ```text
-Develop
-    │
-    ▼
-Local Smoke Test
-    │
-    ▼
-Commit
-    │
-    ▼
+Observe
+    ↓
+Analyse
+    ↓
+Design
+    ↓
+Implement
+    ↓
+Local Validation
+    ↓
 Sandbox Validation
-    │
-    ▼
-Regression Validation
-    │
-    ▼
-Release Candidate
-    │
-    ▼
-Public Release
+    ↓
+Review
+    ↓
+Release
 ```
 
-Following the same workflow for every change improves release quality, simplifies debugging and reduces environment-specific defects.
+Applying the same workflow consistently improves release quality, simplifies debugging and reduces environment-specific defects.
+
+---
+
+# When to Use the Sandbox
+
+The sandbox should be used whenever you need confidence that Neovim-AIDE behaves correctly in a clean environment.
+
+Typical situations include:
+
+- validating new functionality
+- reproducing reported defects
+- testing installation changes
+- testing bootstrap changes
+- validating documentation that affects installation or setup
+- preparing a release candidate
+- verifying a fresh installation experience
+
+When in doubt, validate in the sandbox.
 
 ---
 
@@ -191,9 +207,9 @@ Expected output:
 
 ---
 
-# Typical Release Validation Session
+# Typical Validation Session
 
-A typical release validation session looks like:
+A typical validation session looks like:
 
 ```bash
 tools/sandbox.sh up
@@ -217,7 +233,7 @@ Inside Neovim:
 
 Perform feature validation, regression testing and installation verification.
 
-When another clean test cycle is required:
+When another clean validation cycle is required:
 
 ```bash
 tools/sandbox.sh reset
@@ -231,7 +247,7 @@ tools/sandbox.sh down
 
 ---
 
-# When to Reset
+# Resetting the Sandbox
 
 Reset the sandbox whenever:
 
@@ -246,50 +262,20 @@ Resetting ensures that every validation cycle begins from a clean runtime enviro
 
 ---
 
-# Regression Validation
-
-The sandbox should be used for validating:
-
-- new features
-- bug fixes
-- installation changes
-- bootstrap changes
-- documentation changes affecting installation
-- release candidates
-
-The sandbox should always represent the experience of a first-time user installing Neovim-AIDE.
-
----
-
 # Engineering Philosophy
 
 The development sandbox reflects the same engineering principles used throughout Neovim-AIDE.
 
-- Explicit operations
-- Deterministic behaviour
-- Isolated execution
-- Observable state
-- Reproducible validation
-- Human-controlled workflow
+- explicit operations
+- deterministic behaviour
+- isolated execution
+- observable state
+- reproducible validation
+- human-controlled workflows
 
 The objective is not simply to make testing easier.
 
 The objective is to make every release trustworthy.
-
----
-
-# Future Direction
-
-The sandbox establishes the foundation for future validation tooling.
-
-Potential future enhancements include:
-
-- automated validation workflows
-- release validation profiles
-- contributor onboarding automation
-- extended regression validation
-
-The sandbox lifecycle introduced in R1.2 has been intentionally designed to support these future capabilities without changing the underlying workflow.
 
 ---
 
@@ -301,4 +287,4 @@ By separating development from release validation, contributors can test Neovim-
 
 Every validated release increases confidence that Neovim-AIDE will behave consistently across contributor machines and end-user installations alike.
 
-Sandbox-First Validation is therefore not simply a testing technique—it is a core engineering principle of the Neovim-AIDE project.
+Sandbox-First Validation is therefore not simply a testing technique—it is one of the core engineering principles of the Neovim-AIDE project.
