@@ -16,7 +16,7 @@ NVIM_CACHE_DIR="$XDG_CACHE_HOME/nvim"
 BOOTSTRAP_SYNC_LOG="$NVIM_STATE_DIR/bootstrap-sync.log"
 BOOTSTRAP_HEALTH_LOG="$NVIM_STATE_DIR/bootstrap-health.log"
 
-echo "=== Neovim-Codex R1.2 Bootstrap ==="
+echo "=== Neovim-AIDE Bootstrap ==="
 echo "Software Engineering Environment Check"
 echo
 
@@ -45,7 +45,7 @@ ok() {
 summary() {
   echo
   echo "────────────────────────────────────────────"
-  echo "Neovim-Codex Bootstrap Summary"
+  echo "Neovim-AIDE Bootstrap Summary"
   echo "────────────────────────────────────────────"
   echo "Mode: $MODE"
   echo "Config: $NVIM_CONFIG_DIR"
@@ -205,7 +205,7 @@ ok "XDG runtime directories present"
 ok "Config directory expected at: $NVIM_CONFIG_DIR"
 
 echo
-echo "[5/8] Checking Neovim-Codex config presence..."
+echo "[5/8] Checking Neovim-AIDE config presence..."
 echo
 
 require_file "$NVIM_CONFIG_DIR/init.lua" \
@@ -220,7 +220,7 @@ require_file "$NVIM_CONFIG_DIR/lua/codex/runner.lua" \
 require_file "$NVIM_CONFIG_DIR/lua/codex/health.lua" \
   "Missing Codex health module: $NVIM_CONFIG_DIR/lua/codex/health.lua"
 
-ok "Neovim-Codex config files found"
+ok "Neovim-AIDE config files found"
 
 echo
 echo "[6/8] Checking config/runtime separation..."
@@ -336,5 +336,5 @@ echo "  3. Open a C/C++ source file"
 echo "  4. Visually select some code"
 echo "  5. Press <leader>cE"
 echo
-echo "Neovim-Codex R1.2 bootstrap finished."
+echo "Neovim-AIDE bootstrap finished."
 

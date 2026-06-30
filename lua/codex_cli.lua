@@ -1549,7 +1549,7 @@ function M.explain_failure()
 	set_state_running("explain_failure", 0, "Explaining last captured failure")
 
 	local prompt = table.concat({
-		"You are diagnosing a captured Neovim-Codex failure.",
+		"You are diagnosing a captured Neovim-AIDE failure.",
 		"",
 		"Explain the likely cause concisely.",
 		"Do not suggest editing source files unless the failure clearly requires it.",

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Demonstrates how Neovim-Codex can assist engineers in understanding existing C code without modifying it.
+Demonstrates how Neovim-AIDE can assist engineers in understanding existing C code without modifying it.
 
 This demo focuses on:
 
@@ -102,7 +102,7 @@ rather than autonomous code generation.
 
 # Key Message
 
-Neovim-Codex is designed to assist engineers in understanding existing systems safely and inspectably.
+Neovim-AIDE is designed to assist engineers in understanding existing systems safely and inspectably.
 
 The system is intentionally capable of supporting:
 

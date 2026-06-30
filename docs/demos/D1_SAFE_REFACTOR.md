@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Demonstrates a safe AI-assisted refactor workflow using Neovim-Codex.
+Demonstrates a safe AI-assisted refactor workflow using Neovim-AIDE.
 
 This demo shows:
 

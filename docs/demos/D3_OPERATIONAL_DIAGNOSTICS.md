@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Demonstrates the operational observability and diagnostics capabilities of Neovim-Codex Release 1.1.
+Demonstrates the operational observability and diagnostics capabilities of Neovim-AIDE.
 
 This demo focuses on:
 
@@ -13,7 +13,7 @@ This demo focuses on:
 - structured operational logging
 - engineering-grade observability
 
-The purpose of this workflow is to demonstrate that Neovim-Codex behaves as an inspectable engineering system rather than a black-box AI workflow.
+The purpose of this workflow is to demonstrate that Neovim-AIDE behaves as an inspectable engineering system rather than a black-box AI workflow.
 
 ---
 
@@ -41,7 +41,7 @@ The demo includes:
 :CodexLog
 ```
 
-These commands expose different operational aspects of the Neovim-Codex system.
+These commands expose different operational aspects of the Neovim-AIDE system.
 
 ---
 
@@ -146,7 +146,7 @@ rather than AI automation or “magic”.
 
 # Key Message
 
-Neovim-Codex treats operational observability as a first-class engineering concern.
+Neovim-AIDE treats operational observability as a first-class engineering concern.
 
 The system is intentionally designed to expose:
 
@@ -157,4 +157,4 @@ The system is intentionally designed to expose:
 - workflow transitions
 - recovery information
 
-This operational visibility is part of the core design philosophy of the Neovim-Codex AI-Assisted Engineering System (AIES).
+This operational visibility is part of the core design philosophy of the Neovim-AIDE AI-Assisted Software Engineering Environment.

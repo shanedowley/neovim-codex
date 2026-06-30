@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Demonstrates the human-directed engineering workflow philosophy of Neovim-Codex Release 1.1.
+Demonstrates the human-directed engineering workflow philosophy of Neovim-AIDE.
 
 This demo focuses on:
 
@@ -98,7 +98,7 @@ Classification: 2
 
 # Key Message
 
-Neovim-Codex is intentionally designed as a human-directed engineering system.
+Neovim-AIDE is intentionally designed as a human-directed engineering system.
 
 The workflow philosophy is:
 

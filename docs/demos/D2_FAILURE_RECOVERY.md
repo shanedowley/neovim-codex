@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Demonstrates how Neovim-Codex safely handles invalid AI-generated output.
+Demonstrates how Neovim-AIDE safely handles invalid AI-generated output.
 
 This demo shows:
 
@@ -52,7 +52,7 @@ This demo passes if:
 
 ## Key Message
 
-Neovim-Codex does not assume AI-generated output is correct.
+Neovim-AIDE does not assume AI-generated output is correct.
 
 The system is intentionally designed to:
 
