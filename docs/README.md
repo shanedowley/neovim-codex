@@ -13,11 +13,21 @@ By separating these audiences, the documentation remains focused, maintainable a
 
 ---
 
+## Core Guides
+
+- `DOCUMENTATION.md` — documentation architecture and philosophy
+- `ARCHITECTURE.md` — system architecture
+- `CONTRIBUTING.md` — contribution guidelines
+- `contributor/` — contributor engineering guides
+- `releases/` — release notes, scope and checklists
+
+---
+
 # Product Identity
 
 ## Neovim-AIDE
 
-### *An AI-Assisted Software Engineering Environment for Neovim.*
+### _An AI-Assisted Software Engineering Environment for Neovim._
 
 **Human-controlled. AI-assisted.**
 
@@ -133,3 +143,4 @@ As the project grows, additional guides will be introduced covering testing, rel
 The goal is not simply to document the software.
 
 The goal is to capture and share the engineering knowledge that makes Neovim-AIDE correct, controllable and trustworthy.
+

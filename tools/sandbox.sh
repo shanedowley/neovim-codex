@@ -94,7 +94,7 @@ print_dir_status() {
 }
 
 status_sandbox() {
-    echo "Neovim-Codex Sandbox Status"
+    echo "Neovim-AIDE Sandbox Status"
     echo "==========================="
     echo
 
@@ -153,7 +153,7 @@ print_next_steps() {
 
 print_help() {
     cat <<EOF
-Neovim-Codex Sandbox
+Neovim-AIDE Sandbox
 
 Usage:
 

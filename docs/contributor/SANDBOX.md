@@ -263,7 +263,7 @@ The sandbox should always represent the experience of a first-time user installi
 
 # Engineering Philosophy
 
-The development sandbox reflects the same engineering principles used throughout Neovim-Codex.
+The development sandbox reflects the same engineering principles used throughout Neovim-AIDE.
 
 - Explicit operations
 - Deterministic behaviour
@@ -297,8 +297,8 @@ The sandbox lifecycle introduced in R1.2 has been intentionally designed to supp
 
 The Neovim-AIDE Development Sandbox is the project's standard environment for release validation.
 
-By separating development from release validation, contributors can test Neovim-Codex in a clean, reproducible environment that accurately represents a first-time installation.
+By separating development from release validation, contributors can test Neovim-AIDE in a clean, reproducible environment that accurately represents a first-time installation.
 
-Every validated release increases confidence that Neovim-Codex will behave consistently across developer machines and end-user installations alike.
+Every validated release increases confidence that Neovim-AIDE will behave consistently across contributor machines and end-user installations alike.
 
-Sandbox-First Validation is therefore not simply a testing technique—it is a core engineering principle of the Neovim-Codex project.
+Sandbox-First Validation is therefore not simply a testing technique—it is a core engineering principle of the Neovim-AIDE project.
