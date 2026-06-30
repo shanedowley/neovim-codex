@@ -14,6 +14,7 @@ NVIM_DATA_DIR="$XDG_DATA_HOME/nvim"
 NVIM_STATE_DIR="$XDG_STATE_HOME/nvim"
 NVIM_CACHE_DIR="$XDG_CACHE_HOME/nvim"
 BOOTSTRAP_SYNC_LOG="$NVIM_STATE_DIR/bootstrap-sync.log"
+BOOTSTRAP_HEALTH_LOG="$NVIM_STATE_DIR/bootstrap-health.log"
 
 echo "=== Neovim-Codex R1.2 Bootstrap ==="
 echo "Software Engineering Environment Check"
@@ -278,7 +279,18 @@ case "$MODE" in
 
     echo
     echo "Running Codex healthcheck report..."
-    nvim --headless "+checkhealth codex" +qa
+
+    if nvim --headless "+checkhealth codex" +qa >"$BOOTSTRAP_HEALTH_LOG" 2>&1; then
+      ok "Codex healthcheck report complete"
+    else
+      echo
+      echo "❌ Codex healthcheck failed"
+      echo "Full healthcheck log:"
+      echo "  $BOOTSTRAP_HEALTH_LOG"
+      echo
+      tail -n 40 "$BOOTSTRAP_HEALTH_LOG" || true
+      exit 1
+    fi
 
     echo
     ok "Bootstrap complete (--sync)"
@@ -289,7 +301,18 @@ case "$MODE" in
 
     echo
     echo "Running Codex healthcheck report..."
-    nvim --headless "+checkhealth codex" +qa
+
+    if nvim --headless "+checkhealth codex" +qa >"$BOOTSTRAP_HEALTH_LOG" 2>&1; then
+      ok "Codex healthcheck report complete"
+    else
+      echo
+      echo "❌ Codex healthcheck failed"
+      echo "Full healthcheck log:"
+      echo "  $BOOTSTRAP_HEALTH_LOG"
+      echo
+      tail -n 40 "$BOOTSTRAP_HEALTH_LOG" || true
+      exit 1
+    fi
 
     echo
     ok "Bootstrap complete (--check)"
