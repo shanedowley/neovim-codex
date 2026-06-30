@@ -141,6 +141,24 @@ local function open_scratch(lines, _, title)
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines or {})
 	vim.bo[bufnr].modifiable = false
 
+	local function close()
+		pcall(vim.api.nvim_buf_delete, bufnr, { force = true })
+	end
+
+	vim.keymap.set("n", "q", close, {
+		buffer = bufnr,
+		nowait = true,
+		silent = true,
+		desc = "Close Codex scratch buffer",
+	})
+
+	vim.keymap.set("n", "<Esc>", close, {
+		buffer = bufnr,
+		nowait = true,
+		silent = true,
+		desc = "Close Codex scratch buffer",
+	})
+
 	return bufnr
 end
 

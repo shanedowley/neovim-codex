@@ -3,6 +3,7 @@ local M = {} -- module table
 local codex_cli = require("codex.cli") -- Load the Codex CLI helpers used by this module
 
 local codex_config = require("codex.config")
+local window = require("codex.window")
 M._force_fail_for_test = false
 
 M._cache = nil
@@ -611,21 +612,12 @@ local function render_report(results)
 end
 
 local function open_report_buffer(lines)
-	local buf = vim.api.nvim_create_buf(false, true)
-	if not buf then
-		vim.notify("Codex health: failed to create report buffer", vim.log.levels.ERROR)
-		return
-	end
-
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-	vim.bo[buf].buftype = "nofile"
-	vim.bo[buf].bufhidden = "wipe"
-	vim.bo[buf].swapfile = false
-	vim.bo[buf].filetype = "markdown"
-
-	vim.cmd("botright new")
-	vim.api.nvim_win_set_buf(0, buf)
-	vim.api.nvim_buf_set_name(buf, "codex://health")
+	window.open({
+		name = "codex://health",
+		lines = lines,
+		filetype = "markdown",
+		close_desc = "Close Codex health",
+	})
 end
 
 function M.show()
