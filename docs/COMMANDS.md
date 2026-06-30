@@ -1,4 +1,10 @@
-# Neovim-Codex Commands
+# Neovim-AIDE Commands
+
+This document provides a quick reference to the user-facing commands available in Neovim-AIDE.
+
+For installation, see `INSTALL.md`.
+
+For architecture and runtime behaviour, see `docs/ARCHITECTURE.md`.
 
 ## Core Workflow
 
@@ -48,7 +54,7 @@
 
 ---
 
-## Notification / UX
+## Notification
 
 | Command                             | Purpose                                                                           |
 | ----------------------------------- | --------------------------------------------------------------------------------- |
