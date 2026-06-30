@@ -1,41 +1,28 @@
-# INSTALL.md
+# Installation
 
-# Neovim-Codex Release 1.1 — Installation & Operations Guide
+# Installing Neovim-AIDE
 
-This document describes:
+This guide explains how to install, bootstrap and validate a new Neovim-AIDE installation.
 
-- installation
-- bootstrap
-- upgrade workflows
-- runtime layout
-- operational expectations
-
-Neovim-Codex is designed as an AI-Assisted Engineering System (AIES) for Neovim.
-
-The installation model prioritizes:
-
-- reproducibility
-- operational clarity
-- deterministic setup
-- runtime hygiene
+The objective is to provide a reproducible installation that matches the experience of a first-time user and establishes a reliable foundation for AI-assisted software engineering.
 
 ---
 
 # Supported Platforms
 
-| Platform | Status       |
-| -------- | ------------ |
-| macOS    | Supported    |
-| Linux    | Experimental |
-| Windows  | Unsupported  |
+| Platform | Status |
+|----------|--------|
+| macOS | Supported |
+| Linux | Experimental |
+| Windows | Unsupported |
 
-Release 1.1 is primarily developed and tested on:
+Neovim-AIDE is primarily developed and validated on:
 
 - macOS
 - Apple Silicon
-- XDG-style Neovim layout
+- XDG-compliant Neovim installations
 
-Linux support is currently experimental.
+Linux support is actively improving but should currently be regarded as experimental.
 
 ---
 
@@ -43,43 +30,163 @@ Linux support is currently experimental.
 
 ## Required Dependencies
 
-| Dependency   | Purpose                          |
-| ------------ | -------------------------------- |
-| Neovim 0.11+ | Editor runtime                   |
-| git          | Plugin and repository management |
-| clang        | Validation pipeline              |
-| diff         | Diff generation and preview      |
-| Codex CLI    | AI-assisted model execution      |
+| Dependency | Purpose |
+|------------|---------|
+| Neovim 0.11+ | Editor runtime |
+| Git | Repository management |
+| Clang | Validation pipeline |
+| Diff | Preview generation |
+| Codex CLI | AI-assisted workflows |
 
----
-
-## AI Workflow Dependency
-
-| Dependency | Purpose               |
-| ---------- | --------------------- |
-| Codex CLI  | AI-assisted workflows |
-
-Without Codex CLI:
-
-- Neovim remains operational
-- AI-assisted workflows will be unavailable
+Without Codex CLI, Neovim-AIDE remains fully usable as a Neovim configuration, but AI-assisted workflows will not be available.
 
 ---
 
 ## Optional Dependencies
 
-| Dependency | Purpose                                |
-| ---------- | -------------------------------------- |
-| Node.js    | JavaScript tooling and debug workflows |
-| npm        | JavaScript package/tooling ecosystem   |
+| Dependency | Purpose |
+|------------|---------|
+| Node.js | JavaScript tooling |
+| npm | JavaScript package management |
 
 ---
 
-# Recommended Installation Layout
+# Installation
 
-Neovim-Codex expects an XDG-style Neovim structure.
+## Clone the Repository
 
-Expected directories:
+Clone Neovim-AIDE into your Neovim configuration directory.
+
+```bash
+git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
+```
+
+---
+
+## Make the Bootstrap Script Executable
+
+```bash
+chmod +x ./scripts/bootstrap.sh
+```
+
+---
+
+# Bootstrap
+
+The bootstrap script validates the installation and prepares the runtime environment.
+
+It verifies:
+
+- supported platform
+- required dependencies
+- Neovim configuration
+- runtime directory layout
+- plugin manager installation
+- operational health
+
+| Command | Purpose |
+|---------|---------|
+| `./scripts/bootstrap.sh --check` | Validate the installation |
+| `./scripts/bootstrap.sh --sync` | Synchronise plugins and validate the environment |
+| `./scripts/bootstrap.sh --test-health-gate` | Verify runtime health gate behaviour |
+
+A typical first installation should begin with:
+
+```bash
+./scripts/bootstrap.sh --check
+```
+
+Once validation succeeds, synchronise plugins if required:
+
+```bash
+./scripts/bootstrap.sh --sync
+```
+
+---
+
+# First Launch
+
+Start Neovim.
+
+```bash
+nvim
+```
+
+On first launch the runtime health status will typically display:
+
+```text
+? Codex Unknown
+```
+
+This is expected.
+
+Neovim-AIDE uses a **Stale-While-Revalidate** runtime health model.
+
+Startup is intentionally fast, with runtime validation occurring when AI-assisted workflows are first invoked.
+
+Run:
+
+```vim
+:CodexHealth
+```
+
+to verify that the installation is healthy.
+
+---
+
+# First Workflow
+
+Open a C or C++ source file.
+
+For example:
+
+```bash
+nvim hello.c
+```
+
+Select some code in Visual mode and execute an AI-assisted workflow.
+
+Example:
+
+```text
+<leader>cE
+```
+
+This validates:
+
+- Codex CLI integration
+- prompt construction
+- workflow execution
+- runtime health
+- operational reporting
+
+---
+
+# Updating Neovim-AIDE
+
+A typical upgrade workflow is:
+
+```bash
+git pull
+
+./scripts/bootstrap.sh --sync
+```
+
+After updating, verify the installation inside Neovim:
+
+```vim
+:CodexHealth
+```
+
+This confirms that the environment remains healthy after the upgrade.
+
+---
+
+# Runtime Layout
+
+Neovim-AIDE follows the XDG Base Directory Specification.
+
+Expected directory layout:
 
 ```text
 ~/.config/nvim
@@ -88,466 +195,107 @@ Expected directories:
 ~/.cache/nvim
 ```
 
-Configuration should live in:
+Configuration belongs in:
 
 ```text
 ~/.config/nvim
 ```
 
-Runtime state should NOT appear inside:
+Runtime-generated data should remain in the appropriate XDG runtime directories.
 
-```text
-~/.config/nvim
-```
-
-The bootstrap system validates this contract.
-
----
-
-# Installation
-
-## 1. Clone the Repository
-
-Recommended installation location:
-
-```bash
-git clone https://github.com/shanedowley/neovim-codex.git ~/.config/nvim
-```
-
----
-
-## 2. Ensure Bootstrap Script Exists
-
-Example location:
-
-```text
-./scripts/bootstrap.sh
-```
-
-Ensure executable permissions:
-
-```bash
-chmod +x ./scripts/bootstrap.sh
-```
-
----
-
-# Bootstrap Modes
-
-The bootstrap system validates:
-
-- platform support
-- dependencies
-- Neovim config presence
-- runtime/config separation
-- lazy.nvim installation
-- operational health
-
----
-
-## `--check`
-
-Fast validation mode.
-
-Runs:
-
-- dependency checks
-- config validation
-- runtime hygiene checks
-- healthcheck reporting
-
-Example:
-
-```bash
-./scripts/bootstrap.sh --check
-```
-
-Expected healthy output:
-
-```text
-✅ Config directory is clean
-✅ lazy.nvim already present
-```
-
-This mode:
-
-- does NOT overwrite configuration
-- does NOT modify Lua config files
-
-May:
-
-- bootstrap `lazy.nvim` if missing
-
----
-
-## `--sync`
-
-Full environment reconciliation.
-
-Runs:
-
-- everything in `--check`
-- `Lazy! sync`
-
-Example:
-
-```bash
-./scripts/bootstrap.sh --sync
-```
-
-This mode may:
-
-- install plugins
-- update plugins
-- clean removed plugins
-- rebuild plugin state
-
----
-
-## Is `--sync` Safe?
-
-Yes — assuming your setup is healthy and version-controlled.
-
-`--sync`:
-
-- does NOT overwrite Neovim configuration
-- does NOT reset your Lua files
-- does NOT wipe runtime state
-
-It reconciles installed plugins against the current Lazy.nvim configuration.
-
-Plugin updates may occur unless versions are pinned via:
-
-```text
-lazy-lock.json
-```
-
----
-
-## `--test-health-gate`
-
-Operational integrity validation.
-
-Tests:
-
-- runner preflight blocking
-- health gate enforcement
-- operational logging integrity
-
-Example:
-
-```bash
-./scripts/bootstrap.sh --test-health-gate
-```
-
-Expected healthy output:
-
-```text
-✅ Health gate enforcement: PASS
-```
-
-This test intentionally validates:
-
-- blocked execution
-- preflight failure handling
-- logging behaviour
-
-No Codex execution should occur during this test.
-
----
-
-# First Startup
-
-Launch Neovim:
-
-```bash
-nvim
-```
-
-Expected initial status:
-
-```text
-? Codex Unknown
-```
-
-This is normal.
-
-Release 1.1 uses a Stale-While-Revalidate health model and does not perform a startup healthcheck.
-
-Recommended first command:
-
-```vim
-:CodexHealth
-```
-
-This validates:
-
-- Codex CLI availability
-- runtime integrity
-- dependency health
-- operational readiness
-
----
-
-# First Demo Workflow
-
-Open a C or C++ source file.
-
-Example:
-
-```bash
-nvim hello.c
-```
-
-Select code in visual mode.
-
-Run:
-
-```text
-<leader>cE
-```
-
-This demonstrates:
-
-- Codex execution
-- output handling
-- operational workflow
-- observable execution
-
----
-
-# Safe Upgrade Workflow
-
-Recommended upgrade flow:
-
-## 1. Ensure Clean Repository State
-
-Example:
-
-```bash
-git status
-```
-
-or for bare dotfile repositories:
-
-```bash
-dotgit status
-```
-
----
-
-## 2. Backup Lockfile (Optional but Recommended)
-
-```bash
-cp lazy-lock.json lazy-lock.json.backup
-```
-
----
-
-## 3. Pull Latest Changes
-
-```bash
-git pull
-```
-
----
-
-## 4. Run Bootstrap Sync
-
-```bash
-./scripts/bootstrap.sh --sync
-```
-
----
-
-## 5. Validate Operational Health
-
-Inside Neovim:
-
-```vim
-:CodexHealth
-```
-
----
-
-# Rollback Strategy
-
-If a plugin or runtime regression occurs:
-
-## Restore Lockfile
-
-```bash
-cp lazy-lock.json.backup lazy-lock.json
-```
-
----
-
-## Re-run Sync
-
-```bash
-./scripts/bootstrap.sh --sync
-```
-
----
-
-## Restore Previous Git Revision
-
-Example:
-
-```bash
-git checkout <commit>
-```
-
----
-
-# Runtime Hygiene
-
-Neovim-Codex intentionally separates:
-
-- configuration
-- runtime state
-- cache
-- operational logs
-
-Runtime artefacts inside:
-
-```text
-~/.config/nvim
-```
-
-are treated as operational hygiene violations.
-
-Examples of invalid runtime pollution:
-
-```text
-~/.config/nvim/lazy
-~/.config/nvim/tmp
-~/.config/nvim/nvim
-```
-
-The bootstrap system validates this automatically.
+The bootstrap process validates this separation automatically.
 
 ---
 
 # Operational Logging
 
-Default log location:
+Operational logs are written to:
 
 ```text
 ~/.local/state/nvim/codex.log
 ```
 
-Logs may include:
+Logging provides visibility into:
 
-- execution events
-- latency
+- workflow execution
+- runtime validation
+- diagnostics
 - failures
-- validation
-- preflight blocks
+- latency
 
-Operational logging is intentionally treated as a first-class system concern.
+This information can be useful when troubleshooting installation or runtime issues.
 
 ---
 
-# Common Installation Problems
+# Troubleshooting
 
-## Codex CLI Missing
+## Codex CLI Not Found
 
-Expected warning:
+If Codex CLI is unavailable, install it and rerun:
 
-```text
-⚠️ codex CLI not found
+```bash
+./scripts/bootstrap.sh --check
 ```
 
-Install Codex CLI and rerun bootstrap.
-
 ---
 
-## macOS Gatekeeper Warnings
+## Runtime Health Problems
 
-Some npm-installed Codex CLI shims may trigger unsigned executable warnings.
-
-This does not necessarily indicate runtime failure.
-
-Validate actual operational state using:
+Inside Neovim run:
 
 ```vim
 :CodexHealth
 ```
 
----
-
-## Runtime Pollution Detected
-
-Expected failure:
+If problems are reported, inspect:
 
 ```text
-❌ Runtime artefact found in config directory
+~/.local/state/nvim/codex.log
 ```
 
-Remove runtime state from:
+for additional diagnostics.
+
+---
+
+## Runtime Pollution
+
+Runtime-generated files should not exist inside:
 
 ```text
 ~/.config/nvim
 ```
 
-Runtime state belongs in XDG runtime directories.
+The bootstrap process reports any runtime hygiene issues that require attention.
 
 ---
 
-## lazy.nvim Missing
+## Missing Plugins
 
-Bootstrap should automatically install:
+Synchronise plugins again:
 
-```text
-~/.local/share/nvim/lazy/lazy.nvim
+```bash
+./scripts/bootstrap.sh --sync
 ```
 
----
-
-## Health Gate Failure
-
-Run:
-
-```vim
-:CodexHealth
-```
-
-Then inspect:
-
-```text
-~/.local/state/nvim/codex.log
-```
-
----
-
-# Operational Philosophy
-
-Neovim-Codex intentionally emphasizes:
-
-- preview-before-apply
-- validation-before-apply
-- explicit operator approval
-- observable execution
-- deterministic workflows
-
-The system is intentionally designed around:
-
-- operational transparency
-- controlled mutation
-- safe AI-assisted engineering
-
-No silent auto-apply workflow exists.
+The bootstrap process will ensure that required plugins are installed.
 
 ---
 
 # Related Documentation
 
-| Document                | Purpose                                     |
-| ----------------------- | ------------------------------------------- |
-| `README.md`             | Project overview and quick start            |
-| `docs/ARCHITECTURE.md`       | System architecture and operational model   |
-| `docs/CONTRIBUTING.md`       | Contribution guidelines                     |
-| `docs/releases/RELEASE_NOTES_R1_1.md` | Release 1.1 changes and upgrade information |
-| `LICENSE`               | License information                         |
+| Document | Purpose |
+|----------|---------|
+| `README.md` | Product overview and quick start |
+| `docs/README.md` | Documentation index |
+| `docs/ARCHITECTURE.md` | System architecture |
+| `docs/CONTRIBUTING.md` | Contribution guidelines |
+| `docs/contributor/README.md` | Contributor handbook |
+| `docs/contributor/SANDBOX.md` | Sandbox validation workflow |
 
+---
+
+# Summary
+
+Neovim-AIDE is designed to provide a reproducible, observable and maintainable software engineering environment.
+
+Following the installation and bootstrap process described in this guide establishes a clean, validated foundation for AI-assisted software engineering while preserving the project's guiding principles of correctness, control and traceability.
