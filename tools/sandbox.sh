@@ -67,7 +67,20 @@ reset_sandbox() {
     echo "✓ Sandbox reset complete."
 }
 
+remove_sandbox() {
+    if [ ! -d "$SANDBOX_ROOT" ]; then
+        echo "Sandbox not present."
+        echo "Nothing to do."
+        return
+    fi
 
+    echo "Removing sandbox..."
+    echo
+
+    rm -rf "$SANDBOX_ROOT"
+
+    echo "✓ Sandbox removed."
+}
 
 print_dir_status() {
     label="$1"
@@ -147,6 +160,7 @@ Usage:
     sandbox.sh up
     sandbox.sh reset
     sandbox.sh status
+    sandbox.sh down
 
 Repository:
 
@@ -169,6 +183,10 @@ case "${1:-help}" in
 
     status)
         status_sandbox
+        ;;
+
+    down)
+        remove_sandbox
         ;;
 
     help|*)
