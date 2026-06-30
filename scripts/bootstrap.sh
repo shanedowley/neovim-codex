@@ -13,6 +13,7 @@ NVIM_CONFIG_DIR="$XDG_CONFIG_HOME/nvim"
 NVIM_DATA_DIR="$XDG_DATA_HOME/nvim"
 NVIM_STATE_DIR="$XDG_STATE_HOME/nvim"
 NVIM_CACHE_DIR="$XDG_CACHE_HOME/nvim"
+BOOTSTRAP_SYNC_LOG="$NVIM_STATE_DIR/bootstrap-sync.log"
 
 echo "=== Neovim-Codex R1.2 Bootstrap ==="
 echo "Software Engineering Environment Check"
@@ -262,7 +263,18 @@ echo
 case "$MODE" in
   --sync)
     echo "Syncing plugins..."
-    nvim --headless "+Lazy! sync" +qa
+
+    if nvim --headless "+Lazy! sync" +qa >"$BOOTSTRAP_SYNC_LOG" 2>&1; then
+      ok "Plugin sync complete"
+    else
+      echo
+      echo "❌ Plugin sync failed"
+      echo "Full sync log:"
+      echo "  $BOOTSTRAP_SYNC_LOG"
+      echo
+      tail -n 40 "$BOOTSTRAP_SYNC_LOG" || true
+      exit 1
+    fi
 
     echo
     echo "Running Codex healthcheck report..."
