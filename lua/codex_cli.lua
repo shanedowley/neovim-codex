@@ -14,6 +14,7 @@ local clang = require("codex.clang")
 local runner = require("codex.runner")
 local preview = require("codex.preview")
 local state = require("codex.state")
+local ui = require("codex.ui")
 
 -- -------------------------------------------------------------------
 -- Generic helpers
