@@ -2,7 +2,8 @@
 
 > **AI-Assisted IDE for Neovim.**
 >
-> **Human-controlled. AI-assisted.**
+> **Human-controlled. 
+> AI-assisted.**
 
 ## Ethos
 
