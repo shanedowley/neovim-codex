@@ -2,7 +2,7 @@
 
 # Neovim-AIDE Architecture
 
-Neovim-AIDE is an AI-Assisted Software Engineering Environment for Neovim.
+Neovim-AIDE is an AI-Assisted IDE for Neovim.
 
 This document describes the architecture of the shipped system, the responsibilities of its major runtime subsystems, and the engineering principles that guide their design.
 
@@ -395,7 +395,7 @@ The architecture deliberately favours explicit interaction over hidden automatio
 
 # Summary
 
-Neovim-AIDE is an AI-Assisted Software Engineering Environment built around structured workflows, runtime validation and explicit developer control.
+Neovim-AIDE is an AI-Assisted IDE built around structured workflows, runtime validation and explicit developer control.
 
 Its architecture combines workflow orchestration, runtime health validation, operational visibility and user approval into a coherent engineering model.
 
@@ -406,3 +406,4 @@ The guiding principles remain unchanged:
 - Traceability
 
 **Human-controlled. AI-assisted.**
+

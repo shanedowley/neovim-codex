@@ -4,7 +4,7 @@ Welcome to the Neovim-AIDE Contributor Guide.
 
 Thank you for your interest in contributing to the project.
 
-Neovim-AIDE is an open source project built on a simple principle:
+Neovim-AIDE is an open source IDE project built on a simple principle:
 
 > **Human-controlled. AI-assisted.**
 
@@ -22,9 +22,9 @@ These principles influence every technical decision, engineering workflow and co
 
 ## Human-Controlled AI
 
-AI assists engineers.
+AI assists developers and engineers.
 
-Engineers make decisions.
+Developers and engineers make decisions.
 
 Neovim-AIDE deliberately avoids hidden automation in favour of explicit operations, observable behaviour and human judgement.
 
@@ -134,8 +134,8 @@ Keeping each contribution focused makes review easier and reduces the risk of re
 
 Additional contributor documentation is organised into focused guides.
 
-| Guide | Purpose |
-|-------|---------|
+| Guide        | Purpose                                                      |
+| ------------ | ------------------------------------------------------------ |
 | `SANDBOX.md` | Sandbox setup, validation workflow and release verification. |
 
 As the project grows, additional contributor guides may be added.
@@ -179,8 +179,9 @@ Thoughtful discussion, careful engineering and incremental improvement are value
 
 Neovim-AIDE is more than a collection of plugins.
 
-It is a software engineering environment built around correctness, control and traceability.
+It is a software development IDE built around correctness, control and traceability.
 
 Every contribution helps make the project more reliable, more understandable and more valuable for the engineers who use it.
 
 Thank you for helping build Neovim-AIDE.
+

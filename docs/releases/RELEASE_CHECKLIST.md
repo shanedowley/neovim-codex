@@ -97,7 +97,7 @@ Inside the sandbox:
 
 # Core Workflow Validation
 
-Validate representative engineering workflows.
+Validate representative AI-assissted development workflows.
 
 - [ ] Explain
 - [ ] Refactor
@@ -164,5 +164,5 @@ A Neovim-AIDE release is complete when:
 - engineers can trust the result.
 
 Shipping software is not the goal.
+Shipping trustworthy IDE software is.
 
-Shipping trustworthy engineering software is.

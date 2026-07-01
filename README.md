@@ -7,26 +7,25 @@
 
 ## Ethos
 
-- Neovim-AIDE is an ongoing exploration of how AI can strengthen engineering practice without weakening or bypassing human judgement.
+- Neovim-AIDE is an ongoing exploration of how AI can strengthen software development practice without weakening or bypassing human judgement.
 
 - The goal is not autonomous coding. It is engineering confidence.
 
-- Neovim-AIDE is architected as an AI-integrated engineering system rather than a generic AI editor plugin, where the AI assists engineering judgement, not replaces it.
+- Neovim-AIDE is architected as an AI-integrated IDE rather than a generic AI editor plugin, where the AI assists engineering judgement, not replaces it.
 
 - Generated output should be reviewable.
 
 - All system behaviour should be observable and failures should be recoverable.
 
-- Ultimately the human remains responsible for all engineering decisions. The system exists to make those decisions safer, clearer, and more informed.
+- Ultimately the developer remains responsible for all engineering decisions. The system exists to make those decisions safer, clearer, and more informed.
 
 ## Introduction
 
-Neovim-AIDE is a Software Engineering Environment for Neovim built around validation, observability, explicit user control and operational safeguards.
-Human-controlled. AI-assisted.
+Neovim-AIDE is a Software Development IDE for Neovim built around validation, observability, explicit user control and operational safeguards.
 
 Current Release: R1.2
 
-Neovim-AIDE is designed for people who want AI-assisted workflows that remain:
+Neovim-AIDE is designed for users who want AI-assisted workflows that remain:
 
 - correct
 - controllable
@@ -36,7 +35,7 @@ Neovim-AIDE is designed for people who want AI-assisted workflows that remain:
 
 Many AI coding tools optimise for speed and automation.
 
-Neovim-AIDE optimises for:
+Neovim-AIDE instead optimises for:
 
 - engineering confidence
 - operational safety
@@ -46,7 +45,7 @@ Neovim-AIDE optimises for:
 
 The goal is not autonomous coding.
 
-The goal is trustworthy AI-assisted engineering.
+The goal is trustworthy AI-assisted software development.
 
 ## Quick Start
 
@@ -77,11 +76,11 @@ Open any C or C++ source file, visually select some code, then press:
 
 For complete installation and upgrade instructions, see `INSTALL.md`.
 
-This project is architected as an AI-integrated engineering system rather than a generic AI editor plugin.
+This project is architected as an AI-integrated IDE rather than a generic AI editor plugin.
 
 ## Documentation
 
-The project documentation is organised by audience.
+The project documentation is organised by audience type:
 
 ### Users
 
@@ -129,11 +128,11 @@ Node.js and npm are only required for JavaScript-related debugging, testing, and
 
 ---
 
-## What is an AI-Assisted Engineering System?
+## What is an AI-Assisted IDE?
 
 Neovim-AIDE treats AI as one component within a larger engineering workflow.
 
-The system combines:
+The development environment combines:
 
 - AI-assisted reasoning
 - validation gates
@@ -152,7 +151,7 @@ Human judgement remains the final authority.
 
 ## Typical Engineering Workflow
 
-Neovim-AIDE treats AI as one stage within a controlled engineering workflow rather than the workflow itself.
+Neovim-AIDE treats AI as one stage within a controlled development workflow rather than the workflow itself.
 
 ```text
           Source Code
@@ -176,19 +175,19 @@ Neovim-AIDE treats AI as one stage within a controlled engineering workflow rath
           Apply Changes
 ```
 
-Every workflow is designed to preserve the three core engineering principles of the system:
+Every workflow is designed to preserve the three core engineering principles of software development:
 
 - **Correctness** — generated changes are validated before application.
 - **Control** — no source code is modified without explicit user approval.
 - **Traceability** — operational behaviour is observable, logged, and reviewable.
 
-AI contributes to the workflow, but it never replaces engineering judgement.
+AI contributes to the workflow, but it never replaces human judgement.
 
 ---
 
 ## Who This Is For
 
-Neovim-AIDE is designed for people who value:
+Neovim-AIDE is designed for developers who want:
 
 - explicit control over AI-generated changes
 - reviewable mutation workflows
@@ -245,7 +244,7 @@ This release includes:
 
 Neovim-AIDE was built around a simple premise:
 
-AI-assisted engineering systems should increase confidence, not reduce it. The AI should assist engineering workflows not bypass them.
+AI-assisted IDEs should increase confidence, not reduce it. The AI should assist software development workflows not bypass them.
 
 The system is intentionally designed to favour:
 
@@ -256,7 +255,7 @@ The system is intentionally designed to favour:
 - recoverable failure handling
 - validation before mutation
 
-The engineer always remains in control. No silent apply path exists.
+The developer always remains in control. No silent apply path exists.
 
 To support this, Neovim-AIDE makes workflow state, health state, and operational behaviour visible to the user.
 
@@ -468,7 +467,7 @@ Neovim-AIDE will:
 1. validate runtime health
 2. transition through workflow states
 3. execute the explainability workflow
-4. stream output into a scratch buffer
+4. stream explanation output into a scratch buffer
 
 Expected state progression:
 
@@ -511,7 +510,7 @@ You have now successfully executed your first AI-assisted workflow.
 
 # Engineering Workflows
 
-Neovim-AIDE is organised around engineering workflows rather than isolated commands.
+Neovim-AIDE is organised around software development workflows rather than isolated commands.
 
 Each workflow is designed to support Correctness, Control, and Traceability throughout the software development lifecycle.
 
@@ -616,7 +615,7 @@ Demonstrates:
 
 Neovim-AIDE is intentionally designed around a human-in-the-loop model.
 
-AI may generate suggestions, but responsibility for engineering decisions remains with the operator.
+The AI may generate suggestions, but responsibility for engineering decisions remains with the user.
 
 ![D5 Human-in-the-Loop Engineering](docs/assets/demos/d5-human-loop.gif)
 
@@ -676,7 +675,7 @@ Treat failures as inspectable engineering events.
 - platform abstraction layer
 - reproducible installation workflows
 
-## Engineering Workflow Expansion
+## Workflow Expansion
 
 - multi-language support
 - enhanced explainability workflows
@@ -709,14 +708,14 @@ Treat failures as inspectable engineering events.
 
 # Acknowledgements
 
-Neovim-AIDE exists because of the work of those who built the tools, ideas, and engineering traditions upon which it stands.
+Neovim-AIDE exists because of the incredible work of those who built the tools, ideas, and engineering traditions upon which it stands.
 
-With much gratitude to:
+With gratitude to:
 
 - Tim Thompson, creator of Stevie
 - Bram Moolenaar, creator of Vim
 
-The lineage from vi to Stevie, Vim, and Neovim helped establish many of the editing philosophies that continue to influence Neovim-AIDE today:
+The lineage from vi to Stevie, to Vim and Neovim establish many of the editing philosophies that continue to influence Neovim-AIDE today:
 
 - composability
 - inspectability
@@ -729,7 +728,7 @@ Neovim-AIDE is built in that tradition.
 
 # Closing Notes
 
-Neovim-AIDE represents a deliberate attempt to build AI-assisted engineering workflows that remain:
+Neovim-AIDE represents a deliberate attempt to build AI-assisted software development workflows that remain:
 
 - observable
 - reviewable
@@ -738,7 +737,7 @@ Neovim-AIDE represents a deliberate attempt to build AI-assisted engineering wor
 - traceable
 - user-controlled
 
-The system is built around three core principles:
+This AI-assisted IDE is built around three core principles:
 
 - Correctness
 - Control

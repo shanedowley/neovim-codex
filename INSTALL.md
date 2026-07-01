@@ -2,21 +2,21 @@
 
 # Installing Neovim-AIDE
 
-This guide explains how to install, bootstrap and validate a new Neovim-AIDE installation.
+This guide explains how to install, bootstrap and validate a new Neovim-AIDE installation. It installs and configures an entirely new and self contained IDE based on Neovim and Open AI's Codex CLI.
 
-The objective is to provide a reproducible installation that matches the experience of a first-time user and establishes a reliable foundation for AI-assisted software engineering.
+The objective is to provide a reproducible installation that matches the experience of a first-time user and establishes a reliable foundation for AI-assisted software development.
 
 ---
 
 # Supported Platforms
 
-| Platform | Status |
-|----------|--------|
-| macOS | Supported |
-| Linux | Experimental |
-| Windows | Unsupported |
+| Platform | Status       |
+| -------- | ------------ |
+| macOS    | Supported    |
+| Linux    | Experimental |
+| Windows  | Unsupported  |
 
-Neovim-AIDE is primarily developed and validated on:
+Neovim-AIDE is developed and validated on:
 
 - macOS
 - Apple Silicon
@@ -30,13 +30,13 @@ Linux support is actively improving but should currently be regarded as experime
 
 ## Required Dependencies
 
-| Dependency | Purpose |
-|------------|---------|
-| Neovim 0.11+ | Editor runtime |
-| Git | Repository management |
-| Clang | Validation pipeline |
-| Diff | Preview generation |
-| Codex CLI | AI-assisted workflows |
+| Dependency   | Purpose               |
+| ------------ | --------------------- |
+| Neovim 0.11+ | Editor runtime        |
+| Git          | Repository management |
+| Clang        | Validation pipeline   |
+| Diff         | Preview generation    |
+| Codex CLI    | AI-assisted workflows |
 
 Without Codex CLI, Neovim-AIDE remains fully usable as a Neovim configuration, but AI-assisted workflows will not be available.
 
@@ -44,10 +44,10 @@ Without Codex CLI, Neovim-AIDE remains fully usable as a Neovim configuration, b
 
 ## Optional Dependencies
 
-| Dependency | Purpose |
-|------------|---------|
-| Node.js | JavaScript tooling |
-| npm | JavaScript package management |
+| Dependency | Purpose                       |
+| ---------- | ----------------------------- |
+| Node.js    | JavaScript tooling            |
+| npm        | JavaScript package management |
 
 ---
 
@@ -84,11 +84,11 @@ It verifies:
 - plugin manager installation
 - operational health
 
-| Command | Purpose |
-|---------|---------|
-| `./scripts/bootstrap.sh --check` | Validate the installation |
-| `./scripts/bootstrap.sh --sync` | Synchronise plugins and validate the environment |
-| `./scripts/bootstrap.sh --test-health-gate` | Verify runtime health gate behaviour |
+| Command                                     | Purpose                                          |
+| ------------------------------------------- | ------------------------------------------------ |
+| `./scripts/bootstrap.sh --check`            | Validate the installation                        |
+| `./scripts/bootstrap.sh --sync`             | Synchronise plugins and validate the environment |
+| `./scripts/bootstrap.sh --test-health-gate` | Verify runtime health gate behaviour             |
 
 A typical first installation should begin with:
 
@@ -283,19 +283,20 @@ The bootstrap process will ensure that required plugins are installed.
 
 # Related Documentation
 
-| Document | Purpose |
-|----------|---------|
-| `README.md` | Product overview and quick start |
-| `docs/README.md` | Documentation index |
-| `docs/ARCHITECTURE.md` | System architecture |
-| `docs/CONTRIBUTING.md` | Contribution guidelines |
-| `docs/contributor/README.md` | Contributor handbook |
-| `docs/contributor/SANDBOX.md` | Sandbox validation workflow |
+| Document                      | Purpose                          |
+| ----------------------------- | -------------------------------- |
+| `README.md`                   | Product overview and quick start |
+| `docs/README.md`              | Documentation index              |
+| `docs/ARCHITECTURE.md`        | System architecture              |
+| `docs/CONTRIBUTING.md`        | Contribution guidelines          |
+| `docs/contributor/README.md`  | Contributor handbook             |
+| `docs/contributor/SANDBOX.md` | Sandbox validation workflow      |
 
 ---
 
 # Summary
 
-Neovim-AIDE is designed to provide a reproducible, observable and maintainable software engineering environment.
+Neovim-AIDE is designed to provide a reproducible, observable and maintainable AI-assisted software development environment.
 
-Following the installation and bootstrap process described in this guide establishes a clean, validated foundation for AI-assisted software engineering while preserving the project's guiding principles of correctness, control and traceability.
+Following the installation and bootstrap process described in this guide establishes a clean, validated foundation for AI-assisted software development while preserving the project's guiding principles of correctness, control and traceability.
+

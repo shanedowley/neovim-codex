@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Reliable software engineering depends on separating development from release validation.
+Reliable software development depends on separating development from release validation.
 
 The Neovim-AIDE Development Sandbox provides a clean, isolated Neovim environment for installation testing, regression testing, release validation and contributor onboarding.
 
@@ -288,3 +288,4 @@ By separating development from release validation, contributors can test Neovim-
 Every validated release increases confidence that Neovim-AIDE will behave consistently across contributor machines and end-user installations alike.
 
 Sandbox-First Validation is therefore not simply a testing technique—it is one of the core engineering principles of the Neovim-AIDE project.
+

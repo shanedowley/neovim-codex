@@ -2,7 +2,7 @@
 
 Welcome to the documentation for **Neovim-AIDE**.
 
-Neovim-AIDE is an **AI-Assisted Software Engineering Environment for Neovim**.
+Neovim-AIDE is an **AI-Assisted IDE based on Neovim**.
 
 This documentation is organised to help you quickly find the information you need, whether you are using Neovim-AIDE in your daily software engineering workflow or contributing to its development.
 
@@ -36,12 +36,12 @@ The documentation is organised into a small number of focused guides.
 
 Each document has a single primary responsibility.
 
-| Document | Purpose |
-|----------|---------|
-| `ARCHITECTURE.md` | Explains how Neovim-AIDE is designed and how its major runtime subsystems work together. |
-| `CONTRIBUTING.md` | Explains how contributors are expected to develop, validate and submit changes. |
-| `contributor/` | Additional contributor documentation covering engineering workflows, validation and project-specific guidance. |
-| `releases/` | Historical release notes and release documentation. |
+| Document          | Purpose                                                                                                        |
+| ----------------- | -------------------------------------------------------------------------------------------------------------- |
+| `ARCHITECTURE.md` | Explains how Neovim-AIDE is designed and how its major runtime subsystems work together.                       |
+| `CONTRIBUTING.md` | Explains how contributors are expected to develop, validate and submit changes.                                |
+| `contributor/`    | Additional contributor documentation covering engineering workflows, validation and project-specific guidance. |
+| `releases/`       | Historical release notes and release documentation.                                                            |
 
 ---
 
@@ -106,3 +106,4 @@ If you cannot find the information you are looking for:
 - open a discussion or issue on GitHub if you believe documentation is missing or unclear
 
 Improving documentation is always a welcome contribution.
+

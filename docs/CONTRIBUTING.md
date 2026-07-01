@@ -4,7 +4,7 @@
 
 Thank you for taking an interest in contributing to Neovim-AIDE.
 
-Neovim-AIDE is an **AI-Assisted Software Engineering Environment for Neovim**.
+Neovim-AIDE is an **AI-Assisted IDE based on Neovim**.
 
 The project is built around a simple principle:
 
@@ -231,3 +231,4 @@ The best contributions are those that improve the project while preserving its g
 - Traceability
 
 **Human-controlled. AI-assisted.**
+

@@ -271,4 +271,3 @@ Neovim-Codex RC1.0 represents a deliberate attempt to build an AI-assisted engin
 The goal is not maximum automation.
 
 The goal is trustworthy engineering assistance.
-
