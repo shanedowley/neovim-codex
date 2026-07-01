@@ -1,6 +1,6 @@
 # Neovim-AIDE
 
-> **An AI-Assisted Software Engineering Environment for Neovim.**
+> **AI-Assisted IDE for Neovim.**
 >
 > **Human-controlled. AI-assisted.**
 
